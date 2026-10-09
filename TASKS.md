@@ -28,10 +28,10 @@ Done when: curl script shows grant, deny, pre-empt, timeout.
 Done when: opening /admin shows live users and a broadcast reaches a wscat client.
 
 ## P5 Flutter app core
-- [ ] Project in `/app`, Android permissions (mic, camera, internet, cleartext, foreground service)
-- [ ] Join screen: scan QR (or paste code), call /auth/join, store JWT + host
-- [ ] Channel list, chat screen (text), WS client with auto-reconnect
-- [ ] Local sqflite outbox: write first, send, retry, show Queued/Sent/Delivered
+- [x] Project in `/app`, Android permissions (mic, camera, internet, cleartext, foreground service)
+- [x] Join screen: scan QR (or paste code), call /auth/join, store JWT + host
+- [x] Channel list, chat screen (text), WS client with auto-reconnect
+- [x] Local sqflite outbox: write first, send, retry, show Queued/Sent/Delivered
 Done when: two phones chat; airplane-mode toggle delivers queued text on reconnect.
 
 ## P6 PTT in app
