@@ -4,7 +4,7 @@
 Replace walkie-talkies with a phone app on a closed LAN: push-to-talk (PTT), chat, photos, 1:1 voice call, admin dashboard + emergency broadcast. All data stays on one laptop server. Fallback: phone-to-phone via Android Nearby Connections when server is unreachable.
 
 ## Stack (fixed)
-- Server: Node 20, TypeScript, Fastify, `ws`, `better-sqlite3`, `jsonwebtoken`, `livekit-server-sdk`, `qrcode`
+- Server: Go 1.22+, `gin-gonic/gin`, `gorilla/websocket`, `mattn/go-sqlite3`, `golang-jwt/jwt/v5`, `livekit/server-sdk-go`, `skip2/go-qrcode`
 - Voice: LiveKit server in Docker (`--dev` keys `devkey` / `secret`)
 - App: Flutter (Android), `livekit_client`, `provider`, `sqflite`, `nearby_connections`, `mobile_scanner`, `image_picker`, `http`, `web_socket_channel`, `permission_handler`, `flutter_foreground_task`
 - Admin: static HTML + vanilla JS served by the server at `/admin`
@@ -12,7 +12,7 @@ Replace walkie-talkies with a phone app on a closed LAN: push-to-talk (PTT), cha
 
 ## Layout
 ```
-/server   src/{index,db,auth,routes,ws,floor,livekit}.ts
+/server   main.go, db.go, auth.go, routes.go, ws.go, floor.go, livekit.go
 /admin    index.html
 /app      Flutter project
 /docker-compose.yml   (livekit only)

@@ -15,7 +15,7 @@ Project: closed-network PTT communicator (hackathon). Read `docs/SPEC.md` once, 
 10. After finishing a phase: tick its boxes in TASKS.md, nothing else.
 
 ## Code style
-- Server: TypeScript, Fastify, `ws`, `better-sqlite3`. Plain functions, one file per concern, files under 200 lines.
+- Server: Go 1.22+, `gin`, `gorilla/websocket`, `mattn/go-sqlite3`. Plain functions, one file per concern, files under 200 lines.
 - App: Flutter, Android only, `provider` for state. Keep widgets small.
 - Admin: one static `admin/index.html` with vanilla JS. No build step.
 - Everything runs offline on a LAN. No cloud SDKs, no analytics, no external API calls. Firebase/FCM is out of scope.
