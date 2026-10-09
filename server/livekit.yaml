@@ -1,0 +1,18 @@
+# LiveKit for the LAN demo. Run: livekit-server --config livekit.yaml --node-ip <LAPTOP_IP>
+port: 7880
+bind_addresses: ["0.0.0.0"]
+rtc:
+  tcp_port: 7881
+  # one UDP port per session; the single-port mux (7882) dropped phone packets on Windows
+  port_range_start: 50000
+  port_range_end: 50100
+  use_external_ip: false
+  # virtual adapters (VirtualBox/Hyper-V/Docker/APIPA) break ICE. LiveKit ignores `excludes`
+  # when `includes` is also set, so only excludes are used; --node-ip adds the Wi-Fi address.
+  ips:
+    excludes: [192.168.56.0/24, 172.17.0.0/16, 169.254.0.0/16]
+keys:
+  devkey: secret
+logging:
+  level: debug
+  pion_level: debug

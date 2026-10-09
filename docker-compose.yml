@@ -1,0 +1,12 @@
+services:
+  livekit:
+    image: livekit/livekit-server:latest
+    # same config as the Windows exe: UDP 50000-50100 only (the --dev single-port mux 7882 is not published)
+    command: --config /etc/livekit.yaml --node-ip ${NODE_IP}
+    volumes:
+      - ./server/livekit.yaml:/etc/livekit.yaml:ro
+    ports:
+      - "7880:7880"
+      - "7881:7881"
+      - "50000-50100:50000-50100/udp"
+    restart: unless-stopped
