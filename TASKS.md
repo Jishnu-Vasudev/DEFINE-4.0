@@ -7,9 +7,9 @@
 Done when: `curl localhost:3000/health` returns ok.
 
 ## P1 Auth + admin CRUD
-- [ ] /auth/join, JWT middleware, revoke check
-- [ ] /admin/teams, /admin/channels, /admin/invites (returns QR PNG base64 + payload JSON)
-- [ ] /me/channels
+- [x] /auth/join, JWT middleware, revoke check
+- [x] /admin/teams, /admin/channels, /admin/invites (returns QR PNG base64 + payload JSON)
+- [x] /me/channels
 Done when: curl flow create team -> channel -> invite -> join works.
 
 ## P2 Messaging + WS + presence

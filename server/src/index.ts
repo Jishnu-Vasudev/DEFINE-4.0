@@ -1,6 +1,7 @@
 import Fastify from 'fastify';
 import cors from '@fastify/cors';
 import { initDb } from './db.js';
+import { registerRoutes } from './routes.js';
 
 const fastify = Fastify({
   logger: true,
@@ -12,6 +13,8 @@ async function main() {
   await fastify.register(cors, {
     origin: true,
   });
+
+  await registerRoutes(fastify);
 
   fastify.get('/health', async () => {
     return { status: 'ok' };
