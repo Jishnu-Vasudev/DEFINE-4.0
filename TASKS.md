@@ -1,9 +1,9 @@
 # TASKS (do one phase per session, tick boxes, stop)
 
 ## P0 Scaffold
-- [ ] `docker-compose.yml` with livekit (`livekit/livekit-server --dev --node-ip ${NODE_IP}`, ports 7880, 7881, UDP 50000-50100)
-- [ ] `server/` Fastify + TS project, `npm run dev` starts on 0.0.0.0:3000, SQLite schema from CONTRACT.md auto-created
-- [ ] Seed: first run creates one admin user and prints an admin invite code
+- [x] `docker-compose.yml` with livekit (`livekit/livekit-server --dev --node-ip ${NODE_IP}`, ports 7880, 7881, UDP 50000-50100)
+- [x] `server/` Fastify + TS project, `npm run dev` starts on 0.0.0.0:3000, SQLite schema from CONTRACT.md auto-created
+- [x] Seed: first run creates one admin user and prints an admin invite code
 Done when: `curl localhost:3000/health` returns ok.
 
 ## P1 Auth + admin CRUD
