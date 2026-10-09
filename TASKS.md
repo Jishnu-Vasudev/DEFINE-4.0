@@ -53,5 +53,5 @@ Done when: photo appears on the other phone; call connects.
 Done when: hotspot off -> two phones still exchange text; hotspot on -> messages appear in admin tagged offline.
 
 ## P9 Demo polish
-- [ ] `scripts/run-demo.md`: 10-line run steps (start docker, set NODE_IP, start server, open /admin)
-- [ ] Fix crashes found while rehearsing. No new features.
+- [x] `scripts/run-demo.md`: 10-line run steps (start docker, set NODE_IP, start server, open /admin)
+- [x] Fix crashes found while rehearsing. No new features.
