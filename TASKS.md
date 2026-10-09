@@ -18,8 +18,8 @@ Done when: curl flow create team -> channel -> invite -> join works.
 Done when: two `wscat` clients see each other's messages.
 
 ## P3 Floor control + LiveKit
-- [ ] floor.ts per CONTRACT, /floor/request, /floor/release, /livekit/token
-- [ ] Priority pre-emption + 30 s timeout + disconnect release
+- [x] floor.ts per CONTRACT, /floor/request, /floor/release, /livekit/token
+- [x] Priority pre-emption + 30 s timeout + disconnect release
 Done when: curl script shows grant, deny, pre-empt, timeout.
 
 ## P4 Admin dashboard

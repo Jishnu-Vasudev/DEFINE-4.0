@@ -4,6 +4,8 @@ import QRCode from 'qrcode';
 import { db } from './db.js';
 import { signJwt, requireAuth, requireAdmin } from './auth.js';
 import { broadcastToChannel } from './ws.js';
+import { requestFloor, releaseFloor } from './floor.js';
+import { generateLiveKitToken } from './livekit.js';
 
 interface JoinBody {
   code: string;
@@ -195,6 +197,43 @@ export async function registerRoutes(fastify: FastifyInstance) {
     `).run(message_id, userId, now);
 
     return reply.send({ ok: true });
+  });
+
+  // Floor Request
+  fastify.post('/floor/request', { preHandler: requireAuth }, async (request: FastifyRequest<{ Body: { channel_id: string; priority?: number; timeout_ms?: number } }>, reply: FastifyReply) => {
+    const { channel_id, priority, timeout_ms } = request.body || {};
+    if (!channel_id) {
+      return reply.status(400).send({ error: 'channel_id is required' });
+    }
+
+    const userId = request.user!.id;
+    const result = requestFloor(channel_id, userId, priority || 1, timeout_ms || 30000);
+    return reply.send(result);
+  });
+
+  // Floor Release
+  fastify.post('/floor/release', { preHandler: requireAuth }, async (request: FastifyRequest<{ Body: { channel_id: string } }>, reply: FastifyReply) => {
+    const { channel_id } = request.body || {};
+    if (!channel_id) {
+      return reply.status(400).send({ error: 'channel_id is required' });
+    }
+
+    const userId = request.user!.id;
+    releaseFloor(channel_id, userId);
+    return reply.send({ ok: true });
+  });
+
+  // LiveKit Token
+  fastify.get('/livekit/token', { preHandler: requireAuth }, async (request: FastifyRequest<{ Querystring: { room?: string } }>, reply: FastifyReply) => {
+    const room = request.query.room;
+    if (!room) {
+      return reply.status(400).send({ error: 'room query param is required' });
+    }
+
+    const userId = request.user!.id;
+    const userName = request.user!.name;
+    const result = await generateLiveKitToken(userId, userName, room);
+    return reply.send(result);
   });
 
   // Admin: Create team

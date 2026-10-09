@@ -2,6 +2,7 @@ import { FastifyInstance } from 'fastify';
 import { WebSocket } from 'ws';
 import { verifyJwt } from './auth.js';
 import { db } from './db.js';
+import { releaseUserFloors } from './floor.js';
 
 export interface ClientConnection {
   ws: WebSocket;
@@ -131,6 +132,7 @@ export function registerWs(fastify: FastifyInstance) {
         if (sockets.size === 0) {
           userSockets.delete(userId);
           broadcastToAll({ t: 'presence', user_id: userId, online: false });
+          releaseUserFloors(userId);
         }
       }
     };
