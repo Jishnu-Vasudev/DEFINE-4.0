@@ -3,8 +3,8 @@ import { randomBytes, randomUUID } from 'node:crypto';
 import QRCode from 'qrcode';
 import { db } from './db.js';
 import { signJwt, requireAuth, requireAdmin } from './auth.js';
-import { broadcastToChannel } from './ws.js';
-import { requestFloor, releaseFloor } from './floor.js';
+import { broadcastToChannel, broadcastToAll, sendToUser, isUserOnline, getUserOfflineMode } from './ws.js';
+import { requestFloor, releaseFloor, getFloorHolder } from './floor.js';
 import { generateLiveKitToken } from './livekit.js';
 
 interface JoinBody {
@@ -236,6 +236,117 @@ export async function registerRoutes(fastify: FastifyInstance) {
     return reply.send(result);
   });
 
+  // Admin: Presence
+  fastify.get('/admin/presence', { preHandler: requireAdmin }, async (_request, reply: FastifyReply) => {
+    const users = db.prepare('SELECT id, name, last_seen, revoked FROM users WHERE revoked = 0').all() as { id: string; name: string; last_seen: number | null }[];
+    const channels = db.prepare('SELECT id, team_id, name, kind FROM channels').all() as { id: string; team_id: string | null; name: string; kind: string }[];
+
+    const userList = users.map(u => ({
+      id: u.id,
+      name: u.name,
+      online: isUserOnline(u.id),
+      last_seen: u.last_seen,
+      offline_mode: getUserOfflineMode(u.id),
+    }));
+
+    const channelList = channels.map(c => {
+      const holder = getFloorHolder(c.id);
+      const members = db.prepare('SELECT user_id FROM members WHERE channel_id = ?').all(c.id) as { user_id: string }[];
+      const membersOnline = members.filter(m => isUserOnline(m.user_id)).length;
+      return {
+        id: c.id,
+        team_id: c.team_id,
+        name: c.name,
+        kind: c.kind,
+        talker: holder ? holder.name : null,
+        members_online: membersOnline,
+      };
+    });
+
+    return reply.send({ users: userList, channels: channelList });
+  });
+
+  // Admin: Broadcast
+  fastify.post('/admin/broadcast', { preHandler: requireAdmin }, async (request: FastifyRequest<{ Body: { text: string; scope?: string; emergency?: boolean } }>, reply: FastifyReply) => {
+    const { text, scope, emergency } = request.body || {};
+    if (!text) {
+      return reply.status(400).send({ error: 'text is required' });
+    }
+
+    const messageId = randomUUID();
+    const senderId = request.user!.id;
+    const now = Date.now();
+    const isEmergency = !!emergency;
+
+    db.prepare(`
+      INSERT INTO messages (id, channel_id, sender_id, type, body, media, created_at, offline)
+      VALUES (?, ?, ?, 'broadcast', ?, NULL, ?, 0)
+    `).run(messageId, scope || 'all', senderId, text, now);
+
+    const broadcastEvent = {
+      t: 'broadcast',
+      message: {
+        id: messageId,
+        channel_id: scope || 'all',
+        sender_id: senderId,
+        type: 'broadcast',
+        body: text,
+        created_at: now,
+      },
+      emergency: isEmergency,
+    };
+
+    if (scope && scope !== 'all') {
+      const teamUsers = db.prepare(`
+        SELECT DISTINCT m.user_id
+        FROM members m
+        JOIN channels c ON m.channel_id = c.id
+        WHERE c.team_id = ?
+      `).all(scope) as { user_id: string }[];
+
+      for (const u of teamUsers) {
+        sendToUser(u.user_id, broadcastEvent);
+      }
+    } else {
+      broadcastToAll(broadcastEvent);
+    }
+
+    return reply.send({ message_id: messageId });
+  });
+
+  // Admin: Acks tracker
+  fastify.get('/admin/acks/:message_id', { preHandler: requireAdmin }, async (request: FastifyRequest<{ Params: { message_id: string } }>, reply: FastifyReply) => {
+    const { message_id } = request.params;
+
+    const message = db.prepare('SELECT channel_id FROM messages WHERE id = ?').get(message_id) as { channel_id: string } | undefined;
+
+    const acked = db.prepare(`
+      SELECT u.id, u.name, a.at
+      FROM acks a
+      JOIN users u ON a.user_id = u.id
+      WHERE a.message_id = ?
+    `).all(message_id) as { id: string; name: string; at: number }[];
+
+    const ackedIds = new Set(acked.map(a => a.id));
+
+    let targetUsers: { id: string; name: string }[] = [];
+    if (message && message.channel_id !== 'all') {
+      targetUsers = db.prepare(`
+        SELECT DISTINCT u.id, u.name
+        FROM users u
+        JOIN members m ON u.id = m.user_id
+        JOIN channels c ON m.channel_id = c.id
+        WHERE c.team_id = ? AND u.revoked = 0
+      `).all(message.channel_id) as { id: string; name: string }[];
+    } else {
+      targetUsers = db.prepare('SELECT id, name FROM users WHERE revoked = 0').all() as { id: string; name: string }[];
+    }
+
+    const pending = targetUsers.filter(u => !ackedIds.has(u.id));
+
+    return reply.send({ acked, pending });
+  });
+
   // Admin: Create team
   fastify.post('/admin/teams', { preHandler: requireAdmin }, async (request: FastifyRequest<{ Body: CreateTeamBody }>, reply: FastifyReply) => {
     const { name } = request.body || {};
@@ -250,6 +361,12 @@ export async function registerRoutes(fastify: FastifyInstance) {
       id: teamId,
       name: name.trim(),
     });
+  });
+
+  // Admin: List teams
+  fastify.get('/admin/teams', { preHandler: requireAdmin }, async (_request, reply: FastifyReply) => {
+    const teams = db.prepare('SELECT id, name FROM teams').all();
+    return reply.send(teams);
   });
 
   // Admin: Create channel
@@ -279,6 +396,12 @@ export async function registerRoutes(fastify: FastifyInstance) {
       name: name.trim(),
       kind,
     });
+  });
+
+  // Admin: List channels
+  fastify.get('/admin/channels', { preHandler: requireAdmin }, async (_request, reply: FastifyReply) => {
+    const channels = db.prepare('SELECT id, team_id, name, kind FROM channels').all();
+    return reply.send(channels);
   });
 
   // Admin: Create invite

@@ -1,6 +1,9 @@
 import Fastify from 'fastify';
 import cors from '@fastify/cors';
 import websocket from '@fastify/websocket';
+import fastifyStatic from '@fastify/static';
+import path from 'node:path';
+import fs from 'node:fs';
 import { initDb } from './db.js';
 import { registerRoutes } from './routes.js';
 import { registerWs } from './ws.js';
@@ -17,6 +20,20 @@ async function main() {
   });
 
   await fastify.register(websocket);
+
+  const adminDir = fs.existsSync(path.join(process.cwd(), 'admin'))
+    ? path.join(process.cwd(), 'admin')
+    : path.resolve(process.cwd(), '../admin');
+
+  await fastify.register(fastifyStatic, {
+    root: adminDir,
+    prefix: '/admin/',
+    decorateReply: true,
+  });
+
+  fastify.get('/admin', async (_req, reply) => {
+    return reply.sendFile('index.html');
+  });
 
   registerWs(fastify);
   await registerRoutes(fastify);

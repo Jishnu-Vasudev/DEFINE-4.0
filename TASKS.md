@@ -23,8 +23,8 @@ Done when: two `wscat` clients see each other's messages.
 Done when: curl script shows grant, deny, pre-empt, timeout.
 
 ## P4 Admin dashboard
-- [ ] `admin/index.html` served at /admin: login with admin invite code, create team/channel/invite (show QR), live presence table, active channels with talker, broadcast box with emergency toggle, ack tracker (acked vs pending)
-- [ ] /admin/presence, /admin/broadcast, /admin/acks/:id
+- [x] `admin/index.html` served at /admin: login with admin invite code, create team/channel/invite (show QR), live presence table, active channels with talker, broadcast box with emergency toggle, ack tracker (acked vs pending)
+- [x] /admin/presence, /admin/broadcast, /admin/acks/:id
 Done when: opening /admin shows live users and a broadcast reaches a wscat client.
 
 ## P5 Flutter app core

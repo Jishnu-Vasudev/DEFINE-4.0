@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>PTT LAN Communicator - Admin Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card: #1e293b;
+      --border: #334155;
+      --text: #f8fafc;
+      --text-dim: #94a3b8;
+      --primary: #3b82f6;
+      --primary-hover: #2563eb;
+      --danger: #ef4444;
+      --success: #22c55e;
+      --warning: #f59e0b;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    body { background: var(--bg); color: var(--text); padding: 24px; }
+    .container { max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; gap: 24px; }
+    header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 16px; }
+    h1 { font-size: 1.5rem; font-weight: 600; }
+    h2 { font-size: 1.15rem; margin-bottom: 12px; font-weight: 600; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 20px; }
+    .card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 20px; }
+    .btn { background: var(--primary); color: #fff; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-weight: 500; font-size: 0.9rem; }
+    .btn:hover { background: var(--primary-hover); }
+    .btn-danger { background: var(--danger); }
+    .btn-danger:hover { background: #dc2626; }
+    input, select, textarea { width: 100%; background: #0f172a; border: 1px solid var(--border); color: var(--text); padding: 8px 12px; border-radius: 6px; margin-bottom: 12px; }
+    .status-badge { display: inline-block; padding: 2px 8px; border-radius: 12px; font-size: 0.75rem; font-weight: bold; }
+    .online { background: rgba(34, 197, 94, 0.2); color: var(--success); }
+    .offline { background: rgba(148, 163, 184, 0.2); color: var(--text-dim); }
+    .talker-badge { background: rgba(239, 68, 68, 0.2); color: var(--danger); font-weight: bold; }
+    table { width: 100%; border-collapse: collapse; margin-top: 8px; font-size: 0.9rem; }
+    th, td { text-align: left; padding: 8px; border-bottom: 1px solid var(--border); }
+    th { color: var(--text-dim); }
+    .qr-container { text-align: center; margin-top: 12px; }
+    .qr-container img { max-width: 180px; border-radius: 8px; background: #fff; padding: 8px; }
+    .hidden { display: none !important; }
+    .flex-row { display: flex; gap: 8px; align-items: center; }
+    .checkbox-label { display: flex; align-items: center; gap: 8px; cursor: pointer; margin-bottom: 12px; }
+    .checkbox-label input { width: auto; margin: 0; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>PTT Admin Console</h1>
+      <div id="authStatus" class="flex-row">
+        <span id="adminName" style="color: var(--text-dim);">Not logged in</span>
+        <button id="logoutBtn" class="btn btn-danger hidden" onclick="logout()">Logout</button>
+      </div>
+    </header>
+
+    <!-- Login Panel -->
+    <div id="loginCard" class="card" style="max-width: 400px; margin: 40px auto; width: 100%;">
+      <h2>Admin Login</h2>
+      <input type="text" id="adminCode" placeholder="Enter Admin Invite Code">
+      <input type="text" id="adminDisplayName" placeholder="Your Name (e.g. Supervisor)" value="Supervisor">
+      <button class="btn" style="width: 100%;" onclick="login()">Enter Dashboard</button>
+      <div id="loginErr" style="color: var(--danger); font-size: 0.85rem; margin-top: 8px;"></div>
+    </div>
+
+    <!-- Main Dashboard -->
+    <div id="dashboard" class="hidden">
+      <div class="grid">
+        <!-- Live Presence Table -->
+        <div class="card">
+          <h2>Live Users</h2>
+          <table>
+            <thead>
+              <tr><th>Name</th><th>Status</th><th>Last Seen</th><th>Action</th></tr>
+            </thead>
+            <tbody id="usersTableBody"></tbody>
+          </table>
+        </div>
+
+        <!-- Active Channels & Talker -->
+        <div class="card">
+          <h2>Active Channels & PTT Floor</h2>
+          <table>
+            <thead>
+              <tr><th>Channel</th><th>Active Talker</th><th>Online Members</th></tr>
+            </thead>
+            <tbody id="channelsTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="grid" style="margin-top: 20px;">
+        <!-- Emergency / All Broadcast -->
+        <div class="card">
+          <h2>Broadcast Announcement</h2>
+          <select id="broadcastScope">
+            <option value="all">Broadcast to All</option>
+          </select>
+          <textarea id="broadcastText" rows="3" placeholder="Enter broadcast message..."></textarea>
+          <label class="checkbox-label">
+            <input type="checkbox" id="emergencyToggle">
+            <span style="color: var(--danger); font-weight: bold;">🚨 High-Priority Emergency Broadcast</span>
+          </label>
+          <button class="btn" onclick="sendBroadcast()">Send Broadcast</button>
+
+          <!-- Ack tracker -->
+          <div style="margin-top: 20px; border-top: 1px solid var(--border); padding-top: 12px;">
+            <h3>Acknowledgment Tracker</h3>
+            <div class="flex-row" style="margin-top: 8px;">
+              <input type="text" id="trackMsgId" placeholder="Message ID to track">
+              <button class="btn" style="white-space: nowrap;" onclick="trackAcks()">Check Acks</button>
+            </div>
+            <div id="ackResults" style="font-size: 0.85rem; margin-top: 8px;"></div>
+          </div>
+        </div>
+
+        <!-- Create Teams, Channels, Invites -->
+        <div class="card">
+          <h2>Admin Management</h2>
+          <div style="margin-bottom: 16px;">
+            <h3>Create Team</h3>
+            <div class="flex-row" style="margin-top: 6px;">
+              <input type="text" id="teamNameInput" placeholder="Team Name (e.g. Rescue 1)">
+              <button class="btn" onclick="createTeam()">Create</button>
+            </div>
+          </div>
+
+          <div style="margin-bottom: 16px;">
+            <h3>Create Channel</h3>
+            <select id="channelTeamSelect"></select>
+            <div class="flex-row">
+              <input type="text" id="channelNameInput" placeholder="Channel Name">
+              <select id="channelKindSelect" style="max-width: 110px;">
+                <option value="team">team</option>
+                <option value="zone">zone</option>
+                <option value="dm">dm</option>
+              </select>
+              <button class="btn" onclick="createChannel()">Create</button>
+            </div>
+          </div>
+
+          <div>
+            <h3>Generate QR Invite</h3>
+            <select id="inviteTeamSelect"></select>
+            <select id="inviteRoleSelect">
+              <option value="member">Member</option>
+              <option value="admin">Admin</option>
+            </select>
+            <button class="btn" style="width: 100%;" onclick="createInvite()">Generate QR Code</button>
+            <div id="qrResult" class="qr-container hidden">
+              <div id="inviteCodeDisplay" style="font-weight: bold; margin-bottom: 8px; font-size: 1.1rem; color: var(--primary);"></div>
+              <img id="qrImg" alt="QR Code">
+              <div id="payloadDisplay" style="font-size: 0.75rem; color: var(--text-dim); margin-top: 4px; word-break: break-all;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let token = localStorage.getItem('ptt_admin_token') || '';
+    let pollInterval = null;
+
+    if (token) {
+      showDashboard();
+    }
+
+    async function login() {
+      const code = document.getElementById('adminCode').value.trim();
+      const name = document.getElementById('adminDisplayName').value.trim() || 'Admin';
+      const err = document.getElementById('loginErr');
+      err.innerText = '';
+
+      if (!code) {
+        err.innerText = 'Invite code is required';
+        return;
+      }
+
+      try {
+        const res = await fetch('/auth/join', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ code, name })
+        });
+        const data = await res.json();
+        if (!res.ok || !data.jwt || data.user.role !== 'admin') {
+          err.innerText = data.error || 'Access denied: Must be admin invite';
+          return;
+        }
+        token = data.jwt;
+        localStorage.setItem('ptt_admin_token', token);
+        localStorage.setItem('ptt_admin_name', data.user.name);
+        showDashboard();
+      } catch (e) {
+        err.innerText = 'Connection error: ' + e.message;
+      }
+    }
+
+    function logout() {
+      localStorage.removeItem('ptt_admin_token');
+      localStorage.removeItem('ptt_admin_name');
+      token = '';
+      if (pollInterval) clearInterval(pollInterval);
+      document.getElementById('loginCard').classList.remove('hidden');
+      document.getElementById('dashboard').classList.add('hidden');
+      document.getElementById('logoutBtn').classList.add('hidden');
+      document.getElementById('adminName').innerText = 'Not logged in';
+    }
+
+    function showDashboard() {
+      document.getElementById('loginCard').classList.add('hidden');
+      document.getElementById('dashboard').classList.remove('hidden');
+      document.getElementById('logoutBtn').classList.remove('hidden');
+      document.getElementById('adminName').innerText = localStorage.getItem('ptt_admin_name') || 'Admin';
+
+      loadPresence();
+      loadTeamsAndChannels();
+      pollInterval = setInterval(loadPresence, 2000);
+    }
+
+    async function authFetch(url, options = {}) {
+      options.headers = options.headers || {};
+      options.headers['Authorization'] = 'Bearer ' + token;
+      const res = await fetch(url, options);
+      if (res.status === 401 || res.status === 403) {
+        logout();
+        throw new Error('Session expired or unauthorized');
+      }
+      return res;
+    }
+
+    async function loadPresence() {
+      if (!token) return;
+      try {
+        const res = await authFetch('/admin/presence');
+        const data = await res.json();
+
+        // Render Users
+        const uTbody = document.getElementById('usersTableBody');
+        uTbody.innerHTML = data.users.map(u => `
+          <tr>
+            <td><strong>${escapeHtml(u.name)}</strong></td>
+            <td><span class="status-badge ${u.online ? 'online' : 'offline'}">${u.online ? (u.offline_mode ? 'NEARBY' : 'ONLINE') : 'OFFLINE'}</span></td>
+            <td>${u.last_seen ? new Date(u.last_seen).toLocaleTimeString() : 'Never'}</td>
+            <td><button class="btn btn-danger" style="padding: 2px 8px; font-size: 0.75rem;" onclick="revokeUser('${u.id}')">Revoke</button></td>
+          </tr>
+        `).join('');
+
+        // Render Channels
+        const cTbody = document.getElementById('channelsTableBody');
+        cTbody.innerHTML = data.channels.map(c => `
+          <tr>
+            <td><strong>#${escapeHtml(c.name)}</strong> <span style="font-size:0.75rem; color:var(--text-dim);">(${c.kind})</span></td>
+            <td>${c.talker ? `<span class="status-badge talker-badge">🎤 ${escapeHtml(c.talker)}</span>` : '<span style="color:var(--text-dim);">Free</span>'}</td>
+            <td>${c.members_online} online</td>
+          </tr>
+        `).join('');
+      } catch (e) {
+        console.error(e);
+      }
+    }
+
+    async function loadTeamsAndChannels() {
+      try {
+        const [teamsRes, channelsRes] = await Promise.all([
+          authFetch('/admin/teams'),
+          authFetch('/admin/channels')
+        ]);
+        const teams = await teamsRes.json();
+        const channels = await channelsRes.json();
+
+        const scopeSelect = document.getElementById('broadcastScope');
+        scopeSelect.innerHTML = '<option value="all">Broadcast to All</option>' +
+          teams.map(t => `<option value="${t.id}">Team: ${escapeHtml(t.name)}</option>`).join('');
+
+        const chTeamSelect = document.getElementById('channelTeamSelect');
+        chTeamSelect.innerHTML = teams.map(t => `<option value="${t.id}">${escapeHtml(t.name)}</option>`).join('');
+
+        const invTeamSelect = document.getElementById('inviteTeamSelect');
+        invTeamSelect.innerHTML = teams.map(t => `<option value="${t.id}">${escapeHtml(t.name)}</option>`).join('');
+      } catch (e) {
+        console.error(e);
+      }
+    }
+
+    async function createTeam() {
+      const name = document.getElementById('teamNameInput').value.trim();
+      if (!name) return;
+      const res = await authFetch('/admin/teams', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name })
+      });
+      if (res.ok) {
+        document.getElementById('teamNameInput').value = '';
+        loadTeamsAndChannels();
+        loadPresence();
+      }
+    }
+
+    async function createChannel() {
+      const team_id = document.getElementById('channelTeamSelect').value;
+      const name = document.getElementById('channelNameInput').value.trim();
+      const kind = document.getElementById('channelKindSelect').value;
+      if (!name) return;
+      const res = await authFetch('/admin/channels', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ team_id, name, kind })
+      });
+      if (res.ok) {
+        document.getElementById('channelNameInput').value = '';
+        loadTeamsAndChannels();
+        loadPresence();
+      }
+    }
+
+    async function createInvite() {
+      const team_id = document.getElementById('inviteTeamSelect').value;
+      const role = document.getElementById('inviteRoleSelect').value;
+      const res = await authFetch('/admin/invites', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ team_id, role })
+      });
+      const data = await res.json();
+      if (res.ok) {
+        document.getElementById('qrResult').classList.remove('hidden');
+        document.getElementById('inviteCodeDisplay').innerText = 'Code: ' + data.code;
+        document.getElementById('qrImg').src = data.qr_png_base64;
+        document.getElementById('payloadDisplay').innerText = JSON.stringify(data.payload);
+      }
+    }
+
+    async function sendBroadcast() {
+      const text = document.getElementById('broadcastText').value.trim();
+      const scope = document.getElementById('broadcastScope').value;
+      const emergency = document.getElementById('emergencyToggle').checked;
+      if (!text) return;
+      const res = await authFetch('/admin/broadcast', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text, scope, emergency })
+      });
+      const data = await res.json();
+      if (res.ok) {
+        document.getElementById('broadcastText').value = '';
+        document.getElementById('trackMsgId').value = data.message_id;
+        trackAcks();
+      }
+    }
+
+    async function trackAcks() {
+      const msgId = document.getElementById('trackMsgId').value.trim();
+      if (!msgId) return;
+      const res = await authFetch('/admin/acks/' + msgId);
+      const data = await res.json();
+      const out = document.getElementById('ackResults');
+      out.innerHTML = `
+        <div style="color: var(--success); margin-bottom: 4px;"><strong>Acknowledged (${data.acked.length}):</strong> ${data.acked.map(u => escapeHtml(u.name)).join(', ') || 'None yet'}</div>
+        <div style="color: var(--warning);"><strong>Pending (${data.pending.length}):</strong> ${data.pending.map(u => escapeHtml(u.name)).join(', ') || 'None'}</div>
+      `;
+    }
+
+    async function revokeUser(userId) {
+      if (!confirm('Are you sure you want to revoke this user?')) return;
+      const res = await authFetch('/admin/users/' + userId + '/revoke', { method: 'POST' });
+      if (res.ok) {
+        loadPresence();
+      }
+    }
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+  </script>
+</body>
+</html>
