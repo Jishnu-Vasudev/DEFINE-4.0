@@ -15,6 +15,7 @@ class ChannelListScreen extends StatelessWidget {
       create: (_) => ChatProvider(
         apiService: auth.apiService,
         userId: auth.userId!,
+        userName: auth.userName ?? 'Operator',
         host: auth.host,
         port: auth.port,
         token: auth.jwtToken!,

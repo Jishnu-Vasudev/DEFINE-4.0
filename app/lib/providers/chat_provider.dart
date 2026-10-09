@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
+import 'package:uuid/uuid.dart';
 import '../models/channel.dart';
 import '../models/message.dart';
 import '../services/api_service.dart';
@@ -9,10 +10,12 @@ import '../services/ws_service.dart';
 import '../services/outbox_service.dart';
 import '../services/livekit_service.dart';
 import '../services/foreground_service.dart';
+import '../services/nearby_service.dart';
 
 class ChatProvider extends ChangeNotifier {
   final ApiService apiService;
   final String userId;
+  final String userName;
   final String host;
   final int port;
   final String token;
@@ -23,6 +26,7 @@ class ChatProvider extends ChangeNotifier {
   WsService? _wsService;
   OutboxService? _outboxService;
   LivekitService? _livekitService;
+  NearbyService? _nearbyService;
 
   String? _currentTalker;
   int _currentPriority = 0;
@@ -30,6 +34,11 @@ class ChatProvider extends ChangeNotifier {
   bool _isRequestingFloor = false;
   String? _floorDeniedReason;
   Map<String, dynamic>? _activeBroadcast;
+
+  // Nearby fallback mode
+  bool _isNearbyMode = false;
+  String? _nearbyStatus;
+  int _failedPingCount = 0;
 
   // 1:1 Voice Call state
   Map<String, dynamic>? _incomingCall;
@@ -47,15 +56,30 @@ class ChatProvider extends ChangeNotifier {
   Map<String, dynamic>? get incomingCall => _incomingCall;
   bool get isInCall => _isInCall;
   String? get activeCallRoom => _activeCallRoom;
+  bool get isNearbyMode => _isNearbyMode;
+  String? get nearbyStatus => _nearbyStatus;
 
   ChatProvider({
     required this.apiService,
     required this.userId,
+    required this.userName,
     required this.host,
     required this.port,
     required this.token,
   }) {
     _livekitService = LivekitService(apiService: apiService);
+
+    _nearbyService = NearbyService(
+      userName: userName,
+      onMessageReceived: (msg) async {
+        await DbService.instance.saveMessage(msg);
+        _handleLocalMessageUpdate(msg);
+      },
+      onStatusChanged: (st) {
+        _nearbyStatus = st;
+        notifyListeners();
+      },
+    );
 
     _outboxService = OutboxService(
       apiService: apiService,
@@ -70,18 +94,36 @@ class ChatProvider extends ChangeNotifier {
       token: token,
       onConnectionChanged: (connected) {
         _wsConnected = connected;
-        notifyListeners();
         if (connected) {
+          _failedPingCount = 0;
+          if (_isNearbyMode) {
+            _isNearbyMode = false;
+            _nearbyService?.stopNearby();
+          }
+          _wsService?.setOfflineMode(false);
           _outboxService?.flush();
           if (_selectedChannel != null) {
             syncChannelMessages(_selectedChannel!.id);
           }
+        } else {
+          _failedPingCount++;
+          if (_failedPingCount >= 3 && !_isNearbyMode) {
+            enableNearbyFallback();
+          }
         }
+        notifyListeners();
       },
       onEvent: (event) {
         _handleWsEvent(event);
       },
     );
+  }
+
+  void enableNearbyFallback() {
+    _isNearbyMode = true;
+    _nearbyService?.startNearby();
+    _wsService?.setOfflineMode(true);
+    notifyListeners();
   }
 
   void selectChannel(Channel channel) async {
@@ -102,7 +144,9 @@ class ChatProvider extends ChangeNotifier {
     notifyListeners();
 
     // 3. Sync latest messages from server
-    await syncChannelMessages(channel.id);
+    if (_wsConnected) {
+      await syncChannelMessages(channel.id);
+    }
   }
 
   Future<void> startTalking({int priority = 1}) async {
@@ -168,11 +212,66 @@ class ChatProvider extends ChangeNotifier {
 
   Future<void> sendTextMessage(String text) async {
     if (_selectedChannel == null || text.trim().isEmpty) return;
+
+    if (_isNearbyMode) {
+      final msgId = const Uuid().v4();
+      final now = DateTime.now().millisecondsSinceEpoch;
+      final payload = {
+        'id': msgId,
+        'channel_id': _selectedChannel!.id,
+        'type': 'text',
+        'body': text.trim(),
+        'created_at': now,
+        'sender_id': userId,
+        'name': userName,
+      };
+
+      // Broadcast over Nearby
+      await _nearbyService?.broadcastNearbyMessage(payload);
+
+      // Save locally with offline=1
+      await _outboxService?.createAndSend(
+        channelId: _selectedChannel!.id,
+        senderId: userId,
+        type: 'text',
+        body: text.trim(),
+        offline: 1,
+      );
+    } else {
+      await _outboxService?.createAndSend(
+        channelId: _selectedChannel!.id,
+        senderId: userId,
+        type: 'text',
+        body: text.trim(),
+      );
+    }
+  }
+
+  Future<void> sendSosBroadcast() async {
+    if (_selectedChannel == null) return;
+    const sosText = '🚨 SOS EMERGENCY: IMMEDIATE ASSISTANCE REQUIRED';
+
+    if (_isNearbyMode) {
+      final msgId = const Uuid().v4();
+      final now = DateTime.now().millisecondsSinceEpoch;
+      final payload = {
+        'id': msgId,
+        'channel_id': _selectedChannel!.id,
+        'type': 'sos',
+        'body': sosText,
+        'created_at': now,
+        'sender_id': userId,
+        'name': userName,
+      };
+      await _nearbyService?.broadcastNearbyMessage(payload);
+    }
+
     await _outboxService?.createAndSend(
       channelId: _selectedChannel!.id,
       senderId: userId,
-      type: 'text',
-      body: text.trim(),
+      type: 'sos',
+      body: sosText,
+      offline: _isNearbyMode ? 1 : 0,
     );
   }
 
@@ -309,6 +408,7 @@ class ChatProvider extends ChangeNotifier {
     _wsService?.dispose();
     _outboxService?.dispose();
     _livekitService?.dispose();
+    _nearbyService?.dispose();
     ForegroundService.stop();
     super.dispose();
   }

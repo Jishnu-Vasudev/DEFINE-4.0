@@ -84,19 +84,49 @@ class _ChatScreenState extends State<ChatScreen> {
           children: [
             Text('#${widget.channel.name}', style: const TextStyle(fontSize: 16)),
             Text(
-              chat.wsConnected ? 'Connected (Voice Room Active)' : 'Offline / Reconnecting',
+              chat.isNearbyMode
+                  ? 'Nearby Mesh Mode Active'
+                  : (chat.wsConnected ? 'Connected (Voice Room Active)' : 'Offline / Reconnecting'),
               style: TextStyle(
                 fontSize: 11,
-                color: chat.wsConnected ? Colors.lightGreenAccent : Colors.orangeAccent,
+                color: chat.isNearbyMode
+                    ? Colors.amberAccent
+                    : (chat.wsConnected ? Colors.lightGreenAccent : Colors.orangeAccent),
               ),
             ),
           ],
         ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.sos, color: Colors.redAccent),
+            tooltip: 'Send Emergency SOS',
+            onPressed: () => chat.sendSosBroadcast(),
+          ),
+        ],
       ),
       body: Stack(
         children: [
           Column(
             children: [
+              // Nearby fallback Banner
+              if (chat.isNearbyMode)
+                Container(
+                  color: Colors.amber.shade900,
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  child: Row(
+                    children: [
+                      const Icon(Icons.wifi_tethering, color: Colors.white, size: 20),
+                      const SizedBox(width: 8),
+                      Expanded(
+                        child: Text(
+                          'Server lost: nearby mode (${chat.nearbyStatus ?? "Discovering peers..."})',
+                          style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 12),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+
               // Active 1:1 Call Banner
               if (chat.isInCall)
                 Container(

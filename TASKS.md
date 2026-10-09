@@ -47,9 +47,9 @@ Done when: phone A talks, phone B hears it with <1 s delay; simultaneous press i
 Done when: photo appears on the other phone; call connects.
 
 ## P8 Nearby fallback (stretch)
-- [ ] Detect server unreachable (3 failed pings) -> banner "Server lost: nearby mode", send `offline_mode` when possible
-- [ ] Nearby Connections advertise+discover (strategy P2P_CLUSTER), exchange text + SOS per CONTRACT
-- [ ] On server return: POST queued items with offline=1
+- [x] Detect server unreachable (3 failed pings) -> banner "Server lost: nearby mode", send `offline_mode` when possible
+- [x] Nearby Connections advertise+discover (strategy P2P_CLUSTER), exchange text + SOS per CONTRACT
+- [x] On server return: POST queued items with offline=1
 Done when: hotspot off -> two phones still exchange text; hotspot on -> messages appear in admin tagged offline.
 
 ## P9 Demo polish
