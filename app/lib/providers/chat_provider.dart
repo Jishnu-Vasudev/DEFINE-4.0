@@ -1,10 +1,13 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
 import '../models/channel.dart';
 import '../models/message.dart';
 import '../services/api_service.dart';
 import '../services/db_service.dart';
 import '../services/ws_service.dart';
 import '../services/outbox_service.dart';
+import '../services/livekit_service.dart';
+import '../services/foreground_service.dart';
 
 class ChatProvider extends ChangeNotifier {
   final ApiService apiService;
@@ -18,15 +21,22 @@ class ChatProvider extends ChangeNotifier {
   bool _wsConnected = false;
   WsService? _wsService;
   OutboxService? _outboxService;
+  LivekitService? _livekitService;
 
   String? _currentTalker;
   int _currentPriority = 0;
+  bool _isTalking = false;
+  bool _isRequestingFloor = false;
+  String? _floorDeniedReason;
   Map<String, dynamic>? _activeBroadcast;
 
   Channel? get selectedChannel => _selectedChannel;
   List<Message> get messages => _messages;
   bool get wsConnected => _wsConnected;
   String? get currentTalker => _currentTalker;
+  bool get isTalking => _isTalking;
+  bool get isRequestingFloor => _isRequestingFloor;
+  String? get floorDeniedReason => _floorDeniedReason;
   Map<String, dynamic>? get activeBroadcast => _activeBroadcast;
 
   ChatProvider({
@@ -36,6 +46,8 @@ class ChatProvider extends ChangeNotifier {
     required this.port,
     required this.token,
   }) {
+    _livekitService = LivekitService(apiService: apiService);
+
     _outboxService = OutboxService(
       apiService: apiService,
       onMessageUpdated: (msg) {
@@ -66,14 +78,67 @@ class ChatProvider extends ChangeNotifier {
   void selectChannel(Channel channel) async {
     _selectedChannel = channel;
     _currentTalker = null;
+    _isTalking = false;
+    _floorDeniedReason = null;
     notifyListeners();
 
-    // 1. Load local messages
+    // 1. Join LiveKit room for this channel
+    await _livekitService?.joinChannelRoom(channel.id);
+    ForegroundService.start(channel.name);
+
+    // 2. Load local messages
     _messages = await DbService.instance.getMessagesForChannel(channel.id);
     notifyListeners();
 
-    // 2. Sync latest messages from server
+    // 3. Sync latest messages from server
     await syncChannelMessages(channel.id);
+  }
+
+  Future<void> startTalking({int priority = 1}) async {
+    if (_selectedChannel == null || _isTalking || _isRequestingFloor) return;
+
+    _isRequestingFloor = true;
+    _floorDeniedReason = null;
+    notifyListeners();
+
+    try {
+      final res = await apiService.requestFloor(_selectedChannel!.id, priority: priority);
+      if (res['granted'] == true) {
+        _isTalking = true;
+        _isRequestingFloor = false;
+        await _livekitService?.setMicrophoneEnabled(true);
+        HapticFeedback.lightImpact();
+        notifyListeners();
+      } else {
+        _isTalking = false;
+        _isRequestingFloor = false;
+        _floorDeniedReason = 'Channel busy: ${res['holder'] ?? 'Someone'} is talking';
+        HapticFeedback.vibrate();
+        notifyListeners();
+      }
+    } catch (e) {
+      _isTalking = false;
+      _isRequestingFloor = false;
+      _floorDeniedReason = 'Failed to request floor';
+      notifyListeners();
+    }
+  }
+
+  Future<void> stopTalking() async {
+    if (_selectedChannel == null || !_isTalking) {
+      _isRequestingFloor = false;
+      notifyListeners();
+      return;
+    }
+
+    _isTalking = false;
+    _isRequestingFloor = false;
+    await _livekitService?.setMicrophoneEnabled(false);
+    notifyListeners();
+
+    try {
+      await apiService.releaseFloor(_selectedChannel!.id);
+    } catch (_) {}
   }
 
   Future<void> syncChannelMessages(String channelId) async {
@@ -130,13 +195,25 @@ class ChatProvider extends ChangeNotifier {
     } else if (type == 'floor') {
       final chId = event['channel_id'];
       final state = event['state'];
+      final eventUserId = event['user_id'];
+
       if (_selectedChannel?.id == chId) {
         if (state == 'granted') {
-          _currentTalker = event['name'] ?? 'Someone';
-          _currentPriority = event['priority'] ?? 1;
+          if (eventUserId == userId) {
+            _isTalking = true;
+          } else {
+            _currentTalker = event['name'] ?? 'Someone';
+            _currentPriority = event['priority'] ?? 1;
+          }
         } else if (state == 'released') {
-          _currentTalker = null;
-          _currentPriority = 0;
+          if (eventUserId == userId) {
+            _isTalking = false;
+            _livekitService?.setMicrophoneEnabled(false);
+          }
+          if (_currentTalker != null && (eventUserId == null || eventUserId != userId)) {
+            _currentTalker = null;
+            _currentPriority = 0;
+          }
         }
         notifyListeners();
       }
@@ -161,6 +238,8 @@ class ChatProvider extends ChangeNotifier {
   void dispose() {
     _wsService?.dispose();
     _outboxService?.dispose();
+    _livekitService?.dispose();
+    ForegroundService.stop();
     super.dispose();
   }
 }

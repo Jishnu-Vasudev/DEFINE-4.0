@@ -35,10 +35,10 @@ Done when: opening /admin shows live users and a broadcast reaches a wscat clien
 Done when: two phones chat; airplane-mode toggle delivers queued text on reconnect.
 
 ## P6 PTT in app
-- [ ] Hold-to-talk button: POST /floor/request -> on granted unmute LiveKit mic; release -> mute + /floor/release
-- [ ] Show "X is talking" from `floor` events; denied = vibrate + toast
-- [ ] Android foreground service so PTT works with screen off
-- [ ] Emergency broadcast: full-screen alert + Acknowledge button -> /ack
+- [x] Hold-to-talk button: POST /floor/request -> on granted unmute LiveKit mic; release -> mute + /floor/release
+- [x] Show "X is talking" from `floor` events; denied = vibrate + toast
+- [x] Android foreground service so PTT works with screen off
+- [x] Emergency broadcast: full-screen alert + Acknowledge button -> /ack
 Done when: phone A talks, phone B hears it with <1 s delay; simultaneous press is denied.
 
 ## P7 Media + call
