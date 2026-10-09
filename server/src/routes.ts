@@ -3,6 +3,7 @@ import { randomBytes, randomUUID } from 'node:crypto';
 import QRCode from 'qrcode';
 import { db } from './db.js';
 import { signJwt, requireAuth, requireAdmin } from './auth.js';
+import { broadcastToChannel } from './ws.js';
 
 interface JoinBody {
   code: string;
@@ -22,6 +23,20 @@ interface CreateChannelBody {
 interface CreateInviteBody {
   team_id: string;
   role: 'admin' | 'member';
+}
+
+interface PostMessageBody {
+  id: string;
+  channel_id: string;
+  type: 'text' | 'image' | 'sos' | 'broadcast' | 'ptt_clip';
+  body: string;
+  media?: string;
+  created_at: number;
+  offline?: number;
+}
+
+interface AckBody {
+  message_id: string;
 }
 
 export async function registerRoutes(fastify: FastifyInstance) {
@@ -105,6 +120,81 @@ export async function registerRoutes(fastify: FastifyInstance) {
     `).all(userId);
 
     return reply.send(channels);
+  });
+
+  // Messages in channel
+  fastify.get('/channels/:id/messages', { preHandler: requireAuth }, async (request: FastifyRequest<{ Params: { id: string }; Querystring: { after_seq?: string } }>, reply: FastifyReply) => {
+    const channelId = request.params.id;
+    const afterSeq = Number(request.query.after_seq) || 0;
+
+    const messages = db.prepare(`
+      SELECT seq, id, channel_id, sender_id, type, body, media, created_at, offline
+      FROM messages
+      WHERE channel_id = ? AND seq > ?
+      ORDER BY seq ASC
+    `).all(channelId, afterSeq);
+
+    return reply.send(messages);
+  });
+
+  // Post message (idempotent)
+  fastify.post('/messages', { preHandler: requireAuth }, async (request: FastifyRequest<{ Body: PostMessageBody }>, reply: FastifyReply) => {
+    const { id, channel_id, type, body, media, created_at, offline } = request.body || {};
+    if (!id || !channel_id || !type) {
+      return reply.status(400).send({ error: 'id, channel_id, and type are required' });
+    }
+
+    const senderId = request.user!.id;
+    const existing = db.prepare('SELECT seq FROM messages WHERE id = ?').get(id) as { seq: number } | undefined;
+    if (existing) {
+      return reply.send({ seq: existing.seq });
+    }
+
+    const now = created_at || Date.now();
+    const isOffline = offline ? 1 : 0;
+
+    const result = db.prepare(`
+      INSERT INTO messages (id, channel_id, sender_id, type, body, media, created_at, offline)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+    `).run(id, channel_id, senderId, type, body || '', media || null, now, isOffline);
+
+    const seq = Number(result.lastInsertRowid);
+    const messagePayload = {
+      seq,
+      id,
+      channel_id,
+      sender_id: senderId,
+      type,
+      body: body || '',
+      media: media || null,
+      created_at: now,
+      offline: isOffline,
+    };
+
+    broadcastToChannel(channel_id, {
+      t: 'message',
+      message: messagePayload,
+    });
+
+    return reply.send({ seq });
+  });
+
+  // Acknowledge message
+  fastify.post('/ack', { preHandler: requireAuth }, async (request: FastifyRequest<{ Body: AckBody }>, reply: FastifyReply) => {
+    const { message_id } = request.body || {};
+    if (!message_id) {
+      return reply.status(400).send({ error: 'message_id is required' });
+    }
+
+    const userId = request.user!.id;
+    const now = Date.now();
+
+    db.prepare(`
+      INSERT OR REPLACE INTO acks (message_id, user_id, at)
+      VALUES (?, ?, ?)
+    `).run(message_id, userId, now);
+
+    return reply.send({ ok: true });
   });
 
   // Admin: Create team

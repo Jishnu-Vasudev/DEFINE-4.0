@@ -13,8 +13,8 @@ Done when: `curl localhost:3000/health` returns ok.
 Done when: curl flow create team -> channel -> invite -> join works.
 
 ## P2 Messaging + WS + presence
-- [ ] /ws with ping/presence, /messages (idempotent), /channels/:id/messages?after_seq, /ack
-- [ ] Broadcast of `message` events to channel members
+- [x] /ws with ping/presence, /messages (idempotent), /channels/:id/messages?after_seq, /ack
+- [x] Broadcast of `message` events to channel members
 Done when: two `wscat` clients see each other's messages.
 
 ## P3 Floor control + LiveKit
