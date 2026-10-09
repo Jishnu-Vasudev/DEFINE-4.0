@@ -4,16 +4,19 @@ import '../models/message.dart';
 class MessageBubble extends StatelessWidget {
   final Message message;
   final bool isMe;
+  final String? baseUrl;
+  final String? jwtToken;
 
   const MessageBubble({
     super.key,
     required this.message,
     required this.isMe,
+    this.baseUrl,
+    this.jwtToken,
   });
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     final bg = isMe ? const Color(0xFF2563EB) : const Color(0xFF1E293B);
     final align = isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start;
 
@@ -23,7 +26,7 @@ class MessageBubble extends StatelessWidget {
         crossAxisAlignment: align,
         children: [
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+            padding: const EdgeInsets.all(10),
             constraints: BoxConstraints(
               maxWidth: MediaQuery.of(context).size.width * 0.75,
             ),
@@ -34,10 +37,35 @@ class MessageBubble extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  message.body,
-                  style: const TextStyle(color: Colors.white, fontSize: 15),
-                ),
+                // Render image if message type is image
+                if (message.type == 'image' && message.media != null && baseUrl != null) ...[
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(8),
+                    child: Image.network(
+                      '$baseUrl/media/${message.media}?token=${jwtToken ?? ""}',
+                      fit: BoxFit.cover,
+                      errorBuilder: (_, __, ___) => const Padding(
+                        padding: EdgeInsets.all(16.0),
+                        child: Icon(Icons.broken_image, color: Colors.white60),
+                      ),
+                      loadingBuilder: (_, child, progress) {
+                        if (progress == null) return child;
+                        return const Padding(
+                          padding: EdgeInsets.all(24.0),
+                          child: Center(child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2)),
+                        );
+                      },
+                    ),
+                  ),
+                  if (message.body.isNotEmpty) const SizedBox(height: 6),
+                ],
+
+                if (message.body.isNotEmpty)
+                  Text(
+                    message.body,
+                    style: const TextStyle(color: Colors.white, fontSize: 15),
+                  ),
+
                 const SizedBox(height: 4),
                 Row(
                   mainAxisSize: MainAxisSize.min,

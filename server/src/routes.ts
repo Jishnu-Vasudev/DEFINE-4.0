@@ -1,5 +1,8 @@
 import { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify';
 import { randomBytes, randomUUID } from 'node:crypto';
+import fs from 'node:fs';
+import path from 'node:path';
+import { pipeline } from 'node:stream/promises';
 import QRCode from 'qrcode';
 import { db } from './db.js';
 import { signJwt, requireAuth, requireAdmin } from './auth.js';
@@ -234,6 +237,80 @@ export async function registerRoutes(fastify: FastifyInstance) {
     const userName = request.user!.name;
     const result = await generateLiveKitToken(userId, userName, room);
     return reply.send(result);
+  });
+
+  // Media Upload
+  fastify.post('/media', { preHandler: requireAuth }, async (request: FastifyRequest, reply: FastifyReply) => {
+    const data = await request.file();
+    if (!data) {
+      return reply.status(400).send({ error: 'No file uploaded' });
+    }
+
+    const uploadsDir = path.join(process.cwd(), 'uploads');
+    if (!fs.existsSync(uploadsDir)) {
+      fs.mkdirSync(uploadsDir, { recursive: true });
+    }
+
+    const ext = path.extname(data.filename) || '.jpg';
+    const filename = `${randomUUID()}${ext}`;
+    const filePath = path.join(uploadsDir, filename);
+
+    await pipeline(data.file, fs.createWriteStream(filePath));
+
+    return reply.send({ media: filename });
+  });
+
+  // Media Download / Serve
+  fastify.get('/media/:file', async (request: FastifyRequest<{ Params: { file: string }; Querystring: { token?: string } }>, reply: FastifyReply) => {
+    // Check auth from Bearer header or ?token=
+    const authHeader = request.headers.authorization;
+    let token = '';
+    if (authHeader && authHeader.startsWith('Bearer ')) {
+      token = authHeader.slice(7).trim();
+    } else if (request.query.token) {
+      token = request.query.token;
+    }
+
+    if (!token) {
+      return reply.status(401).send({ error: 'Unauthorized: Missing token' });
+    }
+
+    const payload = signJwt ? (await import('./auth.js')).verifyJwt(token) : null;
+    if (!payload) {
+      return reply.status(401).send({ error: 'Unauthorized: Invalid token' });
+    }
+
+    const { file } = request.params;
+    const filePath = path.join(process.cwd(), 'uploads', path.basename(file));
+
+    if (!fs.existsSync(filePath)) {
+      return reply.status(404).send({ error: 'File not found' });
+    }
+
+    const stream = fs.createReadStream(filePath);
+    return reply.send(stream);
+  });
+
+  // 1:1 Voice Call Invite
+  fastify.post('/call/invite', { preHandler: requireAuth }, async (request: FastifyRequest<{ Body: { to_user_id: string } }>, reply: FastifyReply) => {
+    const { to_user_id } = request.body || {};
+    if (!to_user_id) {
+      return reply.status(400).send({ error: 'to_user_id is required' });
+    }
+
+    const callerId = request.user!.id;
+    const callerName = request.user!.name;
+    const roomId = `call_${randomUUID().slice(0, 8)}`;
+
+    // Push call_invite event to recipient over WS
+    sendToUser(to_user_id, {
+      t: 'call_invite',
+      room: roomId,
+      from: callerId,
+      from_name: callerName,
+    });
+
+    return reply.send({ room: roomId });
   });
 
   // Admin: Presence

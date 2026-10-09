@@ -1,3 +1,4 @@
+import 'dart:typed_data';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import '../models/channel.dart';
@@ -30,6 +31,11 @@ class ChatProvider extends ChangeNotifier {
   String? _floorDeniedReason;
   Map<String, dynamic>? _activeBroadcast;
 
+  // 1:1 Voice Call state
+  Map<String, dynamic>? _incomingCall;
+  bool _isInCall = false;
+  String? _activeCallRoom;
+
   Channel? get selectedChannel => _selectedChannel;
   List<Message> get messages => _messages;
   bool get wsConnected => _wsConnected;
@@ -38,6 +44,9 @@ class ChatProvider extends ChangeNotifier {
   bool get isRequestingFloor => _isRequestingFloor;
   String? get floorDeniedReason => _floorDeniedReason;
   Map<String, dynamic>? get activeBroadcast => _activeBroadcast;
+  Map<String, dynamic>? get incomingCall => _incomingCall;
+  bool get isInCall => _isInCall;
+  String? get activeCallRoom => _activeCallRoom;
 
   ChatProvider({
     required this.apiService,
@@ -83,8 +92,10 @@ class ChatProvider extends ChangeNotifier {
     notifyListeners();
 
     // 1. Join LiveKit room for this channel
-    await _livekitService?.joinChannelRoom(channel.id);
-    ForegroundService.start(channel.name);
+    if (!_isInCall) {
+      await _livekitService?.joinChannelRoom(channel.id);
+      ForegroundService.start(channel.name);
+    }
 
     // 2. Load local messages
     _messages = await DbService.instance.getMessagesForChannel(channel.id);
@@ -165,6 +176,61 @@ class ChatProvider extends ChangeNotifier {
     );
   }
 
+  Future<void> sendImageMessage(Uint8List bytes, String filename, {String caption = ''}) async {
+    if (_selectedChannel == null) return;
+    try {
+      final uploadedFilename = await apiService.uploadMedia(bytes, filename);
+      await _outboxService?.createAndSend(
+        channelId: _selectedChannel!.id,
+        senderId: userId,
+        type: 'image',
+        body: caption,
+        media: uploadedFilename,
+      );
+    } catch (_) {}
+  }
+
+  Future<void> initiate1to1Call(String toUserId) async {
+    try {
+      final room = await apiService.callInvite(toUserId);
+      _activeCallRoom = room;
+      _isInCall = true;
+      notifyListeners();
+
+      await _livekitService?.joinChannelRoom(room);
+      await _livekitService?.setMicrophoneEnabled(true);
+    } catch (_) {}
+  }
+
+  Future<void> acceptIncomingCall() async {
+    if (_incomingCall == null) return;
+    final room = _incomingCall!['room'] as String;
+    _incomingCall = null;
+    _activeCallRoom = room;
+    _isInCall = true;
+    notifyListeners();
+
+    await _livekitService?.joinChannelRoom(room);
+    await _livekitService?.setMicrophoneEnabled(true);
+  }
+
+  void declineIncomingCall() {
+    _incomingCall = null;
+    notifyListeners();
+  }
+
+  Future<void> end1to1Call() async {
+    _isInCall = false;
+    _activeCallRoom = null;
+    await _livekitService?.setMicrophoneEnabled(false);
+    if (_selectedChannel != null) {
+      await _livekitService?.joinChannelRoom(_selectedChannel!.id);
+    } else {
+      await _livekitService?.leaveRoom();
+    }
+    notifyListeners();
+  }
+
   void _handleLocalMessageUpdate(Message msg) {
     if (_selectedChannel?.id == msg.channelId) {
       final index = _messages.indexWhere((m) => m.id == msg.id);
@@ -219,6 +285,10 @@ class ChatProvider extends ChangeNotifier {
       }
     } else if (type == 'broadcast') {
       _activeBroadcast = event;
+      notifyListeners();
+    } else if (type == 'call_invite') {
+      _incomingCall = event;
+      HapticFeedback.vibrate();
       notifyListeners();
     }
   }

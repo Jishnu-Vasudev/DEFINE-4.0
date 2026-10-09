@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:typed_data';
 import 'package:http/http.dart' as http;
 import '../models/channel.dart';
 import '../models/message.dart';
@@ -70,6 +71,38 @@ class ApiService {
       return (data['seq'] as num).toInt();
     }
     throw Exception('Failed to send message: ${res.body}');
+  }
+
+  Future<String> uploadMedia(Uint8List fileBytes, String filename) async {
+    final url = Uri.parse('$baseUrl/media');
+    final req = http.MultipartRequest('POST', url);
+    if (jwtToken != null) {
+      req.headers['Authorization'] = 'Bearer $jwtToken';
+    }
+    req.files.add(http.MultipartFile.fromBytes('file', fileBytes, filename: filename));
+
+    final streamedRes = await req.send();
+    final res = await http.Response.fromStream(streamedRes);
+
+    if (res.statusCode >= 200 && res.statusCode < 300) {
+      final data = jsonDecode(res.body);
+      return data['media'] as String;
+    }
+    throw Exception('Media upload failed: ${res.body}');
+  }
+
+  Future<String> callInvite(String toUserId) async {
+    final url = Uri.parse('$baseUrl/call/invite');
+    final res = await http.post(
+      url,
+      headers: _headers,
+      body: jsonEncode({'to_user_id': toUserId}),
+    );
+    if (res.statusCode == 200) {
+      final data = jsonDecode(res.body);
+      return data['room'] as String;
+    }
+    throw Exception('Call invite failed: ${res.body}');
   }
 
   Future<void> ackMessage(String messageId) async {

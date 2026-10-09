@@ -2,6 +2,7 @@ import Fastify from 'fastify';
 import cors from '@fastify/cors';
 import websocket from '@fastify/websocket';
 import fastifyStatic from '@fastify/static';
+import multipart from '@fastify/multipart';
 import path from 'node:path';
 import fs from 'node:fs';
 import { initDb } from './db.js';
@@ -17,6 +18,12 @@ async function main() {
 
   await fastify.register(cors, {
     origin: true,
+  });
+
+  await fastify.register(multipart, {
+    limits: {
+      fileSize: 10 * 1024 * 1024, // 10MB
+    },
   });
 
   await fastify.register(websocket);

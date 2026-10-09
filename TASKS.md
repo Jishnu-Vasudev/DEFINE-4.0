@@ -42,8 +42,8 @@ Done when: two phones chat; airplane-mode toggle delivers queued text on reconne
 Done when: phone A talks, phone B hears it with <1 s delay; simultaneous press is denied.
 
 ## P7 Media + call
-- [ ] Photo send (image_picker, resize to 1280 px, /media upload, then message type=image)
-- [ ] 1:1 voice call using /call/invite + LiveKit room
+- [x] Photo send (image_picker, resize to 1280 px, /media upload, then message type=image)
+- [x] 1:1 voice call using /call/invite + LiveKit room
 Done when: photo appears on the other phone; call connects.
 
 ## P8 Nearby fallback (stretch)
