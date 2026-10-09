@@ -6,3 +6,9 @@ dist/
 *.db-shm
 uploads/
 .env
+*.exe
+*.log
+*.apk
+server/old-test-db
+app/build/
+.dart_tool/

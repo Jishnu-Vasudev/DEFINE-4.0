@@ -1,7 +1,7 @@
 services:
   livekit:
     image: livekit/livekit-server:latest
-    command: --dev --node-ip ${NODE_IP:-127.0.0.1}
+    command: --dev --bind 0.0.0.0 --node-ip ${NODE_IP}
     ports:
       - "7880:7880"
       - "7881:7881"

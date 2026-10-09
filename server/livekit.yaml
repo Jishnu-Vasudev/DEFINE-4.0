@@ -1,0 +1,18 @@
+# LiveKit for the LAN demo. Run: livekit-server --config livekit.yaml --node-ip <LAPTOP_IP>
+port: 7880
+bind_addresses: ["0.0.0.0"]
+rtc:
+  tcp_port: 7881
+  # one UDP port per session; the single-port mux (7882) dropped phone packets on Windows
+  port_range_start: 50000
+  port_range_end: 50100
+  use_external_ip: false
+  # only offer the Wi-Fi address; virtual adapters (VirtualBox/Hyper-V) break ICE
+  ips:
+    includes: [10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16]
+    excludes: [192.168.56.0/24]
+keys:
+  devkey: secret
+logging:
+  level: debug
+  pion_level: debug

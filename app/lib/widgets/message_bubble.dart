@@ -1,105 +1,136 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
-import '../models/message.dart';
+import 'package:provider/provider.dart';
+
+import '../app_state.dart';
+import '../theme.dart';
 
 class MessageBubble extends StatelessWidget {
-  final Message message;
-  final bool isMe;
-  final String? baseUrl;
-  final String? jwtToken;
-
-  const MessageBubble({
-    super.key,
-    required this.message,
-    required this.isMe,
-    this.baseUrl,
-    this.jwtToken,
-  });
+  final Map<String, dynamic> m;
+  final bool mine;
+  final bool showName;
+  const MessageBubble({super.key, required this.m, required this.mine, required this.showName});
 
   @override
   Widget build(BuildContext context) {
-    final bg = isMe ? const Color(0xFF2563EB) : const Color(0xFF1E293B);
-    final align = isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start;
-
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 12),
-      child: Column(
-        crossAxisAlignment: align,
-        children: [
-          Container(
-            padding: const EdgeInsets.all(10),
-            constraints: BoxConstraints(
-              maxWidth: MediaQuery.of(context).size.width * 0.75,
-            ),
-            decoration: BoxDecoration(
-              color: bg,
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Render image if message type is image
-                if (message.type == 'image' && message.media != null && baseUrl != null) ...[
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(8),
-                    child: Image.network(
-                      '$baseUrl/media/${message.media}?token=${jwtToken ?? ""}',
-                      fit: BoxFit.cover,
-                      errorBuilder: (_, __, ___) => const Padding(
-                        padding: EdgeInsets.all(16.0),
-                        child: Icon(Icons.broken_image, color: Colors.white60),
-                      ),
-                      loadingBuilder: (_, child, progress) {
-                        if (progress == null) return child;
-                        return const Padding(
-                          padding: EdgeInsets.all(24.0),
-                          child: Center(child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2)),
-                        );
-                      },
-                    ),
-                  ),
-                  if (message.body.isNotEmpty) const SizedBox(height: 6),
-                ],
-
-                if (message.body.isNotEmpty)
-                  Text(
-                    message.body,
-                    style: const TextStyle(color: Colors.white, fontSize: 15),
-                  ),
-
-                const SizedBox(height: 4),
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Text(
-                      DateTime.fromMillisecondsSinceEpoch(message.createdAt)
-                          .toLocal()
-                          .toString()
-                          .substring(11, 16),
-                      style: TextStyle(color: Colors.white.withOpacity(0.6), fontSize: 11),
-                    ),
-                    if (isMe) ...[
-                      const SizedBox(width: 4),
-                      _buildStatusIcon(),
-                    ],
-                  ],
+    final d = DateTime.fromMillisecondsSinceEpoch(m['created_at'] as int);
+    final time = '${d.hour.toString().padLeft(2, '0')}:${d.minute.toString().padLeft(2, '0')}';
+    final name = m['sender_name'] as String? ?? '';
+    return Align(
+      alignment: mine ? Alignment.centerRight : Alignment.centerLeft,
+      child: Container(
+        margin: EdgeInsets.only(top: showName ? 10 : 2, left: mine ? 56 : 0, right: mine ? 0 : 56),
+        padding: const EdgeInsets.fromLTRB(14, 8, 12, 6),
+        decoration: BoxDecoration(
+          color: mine ? const Color(0xFF14463A) : C.panel2,
+          borderRadius: BorderRadius.only(
+            topLeft: const Radius.circular(18),
+            topRight: const Radius.circular(18),
+            bottomLeft: Radius.circular(mine ? 18 : 4),
+            bottomRight: Radius.circular(mine ? 4 : 18),
+          ),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            if (showName && !mine)
+              Padding(
+                padding: const EdgeInsets.only(bottom: 2),
+                child: Text(
+                  name,
+                  style: TextStyle(color: Color.lerp(avatarColor(name), Colors.white, .45), fontWeight: FontWeight.w600, fontSize: 13),
                 ),
+              ),
+            if (m['type'] == 'sos')
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Icon(Icons.sos_rounded, color: C.danger),
+                  const SizedBox(width: 8),
+                  Flexible(
+                    child: Text(
+                      m['body'] ?? '',
+                      style: const TextStyle(color: C.danger, fontWeight: FontWeight.w700, fontSize: 15.5),
+                    ),
+                  ),
+                ],
+              )
+            else if (m['type'] == 'image')
+              Padding(padding: const EdgeInsets.only(top: 2, bottom: 4), child: _Photo(m['media'] as String? ?? ''))
+            else
+              Text(m['body'] ?? '', style: const TextStyle(fontSize: 15.5, height: 1.3)),
+            const SizedBox(height: 2),
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (m['offline'] == 1)
+                  const Padding(
+                    padding: EdgeInsets.only(right: 4),
+                    child: Icon(Icons.wifi_off, size: 12, color: C.warn),
+                  ),
+                Text(time, style: const TextStyle(fontSize: 11, color: C.muted)),
+                if (mine) ...[const SizedBox(width: 4), _Status(m['status'] as String? ?? 'queued')],
               ],
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
+}
 
-  Widget _buildStatusIcon() {
-    switch (message.status) {
-      case OutboxStatus.queued:
-        return const Icon(Icons.access_time, size: 13, color: Colors.orangeAccent);
-      case OutboxStatus.sent:
-        return const Icon(Icons.check, size: 13, color: Colors.white70);
-      case OutboxStatus.delivered:
-        return const Icon(Icons.done_all, size: 13, color: Colors.lightGreenAccent);
-    }
+class _Photo extends StatelessWidget {
+  final String media;
+  const _Photo(this.media);
+
+  @override
+  Widget build(BuildContext context) {
+    final api = context.read<AppState>().api!;
+    final local = media.startsWith('local:');
+    final img = local
+        ? Image.file(File(media.substring(6)), fit: BoxFit.cover)
+        : Image.network(
+            api.mediaUrl(media),
+            headers: api.authHeader,
+            fit: BoxFit.cover,
+            loadingBuilder: (_, child, p) => p == null ? child : const Center(child: CircularProgressIndicator(strokeWidth: 2)),
+            errorBuilder: (_, _, _) => const Center(child: Icon(Icons.broken_image_outlined, color: C.muted)),
+          );
+    return GestureDetector(
+      onTap: () => Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (_) => Scaffold(
+            backgroundColor: Colors.black,
+            appBar: AppBar(backgroundColor: Colors.black),
+            body: Center(child: InteractiveViewer(child: img)),
+          ),
+        ),
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(12),
+        child: SizedBox(width: 240, height: 240, child: img),
+      ),
+    );
+  }
+}
+
+// Queued (clock) -> Sent (one tick) -> Delivered (two ticks, accent).
+class _Status extends StatelessWidget {
+  final String s;
+  const _Status(this.s);
+  @override
+  Widget build(BuildContext context) {
+    final (icon, color, label) = switch (s) {
+      'sent' => (Icons.done, C.muted, 'Sent'),
+      'delivered' => (Icons.done_all, C.accent, 'Delivered'),
+      _ => (Icons.schedule, C.warn, 'Queued'),
+    };
+    return Tooltip(
+      message: label,
+      child: Icon(icon, size: 14, color: color, semanticLabel: label),
+    );
   }
 }

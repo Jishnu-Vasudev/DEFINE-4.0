@@ -1,12 +1,12 @@
-# 10-Line Demo Run Guide
+# Run the demo
 
-1. Find your laptop's LAN IP (e.g. `192.168.1.100` via `ipconfig`).
-2. Set environment: `$env:NODE_IP="192.168.1.100"` (or `export NODE_IP=192.168.1.100`).
-3. Start LiveKit server: `docker compose up -d`.
-4. Install backend dependencies: `cd server; npm install`.
-5. Start Fastify backend: `npm run dev` (listens on `http://0.0.0.0:3000`).
-6. Note the Admin Invite Code printed in the server startup seed log.
-7. Open browser at `http://localhost:3000/admin` and log in with the admin invite code.
-8. In Admin Console: Create a Team, a Channel (`team`), and click Generate QR Invite.
-9. On Android phones: Open PTT App, scan or paste invite QR payload, and tap Connect.
-10. Operate Demo: Hold-to-Talk PTT voice, text chat, photo sharing, 1:1 voice call, and emergency broadcast.
+1. Connect the laptop and all phones to the same Wi-Fi/hotspot. Find the laptop IP: `ipconfig` (IPv4, e.g. 10.80.0.64).
+2. Start voice (LiveKit): `D:\tools\livekit\livekit-server.exe --config server\livekit.yaml --node-ip <LAPTOP_IP>` (or `NODE_IP=<ip> docker compose up` if Docker is installed).
+3. Start the server: `cd server; .\ptt-server.exe` (set `$env:HOST_IP="<LAPTOP_IP>"` first if the QR shows the wrong IP). Note the printed ADMIN INVITE CODE.
+4. On first run, allow both programs through Windows Firewall when it asks. Ports: TCP 3000, 7880, 7881 and UDP 50000-50100.
+5. Open `http://localhost:3000/admin`, then sign in with your name and the admin code.
+6. In Setup, add a team and a channel, set "how many people" and click "Get QR" (one QR for the whole group).
+7. Install `app\build\app\outputs\flutter-apk\app-debug.apk` on each phone, open Relay, enter your name, scan the QR, and allow mic, notifications and nearby devices.
+8. Demo: chat and photo, then push-to-talk (hold or tap mode; a second phone pressing at the same time gets denied), then a call from the People icon, then an emergency broadcast from admin (watch the ack bar fill).
+9. Fallback: turn the hotspot off, wait about 12 s for the red "nearby mode" bar, send text or SOS phone to phone (with 3 phones in a line A–B–C, B passes A's message on to C), then turn the hotspot on and the messages show in admin tagged "nearby".
+10. Reset everything: stop the server and delete `server\ptt.db` (a new admin code is printed on the next start).

@@ -1,381 +1,363 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>PTT LAN Communicator - Admin Dashboard</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    :root {
-      --bg: #0f172a;
-      --card: #1e293b;
-      --border: #334155;
-      --text: #f8fafc;
-      --text-dim: #94a3b8;
-      --primary: #3b82f6;
-      --primary-hover: #2563eb;
-      --danger: #ef4444;
-      --success: #22c55e;
-      --warning: #f59e0b;
-    }
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-    body { background: var(--bg); color: var(--text); padding: 24px; }
-    .container { max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; gap: 24px; }
-    header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 16px; }
-    h1 { font-size: 1.5rem; font-weight: 600; }
-    h2 { font-size: 1.15rem; margin-bottom: 12px; font-weight: 600; }
-    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 20px; }
-    .card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 20px; }
-    .btn { background: var(--primary); color: #fff; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-weight: 500; font-size: 0.9rem; }
-    .btn:hover { background: var(--primary-hover); }
-    .btn-danger { background: var(--danger); }
-    .btn-danger:hover { background: #dc2626; }
-    input, select, textarea { width: 100%; background: #0f172a; border: 1px solid var(--border); color: var(--text); padding: 8px 12px; border-radius: 6px; margin-bottom: 12px; }
-    .status-badge { display: inline-block; padding: 2px 8px; border-radius: 12px; font-size: 0.75rem; font-weight: bold; }
-    .online { background: rgba(34, 197, 94, 0.2); color: var(--success); }
-    .offline { background: rgba(148, 163, 184, 0.2); color: var(--text-dim); }
-    .talker-badge { background: rgba(239, 68, 68, 0.2); color: var(--danger); font-weight: bold; }
-    table { width: 100%; border-collapse: collapse; margin-top: 8px; font-size: 0.9rem; }
-    th, td { text-align: left; padding: 8px; border-bottom: 1px solid var(--border); }
-    th { color: var(--text-dim); }
-    .qr-container { text-align: center; margin-top: 12px; }
-    .qr-container img { max-width: 180px; border-radius: 8px; background: #fff; padding: 8px; }
-    .hidden { display: none !important; }
-    .flex-row { display: flex; gap: 8px; align-items: center; }
-    .checkbox-label { display: flex; align-items: center; gap: 8px; cursor: pointer; margin-bottom: 12px; }
-    .checkbox-label input { width: auto; margin: 0; }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Relay Control</title>
+<style>
+:root{
+  --bg:#0b0f14; --panel:#121821; --panel2:#18202b; --line:#243042; --text:#e6edf5; --muted:#8a99ad;
+  --accent:#34d3a6; --accent-ink:#04261c; --warn:#f5b84b; --danger:#ff4d5e; --danger-bg:#3a1218; --radius:14px;
+  font-family:Inter,"Segoe UI",system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0}
+body{background:var(--bg);color:var(--text);font-size:14px;min-height:100vh}
+button,input,select,textarea{font:inherit;color:inherit}
+.hidden{display:none!important}
+.muted{color:var(--muted)}
+/* login */
+#login{min-height:100vh;display:grid;place-items:center;padding:16px;
+  background:radial-gradient(800px 400px at 50% 0%,#123a30 0%,transparent 70%)}
+.login-card{width:100%;max-width:380px;background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:32px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:18px;letter-spacing:.2px}
+.logo i{width:30px;height:30px;border-radius:9px;background:var(--accent);display:grid;place-items:center;color:var(--accent-ink);font-style:normal;font-size:16px}
+.login-card p{margin:8px 0 24px}
+label{display:block;font-size:12px;color:var(--muted);margin:14px 0 6px;text-transform:uppercase;letter-spacing:.6px}
+input,select,textarea{width:100%;background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:10px 12px;outline:none}
+input:focus,select:focus,textarea:focus{border-color:var(--accent)}
+.btn{border:0;border-radius:10px;padding:10px 16px;font-weight:600;cursor:pointer;background:var(--panel2);border:1px solid var(--line)}
+.btn:hover{border-color:var(--muted)}
+.btn.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.btn.danger{background:var(--danger);color:#fff;border-color:var(--danger)}
+.btn.small{padding:5px 10px;font-size:12px}
+.btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.err{color:var(--danger);margin-top:10px;min-height:18px}
+/* app */
+header{position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:16px;padding:14px 24px;background:rgba(11,15,20,.85);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+header .sp{flex:1}
+.pill{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:999px;background:var(--panel2);border:1px solid var(--line);font-size:12px}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--muted);flex:none}
+.dot.on{background:var(--accent);box-shadow:0 0 0 3px rgba(52,211,166,.18)}
+.dot.nearby{background:var(--warn)}
+main{display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:20px;padding:20px 24px;max-width:1400px;margin:0 auto}
+@media (max-width:960px){main{grid-template-columns:1fr;padding:16px}header{padding:12px 16px}}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px}
+.stat{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:16px}
+.stat b{display:block;font-size:28px;font-variant-numeric:tabular-nums;margin-top:4px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:18px;margin-bottom:20px}
+.card h2{font-size:13px;text-transform:uppercase;letter-spacing:.8px;color:var(--muted);margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.card h2 .sp{flex:1}
+.chan-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px}
+.chan{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:12px 14px;transition:border-color .2s}
+.chan .team{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.6px}
+.chan .name{font-weight:600;margin:2px 0 8px}
+.chan .talk{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:6px}
+.chan.live{border-color:var(--accent);background:linear-gradient(180deg,rgba(52,211,166,.10),var(--panel2))}
+.chan.live .talk{color:var(--accent);font-weight:600}
+.chan.live.p3{border-color:var(--danger);background:linear-gradient(180deg,rgba(255,77,94,.14),var(--panel2))}
+.chan.live.p3 .talk{color:var(--danger)}
+.wave{display:inline-flex;gap:2px;align-items:end;height:12px}
+.wave i{width:3px;background:currentColor;border-radius:2px;animation:w 0.9s infinite ease-in-out}
+.wave i:nth-child(2){animation-delay:.15s}.wave i:nth-child(3){animation-delay:.3s}
+@keyframes w{0%,100%{height:3px}50%{height:12px}}
+@media (prefers-reduced-motion:reduce){.wave i{animation:none;height:8px}}
+table{width:100%;border-collapse:collapse}
+th{font-size:11px;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);text-align:left;font-weight:500;padding:0 8px 8px}
+td{padding:10px 8px;border-top:1px solid var(--line)}
+td .who{display:flex;align-items:center;gap:10px}
+.av{width:28px;height:28px;border-radius:50%;background:#22324a;display:grid;place-items:center;font-size:12px;font-weight:700;flex:none}
+.tag{font-size:11px;padding:2px 8px;border-radius:999px;background:var(--panel2);border:1px solid var(--line);color:var(--muted)}
+.tag.warn{color:var(--warn);border-color:rgba(245,184,75,.4)}
+.empty{color:var(--muted);padding:12px 0}
+/* broadcast */
+.bc textarea{min-height:90px;resize:vertical}
+.row{display:flex;gap:10px;align-items:center}
+.switch{display:flex;align-items:center;gap:10px;margin:14px 0;cursor:pointer;user-select:none}
+.switch input{position:absolute;opacity:0;width:0}
+.switch .track{width:40px;height:22px;border-radius:999px;background:var(--line);position:relative;transition:.2s;flex:none}
+.switch .track::after{content:"";position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:50%;background:#fff;transition:.2s}
+.switch input:checked+.track{background:var(--danger)}
+.switch input:checked+.track::after{left:21px}
+.switch input:focus-visible+.track{outline:2px solid var(--accent);outline-offset:2px}
+.bc.emg{border-color:var(--danger);background:linear-gradient(180deg,var(--danger-bg),var(--panel) 60%)}
+.bar{height:8px;border-radius:999px;background:var(--panel2);overflow:hidden;margin:10px 0}
+.bar i{display:block;height:100%;background:var(--accent);transition:width .4s}
+.acklist{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.acklist span{font-size:12px;padding:3px 9px;border-radius:999px;background:var(--panel2);border:1px solid var(--line)}
+.acklist span.ok{color:var(--accent);border-color:rgba(52,211,166,.4)}
+/* feed */
+.feed{display:flex;flex-direction:column;max-height:320px;overflow:auto}
+.msg{display:flex;gap:10px;padding:9px 0;border-top:1px solid var(--line);align-items:flex-start}
+.msg:first-child{border-top:0}
+.msg .body{flex:1;min-width:0}
+.msg .meta{font-size:12px;color:var(--muted);display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.msg .text{margin-top:2px;overflow-wrap:anywhere}
+.msg.sos{background:linear-gradient(90deg,rgba(255,77,94,.12),transparent);border-radius:8px;padding-left:8px}
+.msg.sos .text{color:var(--danger);font-weight:700}
+.tag.danger{color:var(--danger);border-color:rgba(255,77,94,.5)}
+/* modal */
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.6);display:grid;place-items:center;z-index:20;padding:16px}
+.modal .box{background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:24px;width:100%;max-width:360px;text-align:center}
+.modal img{width:100%;max-width:260px;border-radius:12px;background:#fff;padding:10px;margin:16px auto;display:block}
+.code{font-family:ui-monospace,Consolas,monospace;font-size:26px;letter-spacing:6px;font-weight:700}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--panel2);border:1px solid var(--line);padding:10px 16px;border-radius:10px;z-index:30}
+</style>
 </head>
 <body>
-  <div class="container">
-    <header>
-      <h1>PTT Admin Console</h1>
-      <div id="authStatus" class="flex-row">
-        <span id="adminName" style="color: var(--text-dim);">Not logged in</span>
-        <button id="logoutBtn" class="btn btn-danger hidden" onclick="logout()">Logout</button>
+
+<section id="login">
+  <form class="login-card" id="loginForm">
+    <div class="logo"><i>&#9673;</i>Relay Control</div>
+    <p class="muted">Admin console for your closed team network.</p>
+    <label for="lname">Your name</label>
+    <input id="lname" required autocomplete="name" placeholder="e.g. Control Room">
+    <label for="lcode">Admin invite code</label>
+    <input id="lcode" required placeholder="6-letter code" style="text-transform:uppercase;letter-spacing:3px">
+    <button class="btn primary" style="width:100%;margin-top:20px">Sign in</button>
+    <div class="err" id="lerr"></div>
+  </form>
+</section>
+
+<section id="app" class="hidden">
+  <header>
+    <div class="logo"><i>&#9673;</i>Relay Control</div>
+    <span class="pill"><span class="dot on" id="liveDot"></span><span id="liveTxt">Live</span></span>
+    <div class="sp"></div>
+    <span class="muted" id="me"></span>
+    <button class="btn small" id="logout">Sign out</button>
+  </header>
+  <main>
+    <div>
+      <div class="stats">
+        <div class="stat"><span class="muted">Online now</span><b id="sOnline">0</b></div>
+        <div class="stat"><span class="muted">Talking now</span><b id="sTalk">0</b></div>
+        <div class="stat"><span class="muted">In nearby mode</span><b id="sNearby">0</b></div>
       </div>
-    </header>
-
-    <!-- Login Panel -->
-    <div id="loginCard" class="card" style="max-width: 400px; margin: 40px auto; width: 100%;">
-      <h2>Admin Login</h2>
-      <input type="text" id="adminCode" placeholder="Enter Admin Invite Code">
-      <input type="text" id="adminDisplayName" placeholder="Your Name (e.g. Supervisor)" value="Supervisor">
-      <button class="btn" style="width: 100%;" onclick="login()">Enter Dashboard</button>
-      <div id="loginErr" style="color: var(--danger); font-size: 0.85rem; margin-top: 8px;"></div>
-    </div>
-
-    <!-- Main Dashboard -->
-    <div id="dashboard" class="hidden">
-      <div class="grid">
-        <!-- Live Presence Table -->
-        <div class="card">
-          <h2>Live Users</h2>
-          <table>
-            <thead>
-              <tr><th>Name</th><th>Status</th><th>Last Seen</th><th>Action</th></tr>
-            </thead>
-            <tbody id="usersTableBody"></tbody>
-          </table>
-        </div>
-
-        <!-- Active Channels & Talker -->
-        <div class="card">
-          <h2>Active Channels & PTT Floor</h2>
-          <table>
-            <thead>
-              <tr><th>Channel</th><th>Active Talker</th><th>Online Members</th></tr>
-            </thead>
-            <tbody id="channelsTableBody"></tbody>
-          </table>
-        </div>
+      <div class="card">
+        <h2>Channels</h2>
+        <div class="chan-grid" id="chans"></div>
       </div>
-
-      <div class="grid" style="margin-top: 20px;">
-        <!-- Emergency / All Broadcast -->
-        <div class="card">
-          <h2>Broadcast Announcement</h2>
-          <select id="broadcastScope">
-            <option value="all">Broadcast to All</option>
-          </select>
-          <textarea id="broadcastText" rows="3" placeholder="Enter broadcast message..."></textarea>
-          <label class="checkbox-label">
-            <input type="checkbox" id="emergencyToggle">
-            <span style="color: var(--danger); font-weight: bold;">🚨 High-Priority Emergency Broadcast</span>
-          </label>
-          <button class="btn" onclick="sendBroadcast()">Send Broadcast</button>
-
-          <!-- Ack tracker -->
-          <div style="margin-top: 20px; border-top: 1px solid var(--border); padding-top: 12px;">
-            <h3>Acknowledgment Tracker</h3>
-            <div class="flex-row" style="margin-top: 8px;">
-              <input type="text" id="trackMsgId" placeholder="Message ID to track">
-              <button class="btn" style="white-space: nowrap;" onclick="trackAcks()">Check Acks</button>
-            </div>
-            <div id="ackResults" style="font-size: 0.85rem; margin-top: 8px;"></div>
-          </div>
-        </div>
-
-        <!-- Create Teams, Channels, Invites -->
-        <div class="card">
-          <h2>Admin Management</h2>
-          <div style="margin-bottom: 16px;">
-            <h3>Create Team</h3>
-            <div class="flex-row" style="margin-top: 6px;">
-              <input type="text" id="teamNameInput" placeholder="Team Name (e.g. Rescue 1)">
-              <button class="btn" onclick="createTeam()">Create</button>
-            </div>
-          </div>
-
-          <div style="margin-bottom: 16px;">
-            <h3>Create Channel</h3>
-            <select id="channelTeamSelect"></select>
-            <div class="flex-row">
-              <input type="text" id="channelNameInput" placeholder="Channel Name">
-              <select id="channelKindSelect" style="max-width: 110px;">
-                <option value="team">team</option>
-                <option value="zone">zone</option>
-                <option value="dm">dm</option>
-              </select>
-              <button class="btn" onclick="createChannel()">Create</button>
-            </div>
-          </div>
-
-          <div>
-            <h3>Generate QR Invite</h3>
-            <select id="inviteTeamSelect"></select>
-            <select id="inviteRoleSelect">
-              <option value="member">Member</option>
-              <option value="admin">Admin</option>
-            </select>
-            <button class="btn" style="width: 100%;" onclick="createInvite()">Generate QR Code</button>
-            <div id="qrResult" class="qr-container hidden">
-              <div id="inviteCodeDisplay" style="font-weight: bold; margin-bottom: 8px; font-size: 1.1rem; color: var(--primary);"></div>
-              <img id="qrImg" alt="QR Code">
-              <div id="payloadDisplay" style="font-size: 0.75rem; color: var(--text-dim); margin-top: 4px; word-break: break-all;"></div>
-            </div>
-          </div>
-        </div>
+      <div class="card">
+        <h2>Recent activity <span class="sp"></span><span class="tag warn">nearby = sent phone-to-phone while server was down</span></h2>
+        <div id="feed" class="feed"></div>
+      </div>
+      <div class="card">
+        <h2>People <span class="sp"></span><span class="muted" id="pCount"></span></h2>
+        <table>
+          <thead><tr><th>Name</th><th>Status</th><th>Last seen</th><th></th></tr></thead>
+          <tbody id="people"></tbody>
+        </table>
       </div>
     </div>
+
+    <aside>
+      <form class="card bc" id="bcForm">
+        <h2>Broadcast</h2>
+        <textarea id="bcText" required placeholder="Message to everyone…" aria-label="Broadcast message"></textarea>
+        <label for="bcScope">Send to</label>
+        <select id="bcScope"><option value="all">Everyone</option></select>
+        <label class="switch"><input type="checkbox" id="bcEmg"><span class="track"></span><span>Emergency alert <span class="muted">(full-screen, needs ack)</span></span></label>
+        <button class="btn primary" style="width:100%" id="bcBtn">Send broadcast</button>
+        <div id="ackBox" class="hidden" style="margin-top:18px">
+          <div class="row"><b id="ackTitle" style="flex:1">Acknowledgements</b><span id="ackNum" class="muted"></span></div>
+          <div class="bar"><i id="ackBar" style="width:0"></i></div>
+          <div class="acklist" id="ackList"></div>
+        </div>
+      </form>
+
+      <div class="card">
+        <h2>Setup</h2>
+        <form id="teamForm" class="row"><input id="teamName" required placeholder="New team name" aria-label="Team name"><button class="btn">Add</button></form>
+        <form id="chanForm">
+          <label for="chanTeam">Channel</label>
+          <select id="chanTeam" required></select>
+          <div class="row" style="margin-top:8px">
+            <input id="chanName" required placeholder="Channel name" aria-label="Channel name">
+            <select id="chanKind" style="width:110px" aria-label="Kind"><option value="team">Team</option><option value="zone">Zone</option></select>
+          </div>
+          <button class="btn" style="width:100%;margin-top:8px">Add channel</button>
+        </form>
+        <form id="invForm">
+          <label for="invTeam">Invite people</label>
+          <select id="invTeam" required></select>
+          <div class="row" style="margin-top:8px">
+            <select id="invRole" aria-label="Role"><option value="member">Member</option><option value="admin">Admin</option></select>
+            <input id="invMax" type="number" min="1" max="500" value="10" aria-label="How many people can join" title="How many people can join with this QR" style="width:90px">
+            <button class="btn primary" style="flex:none">Get QR</button>
+          </div>
+          <div class="muted" style="font-size:12px;margin-top:6px">One QR for the whole group · number = how many people can join</div>
+        </form>
+      </div>
+    </aside>
+  </main>
+</section>
+
+<div class="modal hidden" id="qrModal" role="dialog" aria-modal="true" aria-labelledby="qrTitle">
+  <div class="box">
+    <b id="qrTitle">Scan to join</b>
+    <img id="qrImg" alt="Invite QR code">
+    <div class="code" id="qrCode"></div>
+    <p class="muted" style="margin:8px 0 18px" id="qrHost"></p>
+    <button class="btn" id="qrClose" style="width:100%">Done</button>
   </div>
+</div>
 
-  <script>
-    let token = localStorage.getItem('ptt_admin_token') || '';
-    let pollInterval = null;
+<script>
+const $ = id => document.getElementById(id);
+let jwt = localStorage.getItem('adminJwt');
+let lastBroadcast = localStorage.getItem('lastBroadcast');
+let teams = [];
 
-    if (token) {
-      showDashboard();
-    }
+async function api(path, body, method) {
+  const r = await fetch(path, {
+    method: method || (body ? 'POST' : 'GET'),
+    headers: { 'Content-Type': 'application/json', ...(jwt ? { Authorization: 'Bearer ' + jwt } : {}) },
+    body: body ? JSON.stringify(body) : undefined,
+  });
+  if (r.status === 401 || r.status === 403) { if (path !== '/auth/join') logout(); throw new Error('Not allowed'); }
+  const j = await r.json().catch(() => ({}));
+  if (!r.ok) throw new Error(j.error || r.statusText);
+  return j;
+}
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const initials = n => esc(n.split(/\s+/).map(w => w[0]).join('').slice(0, 2).toUpperCase());
+function ago(t) {
+  if (!t) return '—';
+  const s = Math.floor(Date.now() / 1000 - t);
+  return s < 60 ? 'just now' : s < 3600 ? Math.floor(s / 60) + ' min ago' : Math.floor(s / 3600) + ' h ago';
+}
+function toast(msg) {
+  const d = document.createElement('div'); d.className = 'toast'; d.textContent = msg;
+  document.body.appendChild(d); setTimeout(() => d.remove(), 2500);
+}
 
-    async function login() {
-      const code = document.getElementById('adminCode').value.trim();
-      const name = document.getElementById('adminDisplayName').value.trim() || 'Admin';
-      const err = document.getElementById('loginErr');
-      err.innerText = '';
+$('loginForm').onsubmit = async e => {
+  e.preventDefault(); $('lerr').textContent = '';
+  try {
+    const r = await api('/auth/join', { code: $('lcode').value.trim(), name: $('lname').value.trim() });
+    if (r.user.role !== 'admin') throw new Error('That code is not an admin invite');
+    jwt = r.jwt; localStorage.setItem('adminJwt', jwt); localStorage.setItem('adminName', r.user.name);
+    start();
+  } catch (err) { $('lerr').textContent = err.message; }
+};
+function logout() {
+  jwt = null; localStorage.removeItem('adminJwt');
+  $('app').classList.add('hidden'); $('login').classList.remove('hidden');
+}
+$('logout').onclick = logout;
 
-      if (!code) {
-        err.innerText = 'Invite code is required';
-        return;
-      }
+async function loadTeams() {
+  teams = await api('/admin/teams');
+  const opts = teams.map(t => `<option value="${esc(t.id)}">${esc(t.name)}</option>`).join('');
+  $('chanTeam').innerHTML = opts; $('invTeam').innerHTML = opts;
+  $('bcScope').innerHTML = '<option value="all">Everyone</option>' + teams.map(t => `<option value="${esc(t.id)}">Team: ${esc(t.name)}</option>`).join('');
+}
 
-      try {
-        const res = await fetch('/auth/join', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ code, name })
-        });
-        const data = await res.json();
-        if (!res.ok || !data.jwt || data.user.role !== 'admin') {
-          err.innerText = data.error || 'Access denied: Must be admin invite';
-          return;
-        }
-        token = data.jwt;
-        localStorage.setItem('ptt_admin_token', token);
-        localStorage.setItem('ptt_admin_name', data.user.name);
-        showDashboard();
-      } catch (e) {
-        err.innerText = 'Connection error: ' + e.message;
-      }
-    }
+async function refresh() {
+  try {
+    const p = await api('/admin/presence');
+    $('liveDot').className = 'dot on'; $('liveTxt').textContent = 'Live';
+    const online = p.users.filter(u => u.online);
+    const talking = p.channels.filter(c => c.talker);
+    $('sOnline').textContent = online.length + ' / ' + p.users.length;
+    $('sTalk').textContent = talking.length;
+    $('sNearby').textContent = p.users.filter(u => u.offline_mode).length;
+    $('pCount').textContent = p.users.length + ' total';
+    $('chans').innerHTML = p.channels.length ? p.channels.map(c => `
+      <div class="chan ${c.talker ? 'live' : ''} ${c.talker && c.talker.priority >= 3 ? 'p3' : ''}">
+        <div class="team">${esc(c.team)}</div>
+        <div class="name">${esc(c.name)}</div>
+        <div class="talk">${c.talker
+          ? `<span class="wave"><i></i><i></i><i></i></span>${esc(c.talker.name)} is talking`
+          : `<span class="dot ${c.members_online ? 'on' : ''}"></span>${c.members_online} online`}</div>
+      </div>`).join('') : '<div class="empty">No channels yet. Add one in Setup.</div>';
+    p.users.sort((a, b) => b.online - a.online);
+    $('people').innerHTML = p.users.map(u => `
+      <tr>
+        <td><div class="who"><span class="av">${initials(u.name)}</span><span>${esc(u.name)}</span>${u.role === 'admin' ? '<span class="tag">admin</span>' : ''}</div></td>
+        <td><span class="pill" style="border:0;background:none;padding:0"><span class="dot ${u.offline_mode ? 'nearby' : u.online ? 'on' : ''}"></span>${u.offline_mode ? '<span class="tag warn">nearby mode</span>' : u.online ? 'Online' : 'Offline'}</span></td>
+        <td class="muted">${u.online ? 'now' : ago(u.last_seen)}</td>
+        <td style="text-align:right">${u.role === 'admin' ? '' : `<button class="btn small" data-revoke="${esc(u.id)}" data-name="${esc(u.name)}">Remove</button>`}</td>
+      </tr>`).join('');
+    const feed = await api('/admin/messages');
+    $('feed').innerHTML = feed.length ? feed.map(m => `
+      <div class="msg ${m.type === 'sos' ? 'sos' : ''}">
+        <span class="av">${initials(m.sender_name || '?')}</span>
+        <div class="body">
+          <div class="meta"><b style="color:var(--text)">${esc(m.sender_name)}</b> in ${esc(m.channel)} · ${new Date(m.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+            ${m.offline ? '<span class="tag warn">nearby</span>' : ''}${m.type === 'sos' ? '<span class="tag danger">SOS</span>' : ''}${m.type === 'broadcast' ? '<span class="tag">broadcast</span>' : ''}</div>
+          <div class="text">${m.type === 'image' ? '📷 Photo' : esc(m.body)}</div>
+        </div>
+      </div>`).join('') : '<div class="empty">No messages yet.</div>';
+    if (lastBroadcast) await refreshAcks();
+  } catch (err) {
+    $('liveDot').className = 'dot'; $('liveTxt').textContent = 'Reconnecting…';
+  }
+}
 
-    function logout() {
-      localStorage.removeItem('ptt_admin_token');
-      localStorage.removeItem('ptt_admin_name');
-      token = '';
-      if (pollInterval) clearInterval(pollInterval);
-      document.getElementById('loginCard').classList.remove('hidden');
-      document.getElementById('dashboard').classList.add('hidden');
-      document.getElementById('logoutBtn').classList.add('hidden');
-      document.getElementById('adminName').innerText = 'Not logged in';
-    }
+$('people').onclick = async e => {
+  const b = e.target.closest('[data-revoke]'); if (!b) return;
+  if (!confirm(`Remove ${b.dataset.name} from the network? Their phone is signed out.`)) return;
+  await api(`/admin/users/${b.dataset.revoke}/revoke`, {}); toast(b.dataset.name + ' removed'); refresh();
+};
 
-    function showDashboard() {
-      document.getElementById('loginCard').classList.add('hidden');
-      document.getElementById('dashboard').classList.remove('hidden');
-      document.getElementById('logoutBtn').classList.remove('hidden');
-      document.getElementById('adminName').innerText = localStorage.getItem('ptt_admin_name') || 'Admin';
+$('bcEmg').onchange = () => {
+  $('bcForm').classList.toggle('emg', $('bcEmg').checked);
+  $('bcBtn').className = 'btn ' + ($('bcEmg').checked ? 'danger' : 'primary');
+  $('bcBtn').textContent = $('bcEmg').checked ? 'Send EMERGENCY alert' : 'Send broadcast';
+};
+$('bcForm').onsubmit = async e => {
+  e.preventDefault();
+  const emergency = $('bcEmg').checked;
+  if (emergency && !confirm('Send a full-screen emergency alert?')) return;
+  const r = await api('/admin/broadcast', { text: $('bcText').value.trim(), scope: $('bcScope').value, emergency });
+  lastBroadcast = r.message_id; localStorage.setItem('lastBroadcast', lastBroadcast);
+  $('bcText').value = ''; toast(emergency ? 'Emergency alert sent' : 'Broadcast sent');
+  refreshAcks();
+};
+async function refreshAcks() {
+  try {
+    const a = await api('/admin/acks/' + lastBroadcast);
+    const total = a.acked.length + a.pending.length;
+    $('ackBox').classList.remove('hidden');
+    $('ackNum').textContent = `${a.acked.length} of ${total}`;
+    $('ackBar').style.width = total ? (100 * a.acked.length / total) + '%' : '0';
+    $('ackList').innerHTML = a.acked.map(u => `<span class="ok">&#10003; ${esc(u.name)}</span>`).join('') +
+      a.pending.map(u => `<span>${esc(u.name)}${u.online ? '' : ' · offline'}</span>`).join('');
+  } catch { $('ackBox').classList.add('hidden'); }
+}
 
-      loadPresence();
-      loadTeamsAndChannels();
-      pollInterval = setInterval(loadPresence, 2000);
-    }
+$('teamForm').onsubmit = async e => {
+  e.preventDefault(); await api('/admin/teams', { name: $('teamName').value.trim() });
+  $('teamName').value = ''; toast('Team added'); loadTeams();
+};
+$('chanForm').onsubmit = async e => {
+  e.preventDefault();
+  await api('/admin/channels', { team_id: $('chanTeam').value, name: $('chanName').value.trim(), kind: $('chanKind').value });
+  $('chanName').value = ''; toast('Channel added'); refresh();
+};
+$('invForm').onsubmit = async e => {
+  e.preventDefault();
+  const r = await api('/admin/invites', { team_id: $('invTeam').value, role: $('invRole').value, max_uses: parseInt($('invMax').value, 10) || 1 });
+  const p = JSON.parse(r.payload);
+  const team = $('invTeam').selectedOptions[0]?.textContent || '';
+  $('qrTitle').textContent = `Scan to join ${team}`;
+  $('qrImg').src = 'data:image/png;base64,' + r.qr_png_base64;
+  $('qrCode').textContent = r.code;
+  $('qrHost').textContent = `Up to ${r.max_uses} ${r.max_uses === 1 ? 'person' : 'people'} · server ${p.host}:${p.port} · 7 days`;
+  $('qrModal').classList.remove('hidden'); $('qrClose').focus();
+};
+$('qrClose').onclick = () => $('qrModal').classList.add('hidden');
+document.addEventListener('keydown', e => { if (e.key === 'Escape') $('qrModal').classList.add('hidden'); });
 
-    async function authFetch(url, options = {}) {
-      options.headers = options.headers || {};
-      options.headers['Authorization'] = 'Bearer ' + token;
-      const res = await fetch(url, options);
-      if (res.status === 401 || res.status === 403) {
-        logout();
-        throw new Error('Session expired or unauthorized');
-      }
-      return res;
-    }
-
-    async function loadPresence() {
-      if (!token) return;
-      try {
-        const res = await authFetch('/admin/presence');
-        const data = await res.json();
-
-        // Render Users
-        const uTbody = document.getElementById('usersTableBody');
-        uTbody.innerHTML = data.users.map(u => `
-          <tr>
-            <td><strong>${escapeHtml(u.name)}</strong></td>
-            <td><span class="status-badge ${u.online ? 'online' : 'offline'}">${u.online ? (u.offline_mode ? 'NEARBY' : 'ONLINE') : 'OFFLINE'}</span></td>
-            <td>${u.last_seen ? new Date(u.last_seen).toLocaleTimeString() : 'Never'}</td>
-            <td><button class="btn btn-danger" style="padding: 2px 8px; font-size: 0.75rem;" onclick="revokeUser('${u.id}')">Revoke</button></td>
-          </tr>
-        `).join('');
-
-        // Render Channels
-        const cTbody = document.getElementById('channelsTableBody');
-        cTbody.innerHTML = data.channels.map(c => `
-          <tr>
-            <td><strong>#${escapeHtml(c.name)}</strong> <span style="font-size:0.75rem; color:var(--text-dim);">(${c.kind})</span></td>
-            <td>${c.talker ? `<span class="status-badge talker-badge">🎤 ${escapeHtml(c.talker)}</span>` : '<span style="color:var(--text-dim);">Free</span>'}</td>
-            <td>${c.members_online} online</td>
-          </tr>
-        `).join('');
-      } catch (e) {
-        console.error(e);
-      }
-    }
-
-    async function loadTeamsAndChannels() {
-      try {
-        const [teamsRes, channelsRes] = await Promise.all([
-          authFetch('/admin/teams'),
-          authFetch('/admin/channels')
-        ]);
-        const teams = await teamsRes.json();
-        const channels = await channelsRes.json();
-
-        const scopeSelect = document.getElementById('broadcastScope');
-        scopeSelect.innerHTML = '<option value="all">Broadcast to All</option>' +
-          teams.map(t => `<option value="${t.id}">Team: ${escapeHtml(t.name)}</option>`).join('');
-
-        const chTeamSelect = document.getElementById('channelTeamSelect');
-        chTeamSelect.innerHTML = teams.map(t => `<option value="${t.id}">${escapeHtml(t.name)}</option>`).join('');
-
-        const invTeamSelect = document.getElementById('inviteTeamSelect');
-        invTeamSelect.innerHTML = teams.map(t => `<option value="${t.id}">${escapeHtml(t.name)}</option>`).join('');
-      } catch (e) {
-        console.error(e);
-      }
-    }
-
-    async function createTeam() {
-      const name = document.getElementById('teamNameInput').value.trim();
-      if (!name) return;
-      const res = await authFetch('/admin/teams', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name })
-      });
-      if (res.ok) {
-        document.getElementById('teamNameInput').value = '';
-        loadTeamsAndChannels();
-        loadPresence();
-      }
-    }
-
-    async function createChannel() {
-      const team_id = document.getElementById('channelTeamSelect').value;
-      const name = document.getElementById('channelNameInput').value.trim();
-      const kind = document.getElementById('channelKindSelect').value;
-      if (!name) return;
-      const res = await authFetch('/admin/channels', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ team_id, name, kind })
-      });
-      if (res.ok) {
-        document.getElementById('channelNameInput').value = '';
-        loadTeamsAndChannels();
-        loadPresence();
-      }
-    }
-
-    async function createInvite() {
-      const team_id = document.getElementById('inviteTeamSelect').value;
-      const role = document.getElementById('inviteRoleSelect').value;
-      const res = await authFetch('/admin/invites', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ team_id, role })
-      });
-      const data = await res.json();
-      if (res.ok) {
-        document.getElementById('qrResult').classList.remove('hidden');
-        document.getElementById('inviteCodeDisplay').innerText = 'Code: ' + data.code;
-        document.getElementById('qrImg').src = data.qr_png_base64;
-        document.getElementById('payloadDisplay').innerText = JSON.stringify(data.payload);
-      }
-    }
-
-    async function sendBroadcast() {
-      const text = document.getElementById('broadcastText').value.trim();
-      const scope = document.getElementById('broadcastScope').value;
-      const emergency = document.getElementById('emergencyToggle').checked;
-      if (!text) return;
-      const res = await authFetch('/admin/broadcast', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ text, scope, emergency })
-      });
-      const data = await res.json();
-      if (res.ok) {
-        document.getElementById('broadcastText').value = '';
-        document.getElementById('trackMsgId').value = data.message_id;
-        trackAcks();
-      }
-    }
-
-    async function trackAcks() {
-      const msgId = document.getElementById('trackMsgId').value.trim();
-      if (!msgId) return;
-      const res = await authFetch('/admin/acks/' + msgId);
-      const data = await res.json();
-      const out = document.getElementById('ackResults');
-      out.innerHTML = `
-        <div style="color: var(--success); margin-bottom: 4px;"><strong>Acknowledged (${data.acked.length}):</strong> ${data.acked.map(u => escapeHtml(u.name)).join(', ') || 'None yet'}</div>
-        <div style="color: var(--warning);"><strong>Pending (${data.pending.length}):</strong> ${data.pending.map(u => escapeHtml(u.name)).join(', ') || 'None'}</div>
-      `;
-    }
-
-    async function revokeUser(userId) {
-      if (!confirm('Are you sure you want to revoke this user?')) return;
-      const res = await authFetch('/admin/users/' + userId + '/revoke', { method: 'POST' });
-      if (res.ok) {
-        loadPresence();
-      }
-    }
-
-    function escapeHtml(str) {
-      if (!str) return '';
-      return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-    }
-  </script>
+let timer;
+async function start() {
+  $('login').classList.add('hidden'); $('app').classList.remove('hidden');
+  $('me').textContent = localStorage.getItem('adminName') || '';
+  try { await loadTeams(); } catch { return; }
+  refresh(); clearInterval(timer); timer = setInterval(refresh, 2000);
+}
+if (jwt) start();
+</script>
 </body>
 </html>

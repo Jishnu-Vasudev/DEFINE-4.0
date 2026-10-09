@@ -56,3 +56,8 @@ Each channel_id is a room. Everyone joins with mic muted. Token grants: roomJoin
 
 ## Nearby fallback payload (JSON over Nearby bytes)
 `{id, channel_id, type:"text"|"sos", body, created_at, sender_id, name}`; saved to local outbox with offline=1; synced via POST /messages when server is reachable.
+
+- Message objects in REST/WS responses also carry `sender_name` (joined from users) for display.
+- GET /admin/teams -> [{id,name,channels[]}] (admin dashboard dropdowns). Broadcast messages store scope (`all` or team_id) in channel_id.
+- GET /channels/:id/members -> [{id,name,role,online}] (member list for calling). Call rooms are named `call_<id>`; only the two parties get a LiveKit token. `call_invite.from` = {id,name}.
+- GET /admin/messages -> last 40 messages [{...message, channel}] newest first (dashboard activity feed, shows offline tag).
