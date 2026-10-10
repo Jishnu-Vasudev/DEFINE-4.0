@@ -1,28 +1,60 @@
 package main
 
 import (
+	"errors"
+	"net/http"
 	"path/filepath"
+	"strconv"
 	"strings"
 	"sync"
 
 	"github.com/gin-gonic/gin"
 )
 
-var imageExt = map[string]bool{".jpg": true, ".jpeg": true, ".png": true, ".webp": true, ".gif": true}
+// Allowed upload types: photos, video, audio and common documents.
+var mediaExt = map[string]bool{
+	".jpg": true, ".jpeg": true, ".png": true, ".webp": true, ".gif": true, ".heic": true,
+	".mp4": true, ".mov": true, ".3gp": true, ".webm": true, ".mkv": true,
+	".m4a": true, ".aac": true, ".mp3": true, ".wav": true, ".ogg": true, ".opus": true, ".amr": true, ".flac": true,
+	".pdf": true, ".txt": true, ".csv": true, ".doc": true, ".docx": true, ".xls": true, ".xlsx": true,
+	".ppt": true, ".pptx": true, ".odt": true, ".ods": true, ".rtf": true, ".zip": true,
+	".enc": true, // end-to-end encrypted blob; the server cannot see what is inside
+}
+
+// maxUpload is MAX_UPLOAD_MB (default 25) in bytes.
+func maxUpload() int64 {
+	mb, err := strconv.ParseInt(envOr("MAX_UPLOAD_MB", "25"), 10, 64)
+	if err != nil || mb < 1 {
+		mb = 25
+	}
+	return mb << 20
+}
+
+func getConfig(c *gin.Context) {
+	c.JSON(200, gin.H{"max_upload_bytes": maxUpload()})
+}
 
 func uploadMedia(c *gin.Context) {
+	limit := maxUpload()
+	tooBig := gin.H{"error": "file too large", "max_bytes": limit}
+	c.Request.Body = http.MaxBytesReader(c.Writer, c.Request.Body, limit+1<<20) // + room for multipart headers
 	f, err := c.FormFile("file")
 	if err != nil {
+		var mbe *http.MaxBytesError
+		if errors.As(err, &mbe) {
+			c.JSON(413, tooBig)
+			return
+		}
 		c.JSON(400, gin.H{"error": "file required"})
 		return
 	}
-	if f.Size > 15<<20 {
-		c.JSON(413, gin.H{"error": "file too large"})
+	if f.Size > limit {
+		c.JSON(413, tooBig)
 		return
 	}
 	ext := strings.ToLower(filepath.Ext(f.Filename))
-	if !imageExt[ext] {
-		c.JSON(400, gin.H{"error": "only images allowed"})
+	if !mediaExt[ext] {
+		c.JSON(400, gin.H{"error": "file type not allowed"})
 		return
 	}
 	name := newID() + ext
@@ -30,7 +62,7 @@ func uploadMedia(c *gin.Context) {
 		c.JSON(500, gin.H{"error": err.Error()})
 		return
 	}
-	c.JSON(200, gin.H{"media": name})
+	c.JSON(200, gin.H{"media": name, "size": f.Size})
 }
 
 func getMedia(c *gin.Context) {

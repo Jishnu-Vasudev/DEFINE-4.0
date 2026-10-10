@@ -15,6 +15,6 @@ func main() {
 	routes(r)
 
 	addr := "0.0.0.0:" + envOr("PORT", "3000")
-	log.Println("listening on " + addr)
+	log.Println("Bunny Hop server listening on " + addr)
 	log.Fatal(r.Run(addr))
 }

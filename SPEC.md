@@ -6,7 +6,7 @@ Replace walkie-talkies with a phone app on a closed LAN: push-to-talk (PTT), cha
 ## Stack (fixed)
 - Server: Go 1.22+, `gin-gonic/gin`, `gorilla/websocket`, `mattn/go-sqlite3`, `golang-jwt/jwt/v5`, `livekit/server-sdk-go`, `skip2/go-qrcode`
 - Voice: LiveKit server in Docker (`--dev` keys `devkey` / `secret`)
-- App: Flutter (Android), `livekit_client`, `provider`, `sqflite`, `nearby_connections`, `mobile_scanner`, `image_picker`, `http`, `web_socket_channel`, `permission_handler`, `flutter_foreground_task`
+- App: Flutter (Android), `livekit_client`, `provider`, `sqflite`, `nearby_connections`, `mobile_scanner`, `image_picker`, `http`, `web_socket_channel`, `permission_handler`, `flutter_foreground_task`, `file_picker`, `video_player`, `path_provider`, `open_filex` (added for video/audio/file attachments)
 - Admin: static HTML + vanilla JS served by the server at `/admin`
 - Media: saved to `server/uploads/`, served at `/media/:file` (JWT required)
 

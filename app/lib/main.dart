@@ -4,8 +4,7 @@ import 'package:provider/provider.dart';
 
 import 'app_state.dart';
 import 'ptt.dart';
-import 'screens/channels_screen.dart';
-import 'screens/join_screen.dart';
+import 'screens/splash_screen.dart';
 import 'theme.dart';
 import 'widgets/alert_overlay.dart';
 import 'widgets/incoming_call.dart';
@@ -29,18 +28,14 @@ class RelayApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final s = context.watch<AppState>();
+    context.watch<AppState>(); // theme switches rebuild the app
     return MaterialApp(
-      title: 'Relay',
+      title: 'Bunny Hop',
       debugShowCheckedModeBanner: false,
       theme: appTheme(),
       navigatorKey: navigatorKey,
       builder: (_, child) => Stack(children: [child!, const IncomingCall(), const AlertOverlay()]),
-      home: !s.ready
-          ? const Scaffold(body: Center(child: CircularProgressIndicator()))
-          : s.loggedIn
-          ? const ChannelsScreen()
-          : const JoinScreen(),
+      home: const SplashGate(),
     );
   }
 }

@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 
 import '../app_state.dart';
 import '../theme.dart';
+import 'media_views.dart';
 
 class MessageBubble extends StatelessWidget {
   final Map<String, dynamic> m;
@@ -23,7 +24,7 @@ class MessageBubble extends StatelessWidget {
         margin: EdgeInsets.only(top: showName ? 10 : 2, left: mine ? 56 : 0, right: mine ? 0 : 56),
         padding: const EdgeInsets.fromLTRB(14, 8, 12, 6),
         decoration: BoxDecoration(
-          color: mine ? const Color(0xFF14463A) : C.panel2,
+          color: mine ? C.mine : C.panel2,
           borderRadius: BorderRadius.only(
             topLeft: const Radius.circular(18),
             topRight: const Radius.circular(18),
@@ -47,18 +48,44 @@ class MessageBubble extends StatelessWidget {
               Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Icon(Icons.sos_rounded, color: C.danger),
+                  Icon(Icons.sos_rounded, color: C.danger),
                   const SizedBox(width: 8),
                   Flexible(
                     child: Text(
                       m['body'] ?? '',
-                      style: const TextStyle(color: C.danger, fontWeight: FontWeight.w700, fontSize: 15.5),
+                      style: TextStyle(color: C.danger, fontWeight: FontWeight.w700, fontSize: 15.5),
                     ),
                   ),
                 ],
               )
-            else if (m['type'] == 'image')
-              Padding(padding: const EdgeInsets.only(top: 2, bottom: 4), child: _Photo(m['media'] as String? ?? ''))
+            else if (m['type'] == 'pending' || m['type'] == 'undecryptable')
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(m['type'] == 'pending' ? Icons.lock_clock_outlined : Icons.lock_outline_rounded, size: 16, color: C.muted),
+                  const SizedBox(width: 6),
+                  Flexible(
+                    child: Text(
+                      m['type'] == 'pending' ? "Waiting for the sender's key…" : "This message can't be decrypted on this phone",
+                      style: TextStyle(color: C.muted, fontStyle: FontStyle.italic),
+                    ),
+                  ),
+                ],
+              )
+            else if (const {'image', 'video', 'audio', 'file'}.contains(m['type']))
+              Padding(
+                padding: const EdgeInsets.only(top: 2, bottom: 4),
+                child: E2eMedia(
+                  media: m['media'] as String? ?? '',
+                  name: (m['body'] as String?)?.isNotEmpty == true ? m['body'] : '${m['id']}.${m['type'] == 'image' ? 'jpg' : 'bin'}',
+                  builder: (media) => switch (m['type']) {
+                    'image' => _Photo(media),
+                    'video' => VideoTile(media, m['body'] as String? ?? ''),
+                    'audio' => AudioTile(media, m['body'] as String? ?? ''),
+                    _ => FileTile(media, m['body'] as String? ?? ''),
+                  },
+                ),
+              )
             else
               Text(m['body'] ?? '', style: const TextStyle(fontSize: 15.5, height: 1.3)),
             const SizedBox(height: 2),
@@ -66,11 +93,11 @@ class MessageBubble extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 if (m['offline'] == 1)
-                  const Padding(
+                  Padding(
                     padding: EdgeInsets.only(right: 4),
                     child: Icon(Icons.wifi_off, size: 12, color: C.warn),
                   ),
-                Text(time, style: const TextStyle(fontSize: 11, color: C.muted)),
+                Text(time, style: TextStyle(fontSize: 11, color: C.muted)),
                 if (mine) ...[const SizedBox(width: 4), _Status(m['status'] as String? ?? 'queued')],
               ],
             ),
@@ -96,7 +123,7 @@ class _Photo extends StatelessWidget {
             headers: api.authHeader,
             fit: BoxFit.cover,
             loadingBuilder: (_, child, p) => p == null ? child : const Center(child: CircularProgressIndicator(strokeWidth: 2)),
-            errorBuilder: (_, _, _) => const Center(child: Icon(Icons.broken_image_outlined, color: C.muted)),
+            errorBuilder: (_, _, _) => Center(child: Icon(Icons.broken_image_outlined, color: C.muted)),
           );
     return GestureDetector(
       onTap: () => Navigator.push(
@@ -126,6 +153,7 @@ class _Status extends StatelessWidget {
     final (icon, color, label) = switch (s) {
       'sent' => (Icons.done, C.muted, 'Sent'),
       'delivered' => (Icons.done_all, C.accent, 'Delivered'),
+      'failed' => (Icons.error_outline, C.danger, 'Not sent: too large or not allowed'),
       _ => (Icons.schedule, C.warn, 'Queued'),
     };
     return Tooltip(

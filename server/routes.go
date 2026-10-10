@@ -28,10 +28,28 @@ func routes(r *gin.Engine) {
 	a.GET("/media/:file", getMedia)
 	a.POST("/call/invite", callInvite)
 	a.GET("/channels/:id/members", channelMembers)
+	a.POST("/channels/join", joinChannel)
+	a.POST("/channels/:id/leave", leaveChannel)
+	a.GET("/config", getConfig)
+	a.PUT("/keys", putKeys)
+	a.GET("/keys/count", keyCount)
+	a.GET("/keys/inbox", keyInbox)
+	a.POST("/keys/ack", ackKeyMsgs)
+	a.POST("/keys/send", sendKeyMsg)
+	a.GET("/keys/user/:uid", getBundle)
+	a.POST("/dm", openDM)
+	a.POST("/bundles", postBundles)
+	a.GET("/audit-key", getAuditKey)
 
 	ad := a.Group("/admin", adminMW)
 	ad.POST("/teams", createTeam)
 	ad.POST("/channels", createChannel)
+	ad.GET("/channels/:id", channelDetails)
+	ad.DELETE("/channels/:id", deleteChannel)
+	ad.GET("/channels/:id/stats", channelStats)
+	ad.PUT("/audit-key", putAuditKey)
+	ad.GET("/audit/queue", auditQueue)
+	ad.POST("/audit/flags", postAuditFlags)
 	ad.POST("/invites", createInvite)
 	adminRoutes(ad)
 
@@ -87,12 +105,14 @@ func createChannel(c *gin.Context) {
 		return
 	}
 	in.ID = newID()
-	db.Exec("INSERT INTO channels(id,team_id,name,kind) VALUES(?,?,?,?)", in.ID, in.TeamID, in.Name, in.Kind)
-	// existing team members and all admins join new team/zone channels
-	db.Exec(`INSERT OR IGNORE INTO members(user_id,channel_id)
-		SELECT DISTINCT m.user_id, ? FROM members m JOIN channels c ON c.id=m.channel_id WHERE c.team_id=?
-		UNION SELECT id, ? FROM users WHERE role='admin'`, in.ID, in.TeamID, in.ID)
-	c.JSON(200, in)
+	code := ""
+	if in.Kind != "dm" {
+		code = uniqueCode()
+	}
+	db.Exec("INSERT INTO channels(id,team_id,name,kind,invite_code) VALUES(?,?,?,?,NULLIF(?,''))", in.ID, in.TeamID, in.Name, in.Kind, code)
+	// a new channel starts with exactly one admin: its creator; everyone else joins with its code
+	db.Exec("INSERT OR IGNORE INTO members(user_id,channel_id) VALUES(?,?)", c.GetString("uid"), in.ID)
+	c.JSON(200, gin.H{"id": in.ID, "team_id": in.TeamID, "name": in.Name, "kind": in.Kind, "invite_code": code})
 }
 
 func createInvite(c *gin.Context) {

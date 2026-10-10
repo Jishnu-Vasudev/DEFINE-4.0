@@ -27,6 +27,18 @@ class Api {
   Future<dynamic> post(String path, Map<String, dynamic> body) async =>
       _decode(await http.post(Uri.parse('$base$path'), headers: _headers, body: jsonEncode(body)).timeout(const Duration(seconds: 8)));
 
+  Future<dynamic> put(String path, Map<String, dynamic> body) async =>
+      _decode(await http.put(Uri.parse('$base$path'), headers: _headers, body: jsonEncode(body)).timeout(const Duration(seconds: 15)));
+
+  Future<List<int>> download(String file) async {
+    final r = await http.get(Uri.parse(mediaUrl(file)), headers: authHeader).timeout(const Duration(minutes: 3));
+    if (r.statusCode != 200) throw ApiError(r.statusCode, 'download failed');
+    return r.bodyBytes;
+  }
+
+  Future<dynamic> delete(String path) async =>
+      _decode(await http.delete(Uri.parse('$base$path'), headers: _headers).timeout(const Duration(seconds: 8)));
+
   Future<bool> health() async {
     try {
       final r = await http.get(Uri.parse('$base/health')).timeout(const Duration(seconds: 3));
@@ -43,7 +55,7 @@ class Api {
     final req = http.MultipartRequest('POST', Uri.parse('$base/media'))
       ..headers.addAll(authHeader)
       ..files.add(await http.MultipartFile.fromPath('file', path));
-    final r = await http.Response.fromStream(await req.send().timeout(const Duration(seconds: 30)));
+    final r = await http.Response.fromStream(await req.send().timeout(const Duration(minutes: 3)));
     return _decode(r)['media'];
   }
 

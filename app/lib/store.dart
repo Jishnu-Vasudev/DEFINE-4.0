@@ -53,6 +53,18 @@ class Store {
   Future<List<Map<String, dynamic>>> messages(String channelId) =>
       db.query('messages', where: 'channel_id=?', whereArgs: [channelId], orderBy: 'created_at');
 
+  // Replace a row's content once an encrypted message has been opened.
+  Future<void> setContent(String id, String type, String body, String media) =>
+      db.update('messages', {'type': type, 'body': body, 'media': media}, where: 'id=?', whereArgs: [id]);
+
+  // Encrypted messages still waiting for the sender's key (kept as ciphertext in body/media).
+  Future<List<Map<String, dynamic>>> pending(String channelId) =>
+      db.query('messages', where: "channel_id=? AND type='pending'", whereArgs: [channelId], orderBy: 'created_at');
+
+  Future<bool> exists(String id) async => (await db.query('messages', columns: ['id'], where: 'id=?', whereArgs: [id])).isNotEmpty;
+
+  Future<void> deleteChannel(String channelId) => db.delete('messages', where: 'channel_id=?', whereArgs: [channelId]);
+
   Future<List<Map<String, dynamic>>> queued() => db.query('messages', where: "status='queued'", orderBy: 'created_at');
 
   Future<int> maxSeq(String channelId) async {

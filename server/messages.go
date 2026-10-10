@@ -19,6 +19,7 @@ type message struct {
 	Media      string `json:"media"`
 	CreatedAt  int64  `json:"created_at"`
 	Offline    int    `json:"offline"`
+	Audit      string `json:"audit,omitempty"` // sealed to the org audit key; only accepted on POST, never sent to clients
 }
 
 const msgCols = `m.seq, m.id, m.channel_id, m.sender_id, COALESCE(u.name,''), m.type, COALESCE(m.body,''),
@@ -36,7 +37,7 @@ func isMember(uid, channelID string) bool {
 	return n > 0
 }
 
-var userMsgTypes = map[string]bool{"text": true, "image": true, "sos": true, "ptt_clip": true}
+var userMsgTypes = map[string]bool{"text": true, "image": true, "video": true, "audio": true, "file": true, "enc": true, "sos": true, "ptt_clip": true}
 
 func postMessage(c *gin.Context) {
 	var in message
@@ -52,8 +53,8 @@ func postMessage(c *gin.Context) {
 	if in.CreatedAt == 0 {
 		in.CreatedAt = time.Now().UnixMilli()
 	}
-	res, err := db.Exec(`INSERT OR IGNORE INTO messages(id,channel_id,sender_id,type,body,media,created_at,offline)
-		VALUES(?,?,?,?,?,?,?,?)`, in.ID, in.ChannelID, uid, in.Type, in.Body, in.Media, in.CreatedAt, in.Offline)
+	res, err := db.Exec(`INSERT OR IGNORE INTO messages(id,channel_id,sender_id,type,body,media,created_at,offline,audit)
+		VALUES(?,?,?,?,?,?,?,?,NULLIF(?,''))`, in.ID, in.ChannelID, uid, in.Type, in.Body, in.Media, in.CreatedAt, in.Offline, in.Audit)
 	if err != nil {
 		c.JSON(500, gin.H{"error": err.Error()})
 		return

@@ -7,6 +7,8 @@ import 'package:livekit_client/livekit_client.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import 'app_state.dart';
+import 'audio_config.dart';
+import 'hw_ptt.dart';
 
 class Talker {
   final String userId, name;
@@ -26,6 +28,7 @@ class Ptt extends ChangeNotifier {
   Map<String, dynamic>? alert; // pending broadcast shown full-screen
   bool alertEmergency = false;
   Map<String, dynamic>? incomingCall; // {room, name} while ringing
+  String? preemptNotice; // "X took over" after the server force-muted me; shown once by PttButton
 
   void clearIncoming() {
     incomingCall = null;
@@ -36,6 +39,7 @@ class Ptt extends ChangeNotifier {
   bool _started = false;
 
   Ptt(this.app) {
+    HwPtt(app, this);
     _sub = app.events.listen(_onEvent);
     app.addListener(_onApp);
     _onApp();
@@ -58,6 +62,7 @@ class Ptt extends ChangeNotifier {
   }
 
   Future<void> _start() async {
+    await configureVoiceAudioSession();
     await Permission.microphone.request();
     await Permission.notification.request();
     try {
@@ -76,7 +81,7 @@ class Ptt extends ChangeNotifier {
     FlutterForegroundTask.init(
       androidNotificationOptions: AndroidNotificationOptions(
         channelId: 'relay_live',
-        channelName: 'Relay live audio',
+        channelName: 'Bunny Hop live audio',
         channelDescription: 'Keeps push-to-talk working while the screen is off.',
         onlyAlertOnce: true,
       ),
@@ -90,7 +95,7 @@ class Ptt extends ChangeNotifier {
     if (await FlutterForegroundTask.isRunningService) return;
     await FlutterForegroundTask.startService(
       serviceTypes: [ForegroundServiceTypes.microphone],
-      notificationTitle: 'Relay is on',
+      notificationTitle: 'Bunny Hop is on',
       notificationText: 'Listening to your team channels',
       callback: startCallback,
     );
@@ -101,11 +106,14 @@ class Ptt extends ChangeNotifier {
     if (!_joining.add(channelId)) return null;
     try {
       final t = await app.api!.get('/livekit/token?room=$channelId');
-      final room = Room();
+      final room = Room(roomOptions: voiceRoomOptions());
       await room.connect(t['url'], t['token']);
       _rooms[channelId] = room;
       // dropped rooms are forgotten so the 20 s sync rejoins them
-      room.createListener().on<RoomDisconnectedEvent>((_) => _rooms.remove(channelId));
+      room.createListener().on<RoomDisconnectedEvent>((_) {
+        _rooms.remove(channelId);
+        _warm.remove(channelId);
+      });
       // walkie-talkie audio belongs on the loudspeaker, not the earpiece
       await AudioManager.instance.setSpeakerOutputPreferred(true);
       return room;
@@ -121,9 +129,34 @@ class Ptt extends ChangeNotifier {
     for (final c in app.channels) {
       _join(c['id']);
     }
+    // leave rooms of channels that were deleted or left
+    for (final id in _rooms.keys.where((id) => !app.channels.any((c) => c['id'] == id)).toList()) {
+      _rooms.remove(id)?.disconnect();
+      _warm.remove(id);
+    }
   }
 
   bool _holding = false; // finger still on the button
+  final Set<String> _warm = {};
+
+  // Called when a channel is opened: publish the mic track muted so a press only un-mutes it.
+  Future<void> prewarm(String channelId) async {
+    if (!_warm.add(channelId)) return;
+    final room = await _join(channelId);
+    final lp = room?.localParticipant;
+    if (lp == null) {
+      _warm.remove(channelId);
+      return;
+    }
+    try {
+      if (talkingIn == channelId) return;
+      await lp.setMicrophoneEnabled(true);
+      if (talkingIn != channelId) await lp.setMicrophoneEnabled(false);
+    } catch (e) {
+      _warm.remove(channelId);
+      debugPrint('mic prewarm failed: $e');
+    }
+  }
 
   Future<PttResult> press(String channelId, {int priority = 1}) async {
     _holding = true;
@@ -182,6 +215,16 @@ class Ptt extends ChangeNotifier {
         alertEmergency = true;
         HapticFeedback.vibrate();
         notifyListeners();
+      case 'force_mute':
+        // a higher-priority talker took the floor: stop transmitting immediately
+        final ch = e['channel_id'] as String;
+        if (talkingIn == ch) _mute(ch);
+        _holding = false;
+        preemptNotice = '${e['by'] ?? 'Someone'} took over${(e['priority'] ?? 1) >= 3 ? ' (emergency)' : ''}';
+        HapticFeedback.heavyImpact();
+        notifyListeners();
+      case 'emergency_override':
+        if (e['user_id'] != app.userId) HapticFeedback.vibrate();
       case 'call_invite':
         incomingCall = {'room': e['room'], 'name': (e['from'] as Map?)?['name'] ?? 'Someone'};
         HapticFeedback.vibrate();

@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import '../app_state.dart';
 import '../screens/call_screen.dart';
 import '../theme.dart';
+import 'channel_nav.dart';
 
 class MembersSheet extends StatelessWidget {
   final String channelId;
@@ -25,6 +26,19 @@ class MembersSheet extends StatelessWidget {
     }
   }
 
+  Future<void> _message(BuildContext context, Map m) async {
+    final s = context.read<AppState>();
+    final nav = Navigator.of(context);
+    try {
+      final ch = Map<String, dynamic>.from(await s.api!.post('/dm', {'user_id': m['id']}));
+      await s.refreshChannels();
+      nav.pop();
+      if (nav.mounted) openChannel(nav.context, ch, replace: true);
+    } catch (_) {
+      if (context.mounted) ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Can't open a chat right now")));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final s = context.read<AppState>();
@@ -41,12 +55,12 @@ class MembersSheet extends StatelessWidget {
             child: ListView(
               shrinkWrap: true,
               children: [
-                const Padding(
+                Padding(
                   padding: EdgeInsets.fromLTRB(20, 0, 20, 8),
                   child: Text('People in this channel', style: TextStyle(color: C.muted)),
                 ),
                 if (list.isEmpty)
-                  const ListTile(
+                  ListTile(
                     title: Text('Nobody else yet', style: TextStyle(color: C.muted)),
                   ),
                 for (final m in list)
@@ -73,11 +87,22 @@ class MembersSheet extends StatelessWidget {
                       ],
                     ),
                     title: Text(m['name']),
-                    subtitle: Text(m['online'] == true ? 'Online' : 'Offline', style: const TextStyle(color: C.muted)),
-                    trailing: IconButton.filledTonal(
-                      tooltip: 'Call ${m['name']}',
-                      onPressed: m['online'] == true ? () => _call(context, m) : null,
-                      icon: const Icon(Icons.call_rounded),
+                    subtitle: Text(m['online'] == true ? 'Online' : 'Offline', style: TextStyle(color: C.muted)),
+                    trailing: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        IconButton.filledTonal(
+                          tooltip: 'Message ${m['name']}',
+                          onPressed: () => _message(context, m),
+                          icon: const Icon(Icons.chat_bubble_outline_rounded),
+                        ),
+                        const SizedBox(width: 6),
+                        IconButton.filledTonal(
+                          tooltip: 'Call ${m['name']}',
+                          onPressed: m['online'] == true ? () => _call(context, m) : null,
+                          icon: const Icon(Icons.call_rounded),
+                        ),
+                      ],
                     ),
                   ),
               ],

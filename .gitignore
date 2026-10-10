@@ -12,3 +12,8 @@ uploads/
 server/old-test-db
 app/build/
 .dart_tool/
+server/backup/
+.claude/skills/
+scripts/audit/.venv/
+scripts/audit/data/
+scripts/audit/__pycache__/

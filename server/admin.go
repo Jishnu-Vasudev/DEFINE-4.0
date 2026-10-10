@@ -20,12 +20,17 @@ func adminRoutes(ad *gin.RouterGroup) {
 func recentMessages(c *gin.Context) {
 	type row struct {
 		message
-		Channel string `json:"channel"`
+		Channel    string `json:"channel"`
+		RelayedVia string `json:"relayed_via,omitempty"`
+		Flags      string `json:"flags,omitempty"`
+		Severity   int    `json:"severity,omitempty"`
 	}
 	out := []row{}
 	rows, err := db.Query(`SELECT m.seq, m.id, m.channel_id, m.sender_id, COALESCE(u.name,''), m.type, COALESCE(m.body,''),
-		COALESCE(m.media,''), m.created_at, m.offline, COALESCE(ch.name, CASE m.channel_id WHEN 'all' THEN 'Everyone' ELSE 'Team' END)
+		COALESCE(m.media,''), m.created_at, m.offline, COALESCE(ch.name, CASE m.channel_id WHEN 'all' THEN 'Everyone' ELSE 'Team' END),
+		COALESCE(r.name,''), COALESCE(f.flags,''), COALESCE(f.severity,0)
 		FROM messages m LEFT JOIN users u ON u.id=m.sender_id LEFT JOIN channels ch ON ch.id=m.channel_id
+		LEFT JOIN users r ON r.id=m.relayed_by LEFT JOIN audit_flags f ON f.message_id=m.id
 		ORDER BY m.seq DESC LIMIT 40`)
 	if err != nil {
 		c.JSON(500, gin.H{"error": err.Error()})
@@ -35,7 +40,7 @@ func recentMessages(c *gin.Context) {
 	for rows.Next() {
 		var r row
 		m := &r.message
-		if rows.Scan(&m.Seq, &m.ID, &m.ChannelID, &m.SenderID, &m.SenderName, &m.Type, &m.Body, &m.Media, &m.CreatedAt, &m.Offline, &r.Channel) == nil {
+		if rows.Scan(&m.Seq, &m.ID, &m.ChannelID, &m.SenderID, &m.SenderName, &m.Type, &m.Body, &m.Media, &m.CreatedAt, &m.Offline, &r.Channel, &r.RelayedVia, &r.Flags, &r.Severity) == nil {
 			out = append(out, r)
 		}
 	}

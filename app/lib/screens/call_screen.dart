@@ -2,9 +2,11 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:livekit_client/livekit_client.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 
 import '../app_state.dart';
+import '../audio_config.dart';
 import '../theme.dart';
 
 // 1:1 voice call in its own LiveKit room. Hang-up is detected when the other side leaves the room.
@@ -17,10 +19,10 @@ class CallScreen extends StatefulWidget {
 }
 
 class _CallScreenState extends State<CallScreen> {
-  final _room = Room();
+  final _room = Room(roomOptions: voiceRoomOptions());
   EventsListener<RoomEvent>? _events;
-  String _status = 'Connectingâ€¦';
-  bool _live = false, _muted = false, _speaker = false, _ended = false;
+  String _status = 'Connecting…';
+  bool _live = false, _muted = false, _speaker = true, _ended = false;
   final _clock = Stopwatch();
   Timer? _tick, _noAnswer;
 
@@ -31,22 +33,40 @@ class _CallScreenState extends State<CallScreen> {
   }
 
   Future<void> _start() async {
+    final api = context.read<AppState>().api!;
+    if (!await Permission.microphone.request().isGranted) return _end('Microphone permission is off');
+    Map t;
     try {
-      final t = await context.read<AppState>().api!.get('/livekit/token?room=${widget.room}');
-      _events = _room.createListener()
-        ..on<ParticipantConnectedEvent>((_) => _connected())
-        ..on<ParticipantDisconnectedEvent>((_) => _end('Call ended'))
-        ..on<RoomDisconnectedEvent>((_) => _end('Call ended'));
+      t = await api.get('/livekit/token?room=${widget.room}');
+    } catch (e) {
+      return _end('Call failed: $e');
+    }
+    _events = _room.createListener()
+      ..on<ParticipantConnectedEvent>((_) => _connected())
+      ..on<TrackSubscribedEvent>((_) => _connected())
+      ..on<ParticipantDisconnectedEvent>((_) => _end('Call ended'))
+      ..on<RoomDisconnectedEvent>((e) => _end(e.reason == DisconnectReason.clientInitiated ? 'Call ended' : 'Connection lost'));
+    try {
       await _room.connect(t['url'], t['token']);
+    } catch (e) {
+      // usually LiveKit unreachable: wrong NODE_IP, firewall on 7880/7881/UDP 50000-50100
+      return _end('Voice server unreachable (${t['url']})');
+    }
+    try {
+      await AudioManager.instance.setSpeakerOutputPreferred(true);
       await _room.localParticipant?.setMicrophoneEnabled(true);
+    } catch (e) {
+      return _end('Microphone error: $e');
+    }
+    try {
       if (_room.remoteParticipants.isNotEmpty) {
         _connected();
       } else {
-        setState(() => _status = widget.outgoing ? 'Ringingâ€¦' : 'Connectingâ€¦');
+        setState(() => _status = widget.outgoing ? 'Ringing…' : 'Connecting…');
         _noAnswer = Timer(const Duration(seconds: 30), () => _end('No answer'));
       }
-    } catch (_) {
-      _end('Call failed');
+    } catch (e) {
+      _end('Call failed: $e');
     }
   }
 
@@ -66,7 +86,9 @@ class _CallScreenState extends State<CallScreen> {
     _clock.stop();
     if (mounted) setState(() => _status = why);
     await _room.disconnect();
-    await Future.delayed(const Duration(milliseconds: 900));
+    // speaker is a global setting: always hand the loudspeaker back to push-to-talk
+    await AudioManager.instance.setSpeakerOutputPreferred(true);
+    await Future.delayed(Duration(milliseconds: why.length > 14 ? 2600 : 900));
     if (mounted) Navigator.pop(context);
   }
 
@@ -91,8 +113,8 @@ class _CallScreenState extends State<CallScreen> {
       canPop: _ended,
       child: Scaffold(
         body: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [Color(0xFF0F2A24), C.bg]),
+          decoration: BoxDecoration(
+            gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [Color(0xFF3A1A0B), C.bg]),
           ),
           child: SafeArea(
             child: Column(
@@ -189,7 +211,7 @@ class _RoundBtn extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 8),
-        Text(label, style: const TextStyle(color: C.muted, fontSize: 13)),
+        Text(label, style: TextStyle(color: C.muted, fontSize: 13)),
       ],
     );
   }

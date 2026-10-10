@@ -9,6 +9,13 @@ import (
 
 const floorTimeout = 30 * time.Second
 
+// Floor priorities; a higher one pre-empts a lower one.
+const (
+	PriorityRoutine   = 1
+	PriorityOps       = 2 // admin broadcast
+	PriorityEmergency = 3
+)
+
 type floorHold struct {
 	UserID   string
 	Name     string
@@ -72,7 +79,13 @@ func requestFloor(ch, uid, name string, prio int) (bool, *floorHold) {
 	floorMu.Unlock()
 
 	if cur != nil && cur.UserID != uid {
-		floorEvent(ch, "released", cur) // pre-empted
+		// pre-empted: tell the old talker to stop, cut their audio at the SFU too
+		floorEvent(ch, "released", cur)
+		sendToUser(cur.UserID, gin.H{"t": "force_mute", "channel_id": ch, "by": name, "priority": prio})
+		go lkMuteParticipant(ch, cur.UserID)
+	}
+	if prio >= PriorityEmergency {
+		sendToChannel(ch, gin.H{"t": "emergency_override", "channel_id": ch, "user_id": uid, "name": name})
 	}
 	floorEvent(ch, "granted", h)
 	return true, h

@@ -19,19 +19,23 @@ class ConnBanner extends StatelessWidget {
         padding: const EdgeInsets.fromLTRB(20, 8, 12, 8),
         child: Row(
           children: [
-            const Icon(Icons.wifi_tethering_error_rounded, color: C.danger, size: 20),
+            Icon(Icons.wifi_tethering_error_rounded, color: C.danger, size: 20),
             const SizedBox(width: 10),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
+                  Text(
                     'Server lost: nearby mode',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                     style: TextStyle(color: C.danger, fontWeight: FontWeight.w700),
                   ),
                   Text(
-                    n == 0 ? 'Looking for phones nearby…' : '$n phone${n == 1 ? '' : 's'} nearby · text and SOS only',
-                    style: const TextStyle(color: C.muted, fontSize: 12),
+                    n == 0 ? s.meshStatus : '$n phone${n == 1 ? '' : 's'} nearby · text and SOS only',
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(color: C.muted, fontSize: 12),
                   ),
                 ],
               ),
@@ -54,11 +58,19 @@ class ConnBanner extends StatelessWidget {
         width: double.infinity,
         color: C.warn.withValues(alpha: .15),
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-        child: const Row(
+        child: Row(
           children: [
             SizedBox(width: 14, height: 14, child: CircularProgressIndicator(strokeWidth: 2, color: C.warn)),
-            SizedBox(width: 10),
-            Text('Reconnecting… messages will send when back', style: TextStyle(color: C.warn, fontSize: 13)),
+            const SizedBox(width: 10),
+            // Expanded + ellipsis: never overflows on narrow phones or with large system fonts
+            Expanded(
+              child: Text(
+                'Reconnecting… messages will send when back',
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(color: C.warn, fontSize: 13),
+              ),
+            ),
           ],
         ),
       );
@@ -73,7 +85,7 @@ Future<void> _confirmSos(BuildContext context) async {
   final ok = await showDialog<bool>(
     context: context,
     builder: (c) => AlertDialog(
-      icon: const Icon(Icons.sos_rounded, color: C.danger, size: 40),
+      icon: Icon(Icons.sos_rounded, color: C.danger, size: 40),
       title: const Text('Send SOS?'),
       content: const Text('Every nearby teammate gets a full-screen alert. Control sees it when the server is back.'),
       actions: [

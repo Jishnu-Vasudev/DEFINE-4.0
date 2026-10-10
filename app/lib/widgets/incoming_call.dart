@@ -53,7 +53,7 @@ class _IncomingCallState extends State<IncomingCall> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(call['name'], style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 16)),
-                    const Text('Incoming voice call', style: TextStyle(color: C.muted)),
+                    Text('Incoming voice call', style: TextStyle(color: C.muted)),
                   ],
                 ),
               ),

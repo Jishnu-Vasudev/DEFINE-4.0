@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ptt_accessibility_label">Bunny Hop volume-key talk</string>
+    <string name="ptt_accessibility_desc">Lets you hold a volume key to talk on your Bunny Hop channel, even on the lock screen. Bunny Hop only listens to the volume keys while you have this turned on in the app; it does not read your screen.</string>
+</resources>

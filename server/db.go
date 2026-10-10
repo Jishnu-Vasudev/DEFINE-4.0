@@ -35,6 +35,11 @@ func openDB(path string) {
 	// group invites: one QR, up to max_uses joins (errors if the column already exists)
 	db.Exec("ALTER TABLE invites ADD COLUMN max_uses INT DEFAULT 1")
 	seed()
+	migrateChannelCodes()
+	migrateKeys()
+	// store-and-forward: who carried a relayed message to the server
+	db.Exec("ALTER TABLE messages ADD COLUMN relayed_by TEXT")
+	migrateAudit()
 }
 
 // seed creates the HQ team and an admin invite on first run.
@@ -53,7 +58,7 @@ func seed() {
 		code = newCode()
 		db.Exec("INSERT INTO invites(code,team_id,role,expires_at) VALUES(?,?,?,?)", code, teamID, "admin", time.Now().Add(365*24*time.Hour).Unix())
 	}
-	fmt.Printf("\n=== ADMIN INVITE CODE: %s ===\n\n", code)
+	fmt.Printf("\n=== Bunny Hop ADMIN INVITE CODE: %s ===\n\n", code)
 }
 
 func newID() string {

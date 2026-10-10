@@ -80,16 +80,28 @@ func join(c *gin.Context) {
 		c.JSON(500, gin.H{"error": err.Error()})
 		return
 	}
+	uid := newID()
+	name := strings.TrimSpace(in.Name)
 	if n, _ := res.RowsAffected(); n == 0 {
-		c.JSON(400, gin.H{"error": "invalid or used invite"})
+		// permanent channel code: unlimited joins, member of that one channel
+		chID, _, ok := channelByCode(code)
+		if !ok {
+			c.JSON(400, gin.H{"error": "invalid or used invite"})
+			return
+		}
+		db.Exec("INSERT INTO users(id,name,role,last_seen) VALUES(?,?,?,?)", uid, name, "member", time.Now().Unix())
+		db.Exec("INSERT OR IGNORE INTO members(user_id,channel_id) VALUES(?,?)", uid, chID)
+		c.JSON(200, gin.H{"jwt": makeJWT(uid, "member"), "user": gin.H{"id": uid, "name": name, "role": "member"}, "channels": userChannels(uid)})
 		return
 	}
 	var teamID, role string
 	db.QueryRow("SELECT team_id, role FROM invites WHERE code=?", code).Scan(&teamID, &role)
-	uid := newID()
-	name := strings.TrimSpace(in.Name)
 	db.Exec("INSERT INTO users(id,name,role,last_seen) VALUES(?,?,?,?)", uid, name, role, time.Now().Unix())
-	db.Exec("INSERT OR IGNORE INTO members(user_id,channel_id) SELECT ?, id FROM channels WHERE team_id=? AND kind!='dm'", uid, teamID)
+	if role != "admin" {
+		// team invite: join the team's channels. Admin codes only grant the dashboard; admins join
+		// channels by creating them (or with a channel code), so channels never fill up with admins.
+		db.Exec("INSERT OR IGNORE INTO members(user_id,channel_id) SELECT ?, id FROM channels WHERE team_id=? AND kind!='dm'", uid, teamID)
+	}
 	c.JSON(200, gin.H{
 		"jwt":      makeJWT(uid, role),
 		"user":     gin.H{"id": uid, "name": name, "role": role},

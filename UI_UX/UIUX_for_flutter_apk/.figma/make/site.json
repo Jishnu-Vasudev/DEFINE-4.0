@@ -1,0 +1,10 @@
+{
+  "description": "Connect and collaborate seamlessly with your team through a stylish chat interface, customizable themes, and intuitive channel management.",
+  "robots": {
+    "index": false
+  },
+  "accessibility": {
+    "addBypassLinks": false,
+    "ignoreReducedMotion": false
+  }
+}
