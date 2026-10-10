@@ -38,7 +38,7 @@ Campus security personnel and event organizers.
 Warehouse, construction, and industrial field crews.
 Search-and-rescue teams operating in areas with unreliable connectivity.
 Teams working in remote locations or temporary operational environments.
-<h3> Why does it matter? </h3>
+<h2> Why does it matter? </h2>
 During emergencies and network outages, teams must continue exchanging instructions, status updates, and alerts. Communication should remain accessible, affordable, and usable even when internet services are unavailable. A smartphone-based solution can reduce dependence on dedicated radio hardware while providing richer communication and coordination capabilities.
 <h2> Limitations of existing solutions </h2>
 Traditional walkie-talkies	Primarily voice-oriented, with limited digital messaging and centralized visibility.
