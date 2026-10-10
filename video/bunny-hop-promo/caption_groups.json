@@ -1,0 +1,1894 @@
+{
+  "total_duration_s": 88.38,
+  "width": 1920,
+  "height": 1080,
+  "groups": [
+    {
+      "id": "caption-group-0",
+      "frame": 1,
+      "start": 0,
+      "end": 0.71,
+      "text": "Big event.",
+      "words": [
+        {
+          "id": "caption-word-0-0",
+          "text": "Big",
+          "start": 0,
+          "end": 0.197
+        },
+        {
+          "id": "caption-word-0-1",
+          "text": "event.",
+          "start": 0.197,
+          "end": 0.59
+        }
+      ]
+    },
+    {
+      "id": "caption-group-1",
+      "frame": 1,
+      "start": 0.73,
+      "end": 1.857,
+      "text": "Hundreds of staff.",
+      "words": [
+        {
+          "id": "caption-word-1-0",
+          "text": "Hundreds",
+          "start": 0.73,
+          "end": 1.233
+        },
+        {
+          "id": "caption-word-1-1",
+          "text": "of",
+          "start": 1.233,
+          "end": 1.359
+        },
+        {
+          "id": "caption-word-1-2",
+          "text": "staff.",
+          "start": 1.359,
+          "end": 1.737
+        }
+      ]
+    },
+    {
+      "id": "caption-group-2",
+      "frame": 1,
+      "start": 2.162,
+      "end": 4.609,
+      "text": "The Wi-Fi drops,",
+      "words": [
+        {
+          "id": "caption-word-2-0",
+          "text": "The",
+          "start": 2.162,
+          "end": 2.66
+        },
+        {
+          "id": "caption-word-2-1",
+          "text": "Wi-Fi",
+          "start": 2.66,
+          "end": 3.492
+        },
+        {
+          "id": "caption-word-2-2",
+          "text": "drops,",
+          "start": 3.492,
+          "end": 4.489
+        }
+      ]
+    },
+    {
+      "id": "caption-group-3",
+      "frame": 1,
+      "start": 4.828,
+      "end": 5.009,
+      "text": "and the",
+      "words": [
+        {
+          "id": "caption-word-3-0",
+          "text": "and",
+          "start": 4.828,
+          "end": 4.919
+        },
+        {
+          "id": "caption-word-3-1",
+          "text": "the",
+          "start": 4.919,
+          "end": 5.009
+        }
+      ]
+    },
+    {
+      "id": "caption-group-4",
+      "frame": 1,
+      "start": 5.009,
+      "end": 5.25,
+      "text": "team goes",
+      "words": [
+        {
+          "id": "caption-word-4-0",
+          "text": "team",
+          "start": 5.009,
+          "end": 5.129
+        },
+        {
+          "id": "caption-word-4-1",
+          "text": "goes",
+          "start": 5.129,
+          "end": 5.25
+        }
+      ]
+    },
+    {
+      "id": "caption-group-5",
+      "frame": 1,
+      "start": 5.25,
+      "end": 5.58,
+      "text": "silent.",
+      "words": [
+        {
+          "id": "caption-word-5-0",
+          "text": "silent.",
+          "start": 5.25,
+          "end": 5.46
+        }
+      ]
+    },
+    {
+      "id": "caption-group-6",
+      "frame": 1,
+      "start": 5.591,
+      "end": 5.809,
+      "text": "Not yours.",
+      "words": [
+        {
+          "id": "caption-word-6-0",
+          "text": "Not",
+          "start": 5.591,
+          "end": 5.624
+        },
+        {
+          "id": "caption-word-6-1",
+          "text": "yours.",
+          "start": 5.624,
+          "end": 5.689
+        }
+      ]
+    },
+    {
+      "id": "caption-group-7",
+      "frame": 2,
+      "start": 6.58,
+      "end": 7.263,
+      "text": "Meet Bunny",
+      "words": [
+        {
+          "id": "caption-word-7-0",
+          "text": "Meet",
+          "start": 6.58,
+          "end": 6.884
+        },
+        {
+          "id": "caption-word-7-1",
+          "text": "Bunny",
+          "start": 6.884,
+          "end": 7.263
+        }
+      ]
+    },
+    {
+      "id": "caption-group-8",
+      "frame": 2,
+      "start": 7.263,
+      "end": 7.567,
+      "text": "Hop.",
+      "words": [
+        {
+          "id": "caption-word-8-0",
+          "text": "Hop.",
+          "start": 7.263,
+          "end": 7.567
+        }
+      ]
+    },
+    {
+      "id": "caption-group-9",
+      "frame": 2,
+      "start": 7.567,
+      "end": 8.63,
+      "text": "Your whole team,",
+      "words": [
+        {
+          "id": "caption-word-9-0",
+          "text": "Your",
+          "start": 7.567,
+          "end": 7.871
+        },
+        {
+          "id": "caption-word-9-1",
+          "text": "whole",
+          "start": 7.871,
+          "end": 8.251
+        },
+        {
+          "id": "caption-word-9-2",
+          "text": "team,",
+          "start": 8.251,
+          "end": 8.63
+        }
+      ]
+    },
+    {
+      "id": "caption-group-10",
+      "frame": 2,
+      "start": 8.63,
+      "end": 9.738,
+      "text": "one press away.",
+      "words": [
+        {
+          "id": "caption-word-10-0",
+          "text": "one",
+          "start": 8.63,
+          "end": 8.858
+        },
+        {
+          "id": "caption-word-10-1",
+          "text": "press",
+          "start": 8.858,
+          "end": 9.238
+        },
+        {
+          "id": "caption-word-10-2",
+          "text": "away.",
+          "start": 9.238,
+          "end": 9.618
+        }
+      ]
+    },
+    {
+      "id": "caption-group-11",
+      "frame": 3,
+      "start": 11.76,
+      "end": 12.796,
+      "text": "Scan the channel",
+      "words": [
+        {
+          "id": "caption-word-11-0",
+          "text": "Scan",
+          "start": 11.76,
+          "end": 12.056
+        },
+        {
+          "id": "caption-word-11-1",
+          "text": "the",
+          "start": 12.056,
+          "end": 12.278
+        },
+        {
+          "id": "caption-word-11-2",
+          "text": "channel",
+          "start": 12.278,
+          "end": 12.796
+        }
+      ]
+    },
+    {
+      "id": "caption-group-12",
+      "frame": 3,
+      "start": 12.796,
+      "end": 13.388,
+      "text": "code your",
+      "words": [
+        {
+          "id": "caption-word-12-0",
+          "text": "code",
+          "start": 12.796,
+          "end": 13.092
+        },
+        {
+          "id": "caption-word-12-1",
+          "text": "your",
+          "start": 13.092,
+          "end": 13.388
+        }
+      ]
+    },
+    {
+      "id": "caption-group-13",
+      "frame": 3,
+      "start": 13.388,
+      "end": 14.202,
+      "text": "admin shows.",
+      "words": [
+        {
+          "id": "caption-word-13-0",
+          "text": "admin",
+          "start": 13.388,
+          "end": 13.758
+        },
+        {
+          "id": "caption-word-13-1",
+          "text": "shows.",
+          "start": 13.758,
+          "end": 14.202
+        }
+      ]
+    },
+    {
+      "id": "caption-group-14",
+      "frame": 3,
+      "start": 14.202,
+      "end": 14.794,
+      "text": "Type your",
+      "words": [
+        {
+          "id": "caption-word-14-0",
+          "text": "Type",
+          "start": 14.202,
+          "end": 14.498
+        },
+        {
+          "id": "caption-word-14-1",
+          "text": "your",
+          "start": 14.498,
+          "end": 14.794
+        }
+      ]
+    },
+    {
+      "id": "caption-group-15",
+      "frame": 3,
+      "start": 14.794,
+      "end": 15.164,
+      "text": "name.",
+      "words": [
+        {
+          "id": "caption-word-15-0",
+          "text": "name.",
+          "start": 14.794,
+          "end": 15.164
+        }
+      ]
+    },
+    {
+      "id": "caption-group-16",
+      "frame": 3,
+      "start": 15.164,
+      "end": 15.46,
+      "text": "Tap.",
+      "words": [
+        {
+          "id": "caption-word-16-0",
+          "text": "Tap.",
+          "start": 15.164,
+          "end": 15.46
+        }
+      ]
+    },
+    {
+      "id": "caption-group-17",
+      "frame": 3,
+      "start": 15.46,
+      "end": 16.246,
+      "text": "You're in.",
+      "words": [
+        {
+          "id": "caption-word-17-0",
+          "text": "You're",
+          "start": 15.46,
+          "end": 15.904
+        },
+        {
+          "id": "caption-word-17-1",
+          "text": "in.",
+          "start": 15.904,
+          "end": 16.126
+        }
+      ]
+    },
+    {
+      "id": "caption-group-18",
+      "frame": 4,
+      "start": 17.326,
+      "end": 18.175,
+      "text": "Every crew,",
+      "words": [
+        {
+          "id": "caption-word-18-0",
+          "text": "Every",
+          "start": 17.326,
+          "end": 17.691
+        },
+        {
+          "id": "caption-word-18-1",
+          "text": "crew,",
+          "start": 17.691,
+          "end": 18.055
+        }
+      ]
+    },
+    {
+      "id": "caption-group-19",
+      "frame": 4,
+      "start": 18.221,
+      "end": 19.062,
+      "text": "every zone,",
+      "words": [
+        {
+          "id": "caption-word-19-0",
+          "text": "every",
+          "start": 18.221,
+          "end": 18.582
+        },
+        {
+          "id": "caption-word-19-1",
+          "text": "zone,",
+          "start": 18.582,
+          "end": 18.942
+        }
+      ]
+    },
+    {
+      "id": "caption-group-20",
+      "frame": 4,
+      "start": 19.084,
+      "end": 19.475,
+      "text": "gets its",
+      "words": [
+        {
+          "id": "caption-word-20-0",
+          "text": "gets",
+          "start": 19.084,
+          "end": 19.307
+        },
+        {
+          "id": "caption-word-20-1",
+          "text": "its",
+          "start": 19.307,
+          "end": 19.475
+        }
+      ]
+    },
+    {
+      "id": "caption-group-21",
+      "frame": 4,
+      "start": 19.475,
+      "end": 20.208,
+      "text": "own channel.",
+      "words": [
+        {
+          "id": "caption-word-21-0",
+          "text": "own",
+          "start": 19.475,
+          "end": 19.642
+        },
+        {
+          "id": "caption-word-21-1",
+          "text": "channel.",
+          "start": 19.642,
+          "end": 20.088
+        }
+      ]
+    },
+    {
+      "id": "caption-group-22",
+      "frame": 5,
+      "start": 21.17,
+      "end": 21.673,
+      "text": "Hold to",
+      "words": [
+        {
+          "id": "caption-word-22-0",
+          "text": "Hold",
+          "start": 21.17,
+          "end": 21.506
+        },
+        {
+          "id": "caption-word-22-1",
+          "text": "to",
+          "start": 21.506,
+          "end": 21.673
+        }
+      ]
+    },
+    {
+      "id": "caption-group-23",
+      "frame": 5,
+      "start": 21.673,
+      "end": 22.093,
+      "text": "talk.",
+      "words": [
+        {
+          "id": "caption-word-23-0",
+          "text": "talk.",
+          "start": 21.673,
+          "end": 22.093
+        }
+      ]
+    },
+    {
+      "id": "caption-group-24",
+      "frame": 5,
+      "start": 22.093,
+      "end": 22.764,
+      "text": "One voice",
+      "words": [
+        {
+          "id": "caption-word-24-0",
+          "text": "One",
+          "start": 22.093,
+          "end": 22.345
+        },
+        {
+          "id": "caption-word-24-1",
+          "text": "voice",
+          "start": 22.345,
+          "end": 22.764
+        }
+      ]
+    },
+    {
+      "id": "caption-group-25",
+      "frame": 5,
+      "start": 22.764,
+      "end": 23.016,
+      "text": "at a",
+      "words": [
+        {
+          "id": "caption-word-25-0",
+          "text": "at",
+          "start": 22.764,
+          "end": 22.932
+        },
+        {
+          "id": "caption-word-25-1",
+          "text": "a",
+          "start": 22.932,
+          "end": 23.016
+        }
+      ]
+    },
+    {
+      "id": "caption-group-26",
+      "frame": 5,
+      "start": 23.016,
+      "end": 23.436,
+      "text": "time,",
+      "words": [
+        {
+          "id": "caption-word-26-0",
+          "text": "time,",
+          "start": 23.016,
+          "end": 23.436
+        }
+      ]
+    },
+    {
+      "id": "caption-group-27",
+      "frame": 5,
+      "start": 23.436,
+      "end": 24.527,
+      "text": "crystal clear.",
+      "words": [
+        {
+          "id": "caption-word-27-0",
+          "text": "crystal",
+          "start": 23.436,
+          "end": 24.023
+        },
+        {
+          "id": "caption-word-27-1",
+          "text": "clear.",
+          "start": 24.023,
+          "end": 24.527
+        }
+      ]
+    },
+    {
+      "id": "caption-group-28",
+      "frame": 5,
+      "start": 24.527,
+      "end": 25.198,
+      "text": "Even from",
+      "words": [
+        {
+          "id": "caption-word-28-0",
+          "text": "Even",
+          "start": 24.527,
+          "end": 24.862
+        },
+        {
+          "id": "caption-word-28-1",
+          "text": "from",
+          "start": 24.862,
+          "end": 25.198
+        }
+      ]
+    },
+    {
+      "id": "caption-group-29",
+      "frame": 5,
+      "start": 25.198,
+      "end": 26.373,
+      "text": "the lock screen,",
+      "words": [
+        {
+          "id": "caption-word-29-0",
+          "text": "the",
+          "start": 25.198,
+          "end": 25.45
+        },
+        {
+          "id": "caption-word-29-1",
+          "text": "lock",
+          "start": 25.45,
+          "end": 25.785
+        },
+        {
+          "id": "caption-word-29-2",
+          "text": "screen,",
+          "start": 25.785,
+          "end": 26.373
+        }
+      ]
+    },
+    {
+      "id": "caption-group-30",
+      "frame": 5,
+      "start": 26.373,
+      "end": 27.464,
+      "text": "with the volume",
+      "words": [
+        {
+          "id": "caption-word-30-0",
+          "text": "with",
+          "start": 26.373,
+          "end": 26.708
+        },
+        {
+          "id": "caption-word-30-1",
+          "text": "the",
+          "start": 26.708,
+          "end": 26.96
+        },
+        {
+          "id": "caption-word-30-2",
+          "text": "volume",
+          "start": 26.96,
+          "end": 27.464
+        }
+      ]
+    },
+    {
+      "id": "caption-group-31",
+      "frame": 5,
+      "start": 27.464,
+      "end": 27.919,
+      "text": "key.",
+      "words": [
+        {
+          "id": "caption-word-31-0",
+          "text": "key.",
+          "start": 27.464,
+          "end": 27.799
+        }
+      ]
+    },
+    {
+      "id": "caption-group-32",
+      "frame": 6,
+      "start": 28.73,
+      "end": 29.419,
+      "text": "Messages,",
+      "words": [
+        {
+          "id": "caption-word-32-0",
+          "text": "Messages,",
+          "start": 28.73,
+          "end": 29.419
+        }
+      ]
+    },
+    {
+      "id": "caption-group-33",
+      "frame": 6,
+      "start": 29.419,
+      "end": 29.955,
+      "text": "photos,",
+      "words": [
+        {
+          "id": "caption-word-33-0",
+          "text": "photos,",
+          "start": 29.419,
+          "end": 29.955
+        }
+      ]
+    },
+    {
+      "id": "caption-group-34",
+      "frame": 6,
+      "start": 29.955,
+      "end": 30.721,
+      "text": "voice notes",
+      "words": [
+        {
+          "id": "caption-word-34-0",
+          "text": "voice",
+          "start": 29.955,
+          "end": 30.338
+        },
+        {
+          "id": "caption-word-34-1",
+          "text": "notes",
+          "start": 30.338,
+          "end": 30.721
+        }
+      ]
+    },
+    {
+      "id": "caption-group-35",
+      "frame": 6,
+      "start": 30.721,
+      "end": 31.41,
+      "text": "and files,",
+      "words": [
+        {
+          "id": "caption-word-35-0",
+          "text": "and",
+          "start": 30.721,
+          "end": 30.95
+        },
+        {
+          "id": "caption-word-35-1",
+          "text": "files,",
+          "start": 30.95,
+          "end": 31.41
+        }
+      ]
+    },
+    {
+      "id": "caption-group-36",
+      "frame": 6,
+      "start": 31.41,
+      "end": 31.793,
+      "text": "all in",
+      "words": [
+        {
+          "id": "caption-word-36-0",
+          "text": "all",
+          "start": 31.41,
+          "end": 31.64
+        },
+        {
+          "id": "caption-word-36-1",
+          "text": "in",
+          "start": 31.64,
+          "end": 31.793
+        }
+      ]
+    },
+    {
+      "id": "caption-group-37",
+      "frame": 6,
+      "start": 31.793,
+      "end": 32.985,
+      "text": "the same thread.",
+      "words": [
+        {
+          "id": "caption-word-37-0",
+          "text": "the",
+          "start": 31.793,
+          "end": 32.022
+        },
+        {
+          "id": "caption-word-37-1",
+          "text": "same",
+          "start": 32.022,
+          "end": 32.329
+        },
+        {
+          "id": "caption-word-37-2",
+          "text": "thread.",
+          "start": 32.329,
+          "end": 32.865
+        }
+      ]
+    },
+    {
+      "id": "caption-group-38",
+      "frame": 7,
+      "start": 33.86,
+      "end": 34.36,
+      "text": "And it's",
+      "words": [
+        {
+          "id": "caption-word-38-0",
+          "text": "And",
+          "start": 33.86,
+          "end": 34.074
+        },
+        {
+          "id": "caption-word-38-1",
+          "text": "it's",
+          "start": 34.074,
+          "end": 34.36
+        }
+      ]
+    },
+    {
+      "id": "caption-group-39",
+      "frame": 7,
+      "start": 34.36,
+      "end": 36.124,
+      "text": "all end-to-end encrypted.",
+      "words": [
+        {
+          "id": "caption-word-39-0",
+          "text": "all",
+          "start": 34.36,
+          "end": 34.575
+        },
+        {
+          "id": "caption-word-39-1",
+          "text": "end-to-end",
+          "start": 34.575,
+          "end": 35.289
+        },
+        {
+          "id": "caption-word-39-2",
+          "text": "encrypted.",
+          "start": 35.289,
+          "end": 36.004
+        }
+      ]
+    },
+    {
+      "id": "caption-group-40",
+      "frame": 7,
+      "start": 36.458,
+      "end": 36.857,
+      "text": "Not even",
+      "words": [
+        {
+          "id": "caption-word-40-0",
+          "text": "Not",
+          "start": 36.458,
+          "end": 36.629
+        },
+        {
+          "id": "caption-word-40-1",
+          "text": "even",
+          "start": 36.629,
+          "end": 36.857
+        }
+      ]
+    },
+    {
+      "id": "caption-group-41",
+      "frame": 7,
+      "start": 36.857,
+      "end": 37.369,
+      "text": "the server",
+      "words": [
+        {
+          "id": "caption-word-41-0",
+          "text": "the",
+          "start": 36.857,
+          "end": 37.028
+        },
+        {
+          "id": "caption-word-41-1",
+          "text": "server",
+          "start": 37.028,
+          "end": 37.369
+        }
+      ]
+    },
+    {
+      "id": "caption-group-42",
+      "frame": 7,
+      "start": 37.369,
+      "end": 38.059,
+      "text": "can read it.",
+      "words": [
+        {
+          "id": "caption-word-42-0",
+          "text": "can",
+          "start": 37.369,
+          "end": 37.54
+        },
+        {
+          "id": "caption-word-42-1",
+          "text": "read",
+          "start": 37.54,
+          "end": 37.768
+        },
+        {
+          "id": "caption-word-42-2",
+          "text": "it.",
+          "start": 37.768,
+          "end": 37.939
+        }
+      ]
+    },
+    {
+      "id": "caption-group-43",
+      "frame": 8,
+      "start": 38.88,
+      "end": 39.444,
+      "text": "Then the",
+      "words": [
+        {
+          "id": "caption-word-43-0",
+          "text": "Then",
+          "start": 38.88,
+          "end": 39.202
+        },
+        {
+          "id": "caption-word-43-1",
+          "text": "the",
+          "start": 39.202,
+          "end": 39.444
+        }
+      ]
+    },
+    {
+      "id": "caption-group-44",
+      "frame": 8,
+      "start": 39.444,
+      "end": 40.25,
+      "text": "Wi-Fi dies.",
+      "words": [
+        {
+          "id": "caption-word-44-0",
+          "text": "Wi-Fi",
+          "start": 39.444,
+          "end": 39.847
+        },
+        {
+          "id": "caption-word-44-1",
+          "text": "dies.",
+          "start": 39.847,
+          "end": 40.25
+        }
+      ]
+    },
+    {
+      "id": "caption-group-45",
+      "frame": 8,
+      "start": 40.25,
+      "end": 41.54,
+      "text": "Bunny Hop doesn't.",
+      "words": [
+        {
+          "id": "caption-word-45-0",
+          "text": "Bunny",
+          "start": 40.25,
+          "end": 40.653
+        },
+        {
+          "id": "caption-word-45-1",
+          "text": "Hop",
+          "start": 40.653,
+          "end": 40.895
+        },
+        {
+          "id": "caption-word-45-2",
+          "text": "doesn't.",
+          "start": 40.895,
+          "end": 41.54
+        }
+      ]
+    },
+    {
+      "id": "caption-group-46",
+      "frame": 8,
+      "start": 41.54,
+      "end": 42.668,
+      "text": "Phones find each",
+      "words": [
+        {
+          "id": "caption-word-46-0",
+          "text": "Phones",
+          "start": 41.54,
+          "end": 42.023
+        },
+        {
+          "id": "caption-word-46-1",
+          "text": "find",
+          "start": 42.023,
+          "end": 42.346
+        },
+        {
+          "id": "caption-word-46-2",
+          "text": "each",
+          "start": 42.346,
+          "end": 42.668
+        }
+      ]
+    },
+    {
+      "id": "caption-group-47",
+      "frame": 8,
+      "start": 42.668,
+      "end": 43.152,
+      "text": "other,",
+      "words": [
+        {
+          "id": "caption-word-47-0",
+          "text": "other,",
+          "start": 42.668,
+          "end": 43.152
+        }
+      ]
+    },
+    {
+      "id": "caption-group-48",
+      "frame": 8,
+      "start": 43.152,
+      "end": 44.28,
+      "text": "and messages hop",
+      "words": [
+        {
+          "id": "caption-word-48-0",
+          "text": "and",
+          "start": 43.152,
+          "end": 43.393
+        },
+        {
+          "id": "caption-word-48-1",
+          "text": "messages",
+          "start": 43.393,
+          "end": 44.038
+        },
+        {
+          "id": "caption-word-48-2",
+          "text": "hop",
+          "start": 44.038,
+          "end": 44.28
+        }
+      ]
+    },
+    {
+      "id": "caption-group-49",
+      "frame": 8,
+      "start": 44.28,
+      "end": 45.005,
+      "text": "from phone",
+      "words": [
+        {
+          "id": "caption-word-49-0",
+          "text": "from",
+          "start": 44.28,
+          "end": 44.602
+        },
+        {
+          "id": "caption-word-49-1",
+          "text": "phone",
+          "start": 44.602,
+          "end": 45.005
+        }
+      ]
+    },
+    {
+      "id": "caption-group-50",
+      "frame": 8,
+      "start": 45.005,
+      "end": 45.77,
+      "text": "to phone.",
+      "words": [
+        {
+          "id": "caption-word-50-0",
+          "text": "to",
+          "start": 45.005,
+          "end": 45.167
+        },
+        {
+          "id": "caption-word-50-1",
+          "text": "phone.",
+          "start": 45.167,
+          "end": 45.65
+        }
+      ]
+    },
+    {
+      "id": "caption-group-51",
+      "frame": 9,
+      "start": 46.63,
+      "end": 47.07,
+      "text": "And the",
+      "words": [
+        {
+          "id": "caption-word-51-0",
+          "text": "And",
+          "start": 46.63,
+          "end": 46.85
+        },
+        {
+          "id": "caption-word-51-1",
+          "text": "the",
+          "start": 46.85,
+          "end": 47.07
+        }
+      ]
+    },
+    {
+      "id": "caption-group-52",
+      "frame": 9,
+      "start": 47.07,
+      "end": 48.096,
+      "text": "first phone back",
+      "words": [
+        {
+          "id": "caption-word-52-0",
+          "text": "first",
+          "start": 47.07,
+          "end": 47.436
+        },
+        {
+          "id": "caption-word-52-1",
+          "text": "phone",
+          "start": 47.436,
+          "end": 47.803
+        },
+        {
+          "id": "caption-word-52-2",
+          "text": "back",
+          "start": 47.803,
+          "end": 48.096
+        }
+      ]
+    },
+    {
+      "id": "caption-group-53",
+      "frame": 9,
+      "start": 48.096,
+      "end": 49.122,
+      "text": "in range carries",
+      "words": [
+        {
+          "id": "caption-word-53-0",
+          "text": "in",
+          "start": 48.096,
+          "end": 48.242
+        },
+        {
+          "id": "caption-word-53-1",
+          "text": "range",
+          "start": 48.242,
+          "end": 48.609
+        },
+        {
+          "id": "caption-word-53-2",
+          "text": "carries",
+          "start": 48.609,
+          "end": 49.122
+        }
+      ]
+    },
+    {
+      "id": "caption-group-54",
+      "frame": 9,
+      "start": 49.122,
+      "end": 50.928,
+      "text": "everyone's messages home.",
+      "words": [
+        {
+          "id": "caption-word-54-0",
+          "text": "everyone's",
+          "start": 49.122,
+          "end": 49.855
+        },
+        {
+          "id": "caption-word-54-1",
+          "text": "messages",
+          "start": 49.855,
+          "end": 50.441
+        },
+        {
+          "id": "caption-word-54-2",
+          "text": "home.",
+          "start": 50.441,
+          "end": 50.808
+        }
+      ]
+    },
+    {
+      "id": "caption-group-55",
+      "frame": 10,
+      "start": 51.8,
+      "end": 52.879,
+      "text": "In an emergency,",
+      "words": [
+        {
+          "id": "caption-word-55-0",
+          "text": "In",
+          "start": 51.8,
+          "end": 51.937
+        },
+        {
+          "id": "caption-word-55-1",
+          "text": "an",
+          "start": 51.937,
+          "end": 52.074
+        },
+        {
+          "id": "caption-word-55-2",
+          "text": "emergency,",
+          "start": 52.074,
+          "end": 52.759
+        }
+      ]
+    },
+    {
+      "id": "caption-group-56",
+      "frame": 10,
+      "start": 53.146,
+      "end": 53.577,
+      "text": "one tap",
+      "words": [
+        {
+          "id": "caption-word-56-0",
+          "text": "one",
+          "start": 53.146,
+          "end": 53.362
+        },
+        {
+          "id": "caption-word-56-1",
+          "text": "tap",
+          "start": 53.362,
+          "end": 53.577
+        }
+      ]
+    },
+    {
+      "id": "caption-group-57",
+      "frame": 10,
+      "start": 53.577,
+      "end": 55.206,
+      "text": "alerts everyone nearby.",
+      "words": [
+        {
+          "id": "caption-word-57-0",
+          "text": "alerts",
+          "start": 53.577,
+          "end": 54.008
+        },
+        {
+          "id": "caption-word-57-1",
+          "text": "everyone",
+          "start": 54.008,
+          "end": 54.583
+        },
+        {
+          "id": "caption-word-57-2",
+          "text": "nearby.",
+          "start": 54.583,
+          "end": 55.086
+        }
+      ]
+    },
+    {
+      "id": "caption-group-58",
+      "frame": 11,
+      "start": 57.06,
+      "end": 57.662,
+      "text": "Behind it",
+      "words": [
+        {
+          "id": "caption-word-58-0",
+          "text": "Behind",
+          "start": 57.06,
+          "end": 57.512
+        },
+        {
+          "id": "caption-word-58-1",
+          "text": "it",
+          "start": 57.512,
+          "end": 57.662
+        }
+      ]
+    },
+    {
+      "id": "caption-group-59",
+      "frame": 11,
+      "start": 57.662,
+      "end": 57.964,
+      "text": "all,",
+      "words": [
+        {
+          "id": "caption-word-59-0",
+          "text": "all,",
+          "start": 57.662,
+          "end": 57.964
+        }
+      ]
+    },
+    {
+      "id": "caption-group-60",
+      "frame": 11,
+      "start": 57.964,
+      "end": 59.169,
+      "text": "Bunny Hop Control.",
+      "words": [
+        {
+          "id": "caption-word-60-0",
+          "text": "Bunny",
+          "start": 57.964,
+          "end": 58.34
+        },
+        {
+          "id": "caption-word-60-1",
+          "text": "Hop",
+          "start": 58.34,
+          "end": 58.566
+        },
+        {
+          "id": "caption-word-60-2",
+          "text": "Control.",
+          "start": 58.566,
+          "end": 59.169
+        }
+      ]
+    },
+    {
+      "id": "caption-group-61",
+      "frame": 11,
+      "start": 59.169,
+      "end": 60.374,
+      "text": "Your control room,",
+      "words": [
+        {
+          "id": "caption-word-61-0",
+          "text": "Your",
+          "start": 59.169,
+          "end": 59.47
+        },
+        {
+          "id": "caption-word-61-1",
+          "text": "control",
+          "start": 59.47,
+          "end": 59.997
+        },
+        {
+          "id": "caption-word-61-2",
+          "text": "room,",
+          "start": 59.997,
+          "end": 60.374
+        }
+      ]
+    },
+    {
+      "id": "caption-group-62",
+      "frame": 11,
+      "start": 60.374,
+      "end": 61.397,
+      "text": "on one screen.",
+      "words": [
+        {
+          "id": "caption-word-62-0",
+          "text": "on",
+          "start": 60.374,
+          "end": 60.524
+        },
+        {
+          "id": "caption-word-62-1",
+          "text": "one",
+          "start": 60.524,
+          "end": 60.75
+        },
+        {
+          "id": "caption-word-62-2",
+          "text": "screen.",
+          "start": 60.75,
+          "end": 61.277
+        }
+      ]
+    },
+    {
+      "id": "caption-group-63",
+      "frame": 12,
+      "start": 62.28,
+      "end": 63.407,
+      "text": "See every device,",
+      "words": [
+        {
+          "id": "caption-word-63-0",
+          "text": "See",
+          "start": 62.28,
+          "end": 62.505
+        },
+        {
+          "id": "caption-word-63-1",
+          "text": "every",
+          "start": 62.505,
+          "end": 62.881
+        },
+        {
+          "id": "caption-word-63-2",
+          "text": "device,",
+          "start": 62.881,
+          "end": 63.407
+        }
+      ]
+    },
+    {
+      "id": "caption-group-64",
+      "frame": 12,
+      "start": 63.407,
+      "end": 63.783,
+      "text": "live.",
+      "words": [
+        {
+          "id": "caption-word-64-0",
+          "text": "live.",
+          "start": 63.407,
+          "end": 63.783
+        }
+      ]
+    },
+    {
+      "id": "caption-group-65",
+      "frame": 12,
+      "start": 63.783,
+      "end": 64.685,
+      "text": "Who's online,",
+      "words": [
+        {
+          "id": "caption-word-65-0",
+          "text": "Who's",
+          "start": 63.783,
+          "end": 64.159
+        },
+        {
+          "id": "caption-word-65-1",
+          "text": "online,",
+          "start": 64.159,
+          "end": 64.685
+        }
+      ]
+    },
+    {
+      "id": "caption-group-66",
+      "frame": 12,
+      "start": 64.685,
+      "end": 65.662,
+      "text": "who's talking,",
+      "words": [
+        {
+          "id": "caption-word-66-0",
+          "text": "who's",
+          "start": 64.685,
+          "end": 65.061
+        },
+        {
+          "id": "caption-word-66-1",
+          "text": "talking,",
+          "start": 65.061,
+          "end": 65.662
+        }
+      ]
+    },
+    {
+      "id": "caption-group-67",
+      "frame": 12,
+      "start": 65.662,
+      "end": 66.263,
+      "text": "who's out",
+      "words": [
+        {
+          "id": "caption-word-67-0",
+          "text": "who's",
+          "start": 65.662,
+          "end": 66.038
+        },
+        {
+          "id": "caption-word-67-1",
+          "text": "out",
+          "start": 66.038,
+          "end": 66.263
+        }
+      ]
+    },
+    {
+      "id": "caption-group-68",
+      "frame": 12,
+      "start": 66.263,
+      "end": 66.985,
+      "text": "of range.",
+      "words": [
+        {
+          "id": "caption-word-68-0",
+          "text": "of",
+          "start": 66.263,
+          "end": 66.414
+        },
+        {
+          "id": "caption-word-68-1",
+          "text": "range.",
+          "start": 66.414,
+          "end": 66.865
+        }
+      ]
+    },
+    {
+      "id": "caption-group-69",
+      "frame": 13,
+      "start": 67.856,
+      "end": 68.87,
+      "text": "Open any channel",
+      "words": [
+        {
+          "id": "caption-word-69-0",
+          "text": "Open",
+          "start": 67.856,
+          "end": 68.146
+        },
+        {
+          "id": "caption-word-69-1",
+          "text": "any",
+          "start": 68.146,
+          "end": 68.363
+        },
+        {
+          "id": "caption-word-69-2",
+          "text": "channel",
+          "start": 68.363,
+          "end": 68.87
+        }
+      ]
+    },
+    {
+      "id": "caption-group-70",
+      "frame": 13,
+      "start": 68.87,
+      "end": 69.885,
+      "text": "for its history,",
+      "words": [
+        {
+          "id": "caption-word-70-0",
+          "text": "for",
+          "start": 68.87,
+          "end": 69.088
+        },
+        {
+          "id": "caption-word-70-1",
+          "text": "its",
+          "start": 69.088,
+          "end": 69.305
+        },
+        {
+          "id": "caption-word-70-2",
+          "text": "history,",
+          "start": 69.305,
+          "end": 69.885
+        }
+      ]
+    },
+    {
+      "id": "caption-group-71",
+      "frame": 13,
+      "start": 69.885,
+      "end": 70.537,
+      "text": "activity,",
+      "words": [
+        {
+          "id": "caption-word-71-0",
+          "text": "activity,",
+          "start": 69.885,
+          "end": 70.537
+        }
+      ]
+    },
+    {
+      "id": "caption-group-72",
+      "frame": 13,
+      "start": 70.537,
+      "end": 71.624,
+      "text": "and shared media,",
+      "words": [
+        {
+          "id": "caption-word-72-0",
+          "text": "and",
+          "start": 70.537,
+          "end": 70.754
+        },
+        {
+          "id": "caption-word-72-1",
+          "text": "shared",
+          "start": 70.754,
+          "end": 71.189
+        },
+        {
+          "id": "caption-word-72-2",
+          "text": "media,",
+          "start": 71.189,
+          "end": 71.624
+        }
+      ]
+    },
+    {
+      "id": "caption-group-73",
+      "frame": 13,
+      "start": 71.624,
+      "end": 73.772,
+      "text": "safety-checked automatically.",
+      "words": [
+        {
+          "id": "caption-word-73-0",
+          "text": "safety-checked",
+          "start": 71.624,
+          "end": 72.638
+        },
+        {
+          "id": "caption-word-73-1",
+          "text": "automatically.",
+          "start": 72.638,
+          "end": 73.652
+        }
+      ]
+    },
+    {
+      "id": "caption-group-74",
+      "frame": 14,
+      "start": 74.59,
+      "end": 75.509,
+      "text": "Need everyone,",
+      "words": [
+        {
+          "id": "caption-word-74-0",
+          "text": "Need",
+          "start": 74.59,
+          "end": 74.873
+        },
+        {
+          "id": "caption-word-74-1",
+          "text": "everyone,",
+          "start": 74.873,
+          "end": 75.509
+        }
+      ]
+    },
+    {
+      "id": "caption-group-75",
+      "frame": 14,
+      "start": 75.509,
+      "end": 76.146,
+      "text": "right now?",
+      "words": [
+        {
+          "id": "caption-word-75-0",
+          "text": "right",
+          "start": 75.509,
+          "end": 75.863
+        },
+        {
+          "id": "caption-word-75-1",
+          "text": "now?",
+          "start": 75.863,
+          "end": 76.146
+        }
+      ]
+    },
+    {
+      "id": "caption-group-76",
+      "frame": 14,
+      "start": 76.146,
+      "end": 77.348,
+      "text": "Send one broadcast,",
+      "words": [
+        {
+          "id": "caption-word-76-0",
+          "text": "Send",
+          "start": 76.146,
+          "end": 76.429
+        },
+        {
+          "id": "caption-word-76-1",
+          "text": "one",
+          "start": 76.429,
+          "end": 76.641
+        },
+        {
+          "id": "caption-word-76-2",
+          "text": "broadcast,",
+          "start": 76.641,
+          "end": 77.348
+        }
+      ]
+    },
+    {
+      "id": "caption-group-77",
+      "frame": 14,
+      "start": 77.348,
+      "end": 77.914,
+      "text": "and watch",
+      "words": [
+        {
+          "id": "caption-word-77-0",
+          "text": "and",
+          "start": 77.348,
+          "end": 77.56
+        },
+        {
+          "id": "caption-word-77-1",
+          "text": "watch",
+          "start": 77.56,
+          "end": 77.914
+        }
+      ]
+    },
+    {
+      "id": "caption-group-78",
+      "frame": 14,
+      "start": 77.914,
+      "end": 79.943,
+      "text": "every acknowledgement come in.",
+      "words": [
+        {
+          "id": "caption-word-78-0",
+          "text": "every",
+          "start": 77.914,
+          "end": 78.267
+        },
+        {
+          "id": "caption-word-78-1",
+          "text": "acknowledgement",
+          "start": 78.267,
+          "end": 79.328
+        },
+        {
+          "id": "caption-word-78-2",
+          "text": "come",
+          "start": 79.328,
+          "end": 79.611
+        },
+        {
+          "id": "caption-word-78-3",
+          "text": "in.",
+          "start": 79.611,
+          "end": 79.823
+        }
+      ]
+    },
+    {
+      "id": "caption-group-79",
+      "frame": 15,
+      "start": 80.83,
+      "end": 81.558,
+      "text": "Bunny Hop.",
+      "words": [
+        {
+          "id": "caption-word-79-0",
+          "text": "Bunny",
+          "start": 80.83,
+          "end": 81.234
+        },
+        {
+          "id": "caption-word-79-1",
+          "text": "Hop.",
+          "start": 81.234,
+          "end": 81.558
+        }
+      ]
+    },
+    {
+      "id": "caption-group-80",
+      "frame": 15,
+      "start": 81.558,
+      "end": 82.285,
+      "text": "Your team,",
+      "words": [
+        {
+          "id": "caption-word-80-0",
+          "text": "Your",
+          "start": 81.558,
+          "end": 81.881
+        },
+        {
+          "id": "caption-word-80-1",
+          "text": "team,",
+          "start": 81.881,
+          "end": 82.285
+        }
+      ]
+    },
+    {
+      "id": "caption-group-81",
+      "frame": 15,
+      "start": 82.285,
+      "end": 83.337,
+      "text": "one press away.",
+      "words": [
+        {
+          "id": "caption-word-81-0",
+          "text": "one",
+          "start": 82.285,
+          "end": 82.528
+        },
+        {
+          "id": "caption-word-81-1",
+          "text": "press",
+          "start": 82.528,
+          "end": 82.932
+        },
+        {
+          "id": "caption-word-81-2",
+          "text": "away.",
+          "start": 82.932,
+          "end": 83.337
+        }
+      ]
+    },
+    {
+      "id": "caption-group-82",
+      "frame": 15,
+      "start": 83.337,
+      "end": 83.822,
+      "text": "On your",
+      "words": [
+        {
+          "id": "caption-word-82-0",
+          "text": "On",
+          "start": 83.337,
+          "end": 83.498
+        },
+        {
+          "id": "caption-word-82-1",
+          "text": "your",
+          "start": 83.498,
+          "end": 83.822
+        }
+      ]
+    },
+    {
+      "id": "caption-group-83",
+      "frame": 15,
+      "start": 83.822,
+      "end": 84.711,
+      "text": "own network,",
+      "words": [
+        {
+          "id": "caption-word-83-0",
+          "text": "own",
+          "start": 83.822,
+          "end": 84.064
+        },
+        {
+          "id": "caption-word-83-1",
+          "text": "network,",
+          "start": 84.064,
+          "end": 84.711
+        }
+      ]
+    },
+    {
+      "id": "caption-group-84",
+      "frame": 15,
+      "start": 84.711,
+      "end": 86.206,
+      "text": "no internet needed.",
+      "words": [
+        {
+          "id": "caption-word-84-0",
+          "text": "no",
+          "start": 84.711,
+          "end": 84.873
+        },
+        {
+          "id": "caption-word-84-1",
+          "text": "internet",
+          "start": 84.873,
+          "end": 85.52
+        },
+        {
+          "id": "caption-word-84-2",
+          "text": "needed.",
+          "start": 85.52,
+          "end": 86.086
+        }
+      ]
+    }
+  ]
+}

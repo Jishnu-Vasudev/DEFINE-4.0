@@ -1,0 +1,55 @@
+{
+  "version": 1,
+  "preferences": {
+    "destination": {
+      "value": "youtube",
+      "confirmed_in": [
+        "bunny-hop-promo"
+      ],
+      "updated_at": "2026-10-10T03:40:50.285Z"
+    },
+    "aspect": {
+      "value": "1920x1080",
+      "confirmed_in": [
+        "bunny-hop-promo"
+      ],
+      "updated_at": "2026-10-10T03:40:50.392Z"
+    },
+    "language": {
+      "value": "en",
+      "confirmed_in": [
+        "bunny-hop-promo"
+      ],
+      "updated_at": "2026-10-10T03:40:50.494Z"
+    },
+    "flow": {
+      "value": "automation",
+      "confirmed_in": [
+        "bunny-hop-promo"
+      ],
+      "updated_at": "2026-10-10T03:40:50.618Z"
+    },
+    "storyboard": {
+      "value": "yes",
+      "confirmed_in": [
+        "bunny-hop-promo"
+      ],
+      "updated_at": "2026-10-10T03:40:50.714Z"
+    },
+    "voice": {
+      "value": "am_michael",
+      "confirmed_in": [
+        "bunny-hop-promo"
+      ],
+      "updated_at": "2026-10-10T03:49:45.511Z"
+    },
+    "style_preset.product-launch-video": {
+      "value": "broadside",
+      "confirmed_in": [
+        "bunny-hop-promo"
+      ],
+      "updated_at": "2026-10-10T03:50:28.176Z"
+    }
+  },
+  "sightings": {}
+}

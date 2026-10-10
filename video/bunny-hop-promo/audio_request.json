@@ -1,0 +1,70 @@
+{
+  "provider": "kokoro",
+  "speed": "1.0",
+  "lines": [
+    {
+      "id": "01",
+      "text": "Big event. Hundreds of staff. The Wi-Fi drops, and the team goes silent. Not yours."
+    },
+    {
+      "id": "02",
+      "text": "Meet Bunny Hop. Your whole team, one press away."
+    },
+    {
+      "id": "03",
+      "text": "Scan the channel code your admin shows. Type your name. Tap. You're in."
+    },
+    {
+      "id": "04",
+      "text": "Every crew, every zone, gets its own channel."
+    },
+    {
+      "id": "05",
+      "text": "Hold to talk. One voice at a time, crystal clear. Even from the lock screen, with the volume key."
+    },
+    {
+      "id": "06",
+      "text": "Messages, photos, voice notes and files, all in the same thread."
+    },
+    {
+      "id": "07",
+      "text": "And it's all end-to-end encrypted. Not even the server can read it."
+    },
+    {
+      "id": "08",
+      "text": "Then the Wi-Fi dies. Bunny Hop doesn't. Phones find each other, and messages hop from phone to phone."
+    },
+    {
+      "id": "09",
+      "text": "And the first phone back in range carries everyone's messages home."
+    },
+    {
+      "id": "10",
+      "text": "In an emergency, one tap alerts everyone nearby."
+    },
+    {
+      "id": "11",
+      "text": "Behind it all, Bunny Hop Control. Your control room, on one screen."
+    },
+    {
+      "id": "12",
+      "text": "See every device, live. Who's online, who's talking, who's out of range."
+    },
+    {
+      "id": "13",
+      "text": "Open any channel for its history, activity, and shared media, safety-checked automatically."
+    },
+    {
+      "id": "14",
+      "text": "Need everyone, right now? Send one broadcast, and watch every acknowledgement come in."
+    },
+    {
+      "id": "15",
+      "text": "Bunny Hop. Your team, one press away. On your own network, no internet needed."
+    }
+  ],
+  "bgm": {
+    "mode": "none"
+  },
+  "voice": "am_michael"
+}

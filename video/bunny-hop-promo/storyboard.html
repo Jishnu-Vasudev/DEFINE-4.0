@@ -1,0 +1,377 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bunny Hop Promo Storyboard</title>
+<style>
+@font-face{font-family:"Barlow";src:url(assets/fonts/barlow-latin-400-normal.woff2) format("woff2");font-weight:400}
+@font-face{font-family:"Barlow";src:url(assets/fonts/barlow-latin-600-normal.woff2) format("woff2");font-weight:600}
+@font-face{font-family:"Barlow";src:url(assets/fonts/barlow-latin-700-normal.woff2) format("woff2");font-weight:700}
+@font-face{font-family:"Barlow";src:url(assets/fonts/barlow-latin-800-normal.woff2) format("woff2");font-weight:800}
+@font-face{font-family:"Barlow";src:url(assets/fonts/barlow-latin-900-normal.woff2) format("woff2");font-weight:900}
+@font-face{font-family:"IBM Plex Mono";src:url(assets/fonts/ibm-plex-mono-latin-500-normal.woff2) format("woff2");font-weight:500}
+:root{--ink:#1B110B;--panel:#26180F;--panel2:#342216;--fire:#E85D18;--amber:#FF9A3D;--cream:#FFF6EA;--muted:#C4AA94;--hint:#504B48;--border:#282726;--danger:#FF5D4F;--warn:#FFD27A}
+*{box-sizing:border-box;margin:0}
+body{background:#120b07;color:var(--cream);font-family:Barlow,system-ui,sans-serif;padding:40px 4vw 80px}
+header.sheet{display:flex;align-items:flex-end;gap:24px;flex-wrap:wrap;margin-bottom:28px}
+header.sheet h1{font-weight:900;font-size:56px;letter-spacing:-.04em;line-height:1;text-transform:lowercase;margin-bottom:12px}
+header.sheet p{color:var(--muted);max-width:60ch}
+.tag{font-family:"IBM Plex Mono",monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;border:1px solid var(--border);padding:6px 10px;color:var(--amber)}
+.act{font-family:"IBM Plex Mono",monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--fire);border-top:1px solid var(--border);padding:14px 0 10px;margin-top:18px}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}
+@media(max-width:1100px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:700px){.grid{grid-template-columns:1fr}}
+figure{display:flex;flex-direction:column;gap:8px}
+.cell{aspect-ratio:16/9;container-type:inline-size;position:relative;overflow:hidden;background:var(--ink);border:1px solid var(--border)}
+.cell.orange{background:var(--fire);color:var(--ink)}
+.glow{position:absolute;inset:0;background:radial-gradient(60cqw 40cqw at 72% -8%,rgba(232,93,24,.28),transparent 60%)}
+.lbl{display:flex;justify-content:space-between;font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.note{font-size:13.5px;color:var(--muted);line-height:1.45}
+.note b{color:var(--cream)}
+.chip{align-self:flex-start;font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;border:1px solid rgba(232,93,24,.5);color:var(--amber);padding:3px 8px}
+/* type atoms (cqw = frame-relative) */
+.kicker{font-family:"IBM Plex Mono",monospace;font-weight:500;font-size:.9cqw;letter-spacing:.14em;text-transform:uppercase;color:var(--fire)}
+.display{font-weight:900;font-size:9cqw;line-height:.88;letter-spacing:-.04em;text-transform:lowercase}
+.h1{font-weight:800;font-size:5.6cqw;line-height:.92;letter-spacing:-.03em;text-transform:lowercase}
+.h2{font-weight:700;font-size:3.4cqw;line-height:1.05;letter-spacing:-.02em;text-transform:lowercase}
+.cap{position:absolute;left:50%;bottom:4.5cqw;transform:translateX(-50%);max-width:70cqw;text-align:center;font-weight:600;font-size:1.9cqw;line-height:1.25;background:rgba(27,17,11,.78);padding:.7cqw 1.6cqw;border-radius:.6cqw;color:var(--cream)}
+.cap em{color:var(--amber);font-style:normal}
+.center{position:absolute;inset:0;display:grid;place-items:center;text-align:center}
+.grey{color:var(--hint)}
+.ember{color:var(--fire)}
+.amber{color:var(--amber)}
+/* phone mockup */
+.phone{position:absolute;width:17cqw;aspect-ratio:9/19.5;border-radius:3cqw;background:#0e0806;border:.35cqw solid #3a2a20;box-shadow:0 2cqw 5cqw rgba(0,0,0,.55),0 0 4cqw rgba(232,93,24,.18);overflow:hidden}
+.phone .scr{position:absolute;inset:.5cqw;border-radius:2.5cqw;background:var(--ink);overflow:hidden;padding:2.2cqw 1.2cqw 1cqw}
+.phone .notch{position:absolute;top:.9cqw;left:50%;transform:translateX(-50%);width:4.5cqw;height:1cqw;border-radius:1cqw;background:#000;z-index:2}
+.p-title{font-weight:700;font-size:1.25cqw;text-align:center}
+.p-sub{font-size:.7cqw;color:var(--muted);text-align:center}
+.field{background:var(--panel2);border:1px solid #4a3223;border-radius:.8cqw;padding:.55cqw .8cqw;font-size:.8cqw;color:var(--muted);margin-top:.6cqw}
+.field b{color:var(--cream);font-weight:600}
+.btn{background:var(--amber);color:#2a1105;border-radius:.9cqw;padding:.7cqw;font-weight:700;font-size:.85cqw;text-align:center;margin-top:.7cqw;position:relative}
+.card{background:rgba(52,34,22,.85);border:1px solid rgba(255,224,184,.14);border-radius:1cqw;padding:.7cqw;display:flex;gap:.6cqw;align-items:center;margin-top:.55cqw}
+.ic{width:2.2cqw;height:2.2cqw;border-radius:.7cqw;background:linear-gradient(135deg,var(--amber),var(--fire));flex:none}
+.card .t{font-weight:700;font-size:.85cqw}
+.card .s{font-size:.65cqw;color:var(--muted)}
+.ptt{position:absolute;left:1cqw;right:1cqw;bottom:1.4cqw;height:3.2cqw;border-radius:2cqw;background:linear-gradient(90deg,var(--amber),var(--fire));display:flex;align-items:center;gap:.6cqw;padding:0 .4cqw;color:#2a1105;font-weight:800;font-size:.8cqw;box-shadow:0 0 2cqw rgba(232,93,24,.6)}
+.orb{width:2.5cqw;height:2.5cqw;border-radius:50%;background:rgba(255,255,255,.35)}
+.bubble{max-width:75%;border-radius:.9cqw;padding:.45cqw .7cqw;font-size:.72cqw;margin-top:.5cqw;background:var(--panel2)}
+.bubble.me{margin-left:auto;background:#6a3415}
+.tap{position:absolute;width:3.2cqw;height:3.2cqw;border-radius:50%;border:.25cqw solid rgba(255,246,234,.9);box-shadow:0 0 0 .9cqw rgba(255,246,234,.18)}
+.redbar{background:rgba(255,93,79,.18);color:var(--danger);font-weight:700;font-size:.7cqw;padding:.45cqw .6cqw;border-radius:.5cqw;margin-top:.4cqw}
+/* dashboard */
+.dash{position:absolute;left:6cqw;right:6cqw;top:6cqw;bottom:9cqw;border-radius:1.2cqw;background:#1f140d;border:1px solid rgba(255,224,184,.14);box-shadow:0 2cqw 5cqw rgba(0,0,0,.5);overflow:hidden}
+.dbar{display:flex;align-items:center;gap:1.2cqw;padding:1.1cqw 1.6cqw;border-bottom:1px solid rgba(255,224,184,.12);font-size:1.45cqw}
+.dbar b{font-weight:700}
+.pill{font-size:1cqw;padding:.3cqw .9cqw;border-radius:2cqw;border:1px solid rgba(255,224,184,.18);color:var(--muted)}
+.node{width:auto;aspect-ratio:1;border-radius:.6cqw;background:rgba(255,154,61,.55)}
+.node.off{background:rgba(125,101,83,.35)}.node.near{background:var(--warn)}.node.talk{background:var(--fire);box-shadow:0 0 1cqw rgba(232,93,24,.9)}
+.row{display:flex;gap:1cqw;align-items:flex-start;padding:.9cqw 0;border-top:1px solid rgba(255,224,184,.1);font-size:1.25cqw;line-height:1.35}
+.av{width:2.6cqw;height:2.6cqw;border-radius:50%;background:linear-gradient(135deg,#6a3415,#a24a1c);flex:none}
+.badge{font-size:.9cqw;padding:.15cqw .6cqw;border-radius:2cqw;border:1px solid rgba(255,154,61,.45);color:var(--amber)}
+.tokens{display:grid;grid-template-columns:repeat(4,1fr);gap:1cqw;padding:3cqw}
+.sw{height:5cqw;border-radius:.5cqw;border:1px solid var(--border)}
+.swl{font-family:"IBM Plex Mono",monospace;font-size:1.6cqw;color:var(--muted);margin-top:.4cqw}
+</style>
+</head>
+<body>
+<header class="sheet">
+  <div>
+    <h1>bunny hop promo · storyboard v1</h1>
+    <p>Static key moments for each frame, drawn with the real copy, fonts and colors. Motion arrives in the build; the layout and words are what to judge here.</p>
+  </div>
+  <span class="tag">1920×1080 · 60fps · ~87s · 15 frames</span>
+</header>
+
+<div class="act">act 1 · the promise</div>
+<div class="grid">
+<figure>
+  <div class="cell" id="frame-01">
+    <div style="position:absolute;left:5.5cqw;top:6cqw;display:flex;flex-direction:column;gap:1.2cqw">
+      <div class="h2 grey">big event.</div>
+      <div class="h2 grey">hundreds of staff.</div>
+      <div class="h2">the wi-fi drops, and the team goes <span class="grey">silent.</span></div>
+    </div>
+    <div class="display ember" style="position:absolute;right:5.5cqw;bottom:15cqw">not yours.</div>
+    <div class="cap">Big event. Hundreds of staff. The Wi-Fi drops, and the team goes silent. <em>Not yours.</em></div>
+  </div>
+  <div class="lbl"><span>01 · when the network dies</span><span>hook · 0–6s</span></div>
+  <p class="note"><b>Lines punch in top-down;</b> "silent" drains to grey, a beat of black, then "not yours." slams in bottom-right in ember.</p>
+  <span class="chip">in: cut</span>
+</figure>
+
+<figure>
+  <div class="cell" id="frame-02"><div class="glow"></div>
+    <div class="center"><div>
+      <img src="assets/logo.png" alt="" style="width:15cqw;border-radius:50%;box-shadow:0 0 6cqw rgba(232,93,24,.55)">
+      <div class="display" style="font-size:8cqw;margin-top:2cqw">bunny hop</div>
+      <div class="kicker" style="margin-top:1cqw;color:var(--amber)">your whole team, one press away</div>
+    </div></div>
+    <div class="cap">Meet Bunny Hop. Your whole team, <em>one press away.</em></div>
+  </div>
+  <div class="lbl"><span>02 · meet bunny hop</span><span>product intro · 6–11s</span></div>
+  <p class="note"><b>The ember ring draws on first,</b> the bunny springs into it mid-hop, then the wordmark letters cascade up and the tagline types beneath.</p>
+  <span class="chip">in: zoom-through</span>
+</figure>
+
+<figure>
+  <div class="cell" id="frame-03"><div class="glow"></div>
+    <div class="kicker" style="position:absolute;left:5.5cqw;top:5.5cqw">01 · join</div>
+    <div class="h1" style="position:absolute;left:5.5cqw;top:9cqw;width:34cqw">scan.<br>type.<br><span class="ember">tap.</span></div>
+    <div class="phone" style="left:60cqw;top:3.5cqw"><div class="notch"></div><div class="scr">
+      <div style="display:grid;place-items:center;margin-top:1.2cqw"><img src="assets/logo.png" alt="" style="width:5.5cqw;border-radius:50%;box-shadow:0 0 0 1cqw rgba(255,154,61,.12),0 0 0 2cqw rgba(255,154,61,.06)"></div>
+      <div class="p-title" style="margin-top:1.4cqw">Join a channel</div>
+      <div class="p-sub">Scan the channel QR from your admin, or type its code.</div>
+      <div class="field">Your name&nbsp;&nbsp;<b>Asha|</b></div>
+      <div class="btn">Scan channel QR<span class="tap" style="right:2cqw;top:-.2cqw"></span></div>
+      <div class="p-sub" style="margin-top:.6cqw">or enter the code</div>
+    </div></div>
+    <div class="cap">Scan the channel code your admin shows. Type your name. <em>Tap. You're in.</em></div>
+  </div>
+  <div class="lbl"><span>03 · join in seconds</span><span>feature · 11–18s</span></div>
+  <p class="note"><b>The phone smooth-scales in from 70%</b> with the radar rings pulsing; "Asha" types into the field, the finger tap ripples on the button, and the screen slides on.</p>
+  <span class="chip">in: crossfade</span>
+</figure>
+</div>
+
+<div class="act">act 2 · in your hand</div>
+<div class="grid">
+<figure>
+  <div class="cell" id="frame-04"><div class="glow"></div>
+    <div class="kicker" style="position:absolute;left:5.5cqw;top:5.5cqw">02 · channels</div>
+    <div class="h1" style="position:absolute;left:5.5cqw;top:9cqw;width:34cqw">every crew.<br>every zone.</div>
+    <div class="phone" style="left:60cqw;top:3.5cqw"><div class="notch"></div><div class="scr">
+      <div class="p-title">Channels</div><div class="p-sub">3 channels</div>
+      <div style="font-weight:700;font-size:.95cqw;margin-top:.8cqw">Hi, Asha</div>
+      <div class="card"><span class="ic"></span><span><div class="t">Gate B</div><div class="s">Ravi: queue is moving</div></span></div>
+      <div class="card"><span class="ic"></span><span><div class="t">Medical</div><div class="s">Team channel</div></span></div>
+      <div class="card"><span class="ic"></span><span><div class="t">Stage Crew</div><div class="s">Zone channel</div></span></div>
+    </div></div>
+    <div class="cap">Every crew, every zone, <em>gets its own channel.</em></div>
+  </div>
+  <div class="lbl"><span>04 · a channel for every crew</span><span>feature · 18–22s</span></div>
+  <p class="note"><b>Cards cascade up one by one</b> (Gate B, Medical, Stage Crew) on the held phone; the left headline swaps by hard cut.</p>
+  <span class="chip">in: push-slide left</span>
+</figure>
+
+<figure>
+  <div class="cell" id="frame-05"><div class="glow"></div>
+    <div class="kicker" style="position:absolute;left:5.5cqw;top:5.5cqw">03 · push to talk</div>
+    <div class="h1" style="position:absolute;left:5.5cqw;top:9cqw;width:30cqw">hold<br>to <span class="ember">talk.</span></div>
+    <div class="phone" style="left:42cqw;top:3.5cqw"><div class="notch"></div><div class="scr">
+      <div class="p-title">Gate B</div><div class="p-sub amber">Encrypted</div>
+      <div style="display:flex;gap:.25cqw;align-items:center;justify-content:center;height:10cqw;margin-top:3cqw"><span style="width:.45cqw;height:20%;background:var(--amber);border-radius:.3cqw"></span><span style="width:.45cqw;height:45%;background:var(--amber);border-radius:.3cqw"></span><span style="width:.45cqw;height:80%;background:var(--amber);border-radius:.3cqw"></span><span style="width:.45cqw;height:55%;background:var(--amber);border-radius:.3cqw"></span><span style="width:.45cqw;height:95%;background:var(--amber);border-radius:.3cqw"></span><span style="width:.45cqw;height:40%;background:var(--amber);border-radius:.3cqw"></span><span style="width:.45cqw;height:70%;background:var(--amber);border-radius:.3cqw"></span><span style="width:.45cqw;height:30%;background:var(--amber);border-radius:.3cqw"></span><span style="width:.45cqw;height:60%;background:var(--amber);border-radius:.3cqw"></span><span style="width:.45cqw;height:85%;background:var(--amber);border-radius:.3cqw"></span><span style="width:.45cqw;height:35%;background:var(--amber);border-radius:.3cqw"></span><span style="width:.45cqw;height:50%;background:var(--amber);border-radius:.3cqw"></span></div>
+      <div class="ptt"><span class="orb"></span>Talking… release to stop</div>
+    </div></div>
+    <div class="phone" style="left:66cqw;top:9cqw;width:15cqw;opacity:.85"><div class="notch"></div><div class="scr">
+      <div class="p-title">Gate B</div>
+      <div class="card" style="border-color:rgba(255,154,61,.6)"><span class="ic"></span><span><div class="t amber">Asha is talking</div><div class="s">▮▮▯▮▮▯▮</div></span></div>
+    </div></div>
+    <div class="cap">Hold to talk. One voice at a time, <em>crystal clear.</em></div>
+  </div>
+  <div class="lbl"><span>05 · hold to talk</span><span>feature · 22–29s</span></div>
+  <p class="note"><b>A thumb presses the pill,</b> the mic orb breathes and a waveform runs; the second phone answers "Asha is talking"; a quick lock-screen cut shows the volume-key press.</p>
+  <span class="chip">in: crossfade</span>
+</figure>
+
+<figure>
+  <div class="cell" id="frame-06"><div class="glow"></div>
+    <div class="kicker" style="position:absolute;left:5.5cqw;top:5.5cqw">04 · more than voice</div>
+    <div style="position:absolute;left:5.5cqw;top:9cqw;display:flex;flex-direction:column;gap:.6cqw" class="h2">
+      <span>messages.</span><span>photos.</span><span>voice notes.</span><span class="ember">files.</span></div>
+    <div class="phone" style="left:60cqw;top:3.5cqw"><div class="notch"></div><div class="scr">
+      <div class="p-title">Gate B</div>
+      <div class="bubble">Need water at Gate B</div>
+      <div class="bubble me" style="height:5cqw;background:linear-gradient(135deg,#7a4a2a,#3a2418)">photo</div>
+      <div class="bubble">▶ ▮▮▯▮▮▯▮▮ 0:07</div>
+      <div class="bubble me">📄 floor-plan.pdf</div>
+    </div></div>
+    <div class="cap">Messages, photos, voice notes and files, <em>all in the same thread.</em></div>
+  </div>
+  <div class="lbl"><span>06 · more than voice</span><span>benefit · 29–34s</span></div>
+  <p class="note"><b>Each item lands as its word is spoken:</b> message, photo, voice note, file; the matching word on the left lights ember.</p>
+  <span class="chip">in: push-slide left</span>
+</figure>
+
+<figure>
+  <div class="cell" id="frame-07">
+    <div class="center"><div>
+      <div style="display:flex;align-items:center;gap:3cqw;justify-content:center;font-size:1.3cqw;font-family:'IBM Plex Mono',monospace">
+        <span>need water at gate b</span><span class="ember">→ 9f#k2Q!x…</span><span>→ need water at gate b</span>
+      </div>
+      <div class="h1" style="margin-top:3cqw">not even the server<br><span class="ember">can read it.</span></div>
+    </div></div>
+    <div class="cap">And it's all end-to-end encrypted. <em>Not even the server can read it.</em></div>
+  </div>
+  <div class="lbl"><span>07 · locked end to end</span><span>benefit · 34–39s</span></div>
+  <p class="note"><b>Camera pushes into the lock badge;</b> the message scrambles into ciphertext as it passes the server and resolves on the other side; the headline slams in.</p>
+  <span class="chip">in: zoom-through</span>
+</figure>
+
+<figure>
+  <div class="cell" id="frame-08"><div class="glow" style="background:radial-gradient(60cqw 40cqw at 50% 10%,rgba(255,93,79,.18),transparent 60%)"></div>
+    <div class="kicker" style="position:absolute;left:5.5cqw;top:5.5cqw;color:var(--danger)">05 · no wi-fi</div>
+    <div class="h2" style="position:absolute;left:5.5cqw;top:8.5cqw">wi-fi dies. <span class="ember">bunny hop doesn't.</span></div>
+    <div class="phone" style="left:10cqw;top:18cqw;width:13cqw"><div class="notch"></div><div class="scr"><div class="redbar">Server lost: nearby mode</div><div class="bubble me">On my way</div></div></div>
+    <div class="phone" style="left:43cqw;top:22cqw;width:13cqw"><div class="notch"></div><div class="scr"><div class="redbar">Server lost: nearby mode</div><div class="bubble">On my way</div></div></div>
+    <div class="phone" style="left:76cqw;top:18cqw;width:13cqw"><div class="notch"></div><div class="scr"><div class="redbar">Server lost: nearby mode</div></div></div>
+    <svg style="position:absolute;inset:0;width:100%;height:100%" viewBox="0 0 100 56.25" preserveAspectRatio="none"><path d="M23 34 Q33 28 43 36 M56 36 Q66 28 76 34" stroke="#FF9A3D" stroke-width=".35" stroke-dasharray="1 1" fill="none"/></svg>
+    <div class="cap">Phones find each other, and <em>messages hop from phone to phone.</em></div>
+  </div>
+  <div class="lbl"><span>08 · when the wi-fi dies</span><span>feature · 39–46s</span></div>
+  <p class="note"><b>The router icon cuts out, red bars drop on three phones,</b> dotted links spring between them and the "On my way" bubble hops left to right as the camera tracks it.</p>
+  <span class="chip">in: blur-crossfade</span>
+</figure>
+
+<figure>
+  <div class="cell" id="frame-09"><div class="glow"></div>
+    <div class="kicker" style="position:absolute;left:5.5cqw;top:5.5cqw">06 · bridge mode</div>
+    <div class="h2" style="position:absolute;left:5.5cqw;top:8.5cqw;width:40cqw">the first phone back in range<br><span class="ember">carries everyone home.</span></div>
+    <div class="phone" style="left:30cqw;top:22cqw;width:13cqw"><div class="notch"></div><div class="scr"><div class="bubble me">On my way ✓ sent</div></div></div>
+    <div style="position:absolute;left:66cqw;top:24cqw;width:16cqw;height:9cqw;border:1px solid rgba(255,154,61,.5);border-radius:1cqw;display:grid;place-items:center;font-family:'IBM Plex Mono',monospace;font-size:.9cqw;color:var(--amber)">BUNNY HOP SERVER</div>
+    <svg style="position:absolute;inset:0;width:100%;height:100%" viewBox="0 0 100 56.25" preserveAspectRatio="none"><path d="M44 34 L66 30" stroke="#E85D18" stroke-width=".5" fill="none"/></svg>
+    <div class="cap">And the first phone back in range <em>carries everyone's messages home.</em></div>
+  </div>
+  <div class="lbl"><span>09 · the bridge home</span><span>benefit · 46–51s</span></div>
+  <p class="note"><b>One phone glows as it re-enters Wi-Fi,</b> queued bubbles stream up the ember line to the server, and the sender's tick flips to "sent".</p>
+  <span class="chip">in: crossfade</span>
+</figure>
+
+<figure>
+  <div class="cell orange" id="frame-10">
+    <div class="center"><div>
+      <div style="width:12cqw;height:12cqw;border-radius:50%;background:var(--ink);color:var(--danger);display:grid;place-items:center;margin:0 auto;font-weight:900;font-size:3.2cqw;letter-spacing:.1em">SOS</div>
+      <div class="display" style="font-size:7cqw;margin-top:2.5cqw">one tap.<br>everyone knows.</div>
+    </div></div>
+    <div class="cap" style="background:rgba(27,17,11,.85)">In an emergency, <em>one tap alerts everyone nearby.</em></div>
+  </div>
+  <div class="lbl"><span>10 · sos</span><span>benefit · 51–56s</span></div>
+  <p class="note"><b>Hard cut to the orange register:</b> the finger taps SOS, a ring pulse fires out and three phone silhouettes flash red; the two-line statement locks.</p>
+  <span class="chip">in: cut</span>
+</figure>
+</div>
+
+<div class="act">act 3 · the control room</div>
+<div class="grid">
+<figure>
+  <div class="cell" id="frame-11"><div class="glow"></div>
+    <div class="phone" style="left:-6cqw;top:8cqw;width:14cqw;opacity:.6"><div class="notch"></div><div class="scr"></div></div>
+    <div class="dash">
+      <div class="dbar"><img src="assets/logo.png" alt="" style="width:1.8cqw;border-radius:50%"><b>Bunny Hop Control</b><span class="pill" style="color:var(--amber)">● Live</span><span class="pill">No emergency</span><span style="flex:1"></span><span class="pill">26 of 28 online · 1 talking</span></div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1.4cqw;padding:1.6cqw;font-size:1.25cqw">
+        <div class="card" style="border-color:rgba(255,154,61,.8);padding:1.3cqw;box-shadow:0 0 2.4cqw rgba(232,93,24,.35)"><span><div style="color:var(--muted);font-size:1cqw">HQ</div><div style="font-weight:700;font-size:1.7cqw">Gate B</div><div class="amber" style="font-weight:600">▮▮▮ Ravi is talking</div></span></div>
+        <div class="card" style="padding:1.3cqw"><span><div style="color:var(--muted);font-size:1cqw">HQ</div><div style="font-weight:700;font-size:1.7cqw">Medical</div><div style="color:var(--muted)">● 4 online</div></span></div>
+        <div class="card" style="padding:1.3cqw"><span><div style="color:var(--muted);font-size:1cqw">HQ</div><div style="font-weight:700;font-size:1.7cqw">Stage Crew</div><div style="color:var(--muted)">● 6 online</div></span></div>
+      </div>
+      <div style="padding:0 1.6cqw"><div class="kicker" style="font-size:1cqw;margin-bottom:.4cqw">activity</div>
+        <div class="row"><span class="av"></span><span><b>Meera</b> in Gate B <span class="badge">Relayed via Joel</span><br>radio dead at north door, using mesh</span></div>
+        <div class="row"><span class="av"></span><span><b>Asha</b> in Medical<br><span class="grey">Encrypted message</span></span></div>
+      </div>
+    </div>
+    <div class="cap">Behind it all, Bunny Hop Control. <em>Your control room, on one screen.</em></div>
+  </div>
+  <div class="lbl"><span>11 · bunny hop control</span><span>product intro · 56–62s</span></div>
+  <p class="note"><b>The phone slides left on a soft spring</b> and the camera follows it off-frame, revealing the dashboard; the Gate B card glows as Ravi talks.</p>
+  <span class="chip">in: push-slide left</span>
+</figure>
+
+<figure>
+  <div class="cell" id="frame-12"><div class="glow"></div>
+    <div class="dash">
+      <div class="dbar"><b>Nodes</b><span class="pill">every signed-in device, live</span><span style="flex:1"></span><span class="amber" style="font-family:'IBM Plex Mono',monospace;font-size:1.3cqw">26 of 28 online · 1 talking|</span></div>
+      <div style="display:grid;grid-template-columns:repeat(14,1fr);gap:1.1cqw;padding:2.4cqw 2.4cqw 1.6cqw"><span class="node talk"></span><span class="node "></span><span class="node "></span><span class="node "></span><span class="node "></span><span class="node "></span><span class="node "></span><span class="node near"></span><span class="node "></span><span class="node "></span><span class="node "></span><span class="node "></span><span class="node "></span><span class="node off"></span><span class="node "></span><span class="node near"></span><span class="node "></span><span class="node "></span><span class="node "></span><span class="node "></span><span class="node "></span><span class="node "></span><span class="node off"></span><span class="node "></span><span class="node "></span><span class="node "></span><span class="node "></span><span class="node "></span></div>
+      <div style="display:flex;gap:3cqw;padding:0 2.4cqw;font-size:1.2cqw;color:var(--muted)"><span><span class="ember">■</span> talking</span><span><span class="amber">■</span> online</span><span style="color:var(--warn)">■ nearby mode</span><span>■ offline</span></div>
+    </div>
+    <div class="cap">See every device, live. <em>Who's online, who's talking, who's out of range.</em></div>
+  </div>
+  <div class="lbl"><span>12 · every device, live</span><span>feature · 62–68s</span></div>
+  <p class="note"><b>Tiles pop in as the counter types</b> "26 of 28 online"; one tile ignites ember on "talking", two turn yellow on "out of range", camera pushes in on the grid.</p>
+  <span class="chip">in: crossfade</span>
+</figure>
+
+<figure>
+  <div class="cell" id="frame-13"><div class="glow"></div>
+    <div class="dash" style="left:30cqw">
+      <div class="dbar"><b>Gate B</b><span class="pill" style="color:var(--cream);border-color:var(--amber)">History</span><span class="pill">Summary</span><span class="pill">Media</span></div>
+      <div style="padding:1cqw 1.8cqw">
+        <div class="row"><span class="av"></span><span><b>Ravi</b> <span class="grey">10:42</span><br>queue is moving</span></div>
+        <div class="row"><span class="av"></span><span><b>Meera</b> <span class="badge">Relayed via Meera</span><br>radio dead at north door, using mesh|</span></div>
+        <div class="row"><span class="av"></span><span><b>Asha</b><br><span style="display:inline-block;width:9cqw;height:4cqw;background:linear-gradient(135deg,#7a4a2a,#3a2418);filter:blur(.3cqw);border-radius:.4cqw"></span> <span class="badge" style="color:var(--danger);border-color:var(--danger)">Sensitive content</span></span></div>
+      </div>
+    </div>
+    <div style="position:absolute;left:5.5cqw;top:8cqw;display:flex;align-items:end;gap:.4cqw;height:14cqw">
+      <span style="width:1.4cqw;height:30%;background:#d9701f;border-radius:.3cqw .3cqw 0 0"></span><span style="width:1.4cqw;height:55%;background:#d9701f;border-radius:.3cqw .3cqw 0 0"></span><span style="width:1.4cqw;height:100%;background:#d9701f;border-radius:.3cqw .3cqw 0 0"></span><span style="width:1.4cqw;height:70%;background:#d9701f;border-radius:.3cqw .3cqw 0 0"></span><span style="width:1.4cqw;height:40%;background:#d9701f;border-radius:.3cqw .3cqw 0 0"></span>
+    </div>
+    <div class="kicker" style="position:absolute;left:5.5cqw;top:23cqw">messages by hour</div>
+    <div class="cap">History, activity, and shared media, <em>safety-checked automatically.</em></div>
+  </div>
+  <div class="lbl"><span>13 · every channel, on the record</span><span>feature · 68–74s</span></div>
+  <p class="note"><b>The audit panel slides in from the right;</b> history rows type in one at a time while the hourly bars grow in step; the flagged photo stays blurred under its badge.</p>
+  <span class="chip">in: push-slide left</span>
+</figure>
+
+<figure>
+  <div class="cell" id="frame-14"><div class="glow" style="background:radial-gradient(60cqw 40cqw at 50% 0%,rgba(255,93,79,.2),transparent 60%)"></div>
+    <div class="dash" style="left:18cqw;right:18cqw">
+      <div class="dbar"><b>Broadcast</b><span style="flex:1"></span><span class="pill" style="color:#fff;background:var(--danger);border-color:var(--danger)">Emergency alert ●</span></div>
+      <div style="padding:1.2cqw">
+        <div class="field" style="font-size:1.6cqw;margin:0;padding:1cqw 1.3cqw"><b>Evacuate Hall C via Gate B|</b></div>
+        <div class="btn" style="background:var(--danger);color:#fff;font-size:1.4cqw;padding:1cqw">Send emergency alert</div>
+        <div style="display:flex;justify-content:space-between;margin-top:2cqw;font-size:1.4cqw"><b>Acknowledged</b><span class="amber" style="font-family:'IBM Plex Mono',monospace">12 of 14</span></div>
+        <div style="height:1.2cqw;border-radius:1cqw;background:#342216;margin-top:.8cqw;overflow:hidden"><div style="width:86%;height:100%;background:linear-gradient(90deg,var(--fire),var(--amber))"></div></div>
+        <div style="display:flex;gap:.8cqw;flex-wrap:wrap;margin-top:1.2cqw;font-size:1.2cqw"><span class="badge">✓ Asha</span><span class="badge">✓ Ravi</span><span class="badge">✓ Meera</span><span class="badge">✓ Joel</span><span class="badge" style="color:var(--muted);border-color:#4a3223">Priya</span></div>
+      </div>
+    </div>
+    <div class="cap">Send one broadcast, and <em>watch every acknowledgement come in.</em></div>
+  </div>
+  <div class="lbl"><span>14 · reach everyone, now</span><span>feature · 74–81s</span></div>
+  <p class="note"><b>The message types in, the switch flips red, Send presses;</b> the ack bar fills 3 → 7 → 12 of 14 with names ticking in on the same beats.</p>
+  <span class="chip">in: crossfade</span>
+</figure>
+
+<figure>
+  <div class="cell" id="frame-15"><div class="glow"></div>
+    <div class="center"><div>
+      <img src="assets/logo.png" alt="" style="width:11cqw;border-radius:50%;box-shadow:0 0 5cqw rgba(232,93,24,.5)">
+      <div class="display" style="font-size:7.5cqw;margin-top:1.6cqw">bunny hop</div>
+      <div class="h2" style="font-size:2.6cqw;margin-top:.8cqw">your team, <span class="ember">one press away.</span></div>
+      <div class="kicker" style="margin-top:1.6cqw;color:var(--muted)">runs on your own network · no internet needed</div>
+    </div></div>
+  </div>
+  <div class="lbl"><span>15 · one press away</span><span>cta · 81–87s</span></div>
+  <p class="note"><b>Dashboard and phone pull back and dissolve;</b> the logo re-forms center, wordmark and tagline lock up, and the offline line fades in last and holds to the end.</p>
+  <span class="chip">in: zoom-through</span>
+</figure>
+
+<figure>
+  <div class="cell" style="padding:3cqw">
+    <div class="kicker" style="font-size:1.8cqw">seam map</div>
+    <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:.8cqw;margin-top:2cqw;font-family:'IBM Plex Mono',monospace;font-size:1.9cqw;line-height:1.8;color:var(--muted)">
+      <span>01→02 <b class="amber">zoom</b></span><span>02→03 <b class="amber">xfade</b></span><span>03→04 <b class="amber">push ←</b></span><span>04→05 <b class="amber">xfade</b></span><span>05→06 <b class="amber">push ←</b></span>
+      <span>06→07 <b class="amber">zoom</b></span><span>07→08 <b class="amber">blur</b></span><span>08→09 <b class="amber">xfade</b></span><span>09→10 <b class="amber">cut</b></span><span>10→11 <b class="amber">push ←</b></span>
+      <span>11→12 <b class="amber">xfade</b></span><span>12→13 <b class="amber">push ←</b></span><span>13→14 <b class="amber">xfade</b></span><span>14→15 <b class="amber">zoom</b></span>
+    </div>
+    <p style="margin-top:2cqw;font-size:2.2cqw;line-height:1.4;color:var(--muted)">Phone stays the hero 03–10 (screens change inside it); 10→11 is the spring slide-left hand-off to the dashboard.</p>
+  </div>
+  <div class="lbl"><span>seams</span><span>14 transitions</span></div>
+</figure>
+
+<figure>
+  <div class="cell">
+    <div class="tokens">
+      <div><div class="sw" style="background:#1B110B"></div><div class="swl">ink #1B110B</div></div>
+      <div><div class="sw" style="background:#E85D18"></div><div class="swl">fire #E85D18</div></div>
+      <div><div class="sw" style="background:#FF9A3D"></div><div class="swl">amber #FF9A3D</div></div>
+      <div><div class="sw" style="background:#FFF6EA"></div><div class="swl">cream #FFF6EA</div></div>
+    </div>
+    <div style="padding:0 3cqw;font-size:2.2cqw;color:var(--muted);line-height:1.5">
+      <b style="color:var(--cream)">Type:</b> Barlow 900 lowercase display · Barlow body · IBM Plex Mono uppercase labels.<br>
+      <b style="color:var(--cream)">Bans:</b> no gradients on text · no third accent color · no stock icons · captions never cover the phone's talk button.
+    </div>
+  </div>
+  <div class="lbl"><span>tokens</span><span>broadside · ember remix</span></div>
+</figure>
+</div>
+</body>
+</html>

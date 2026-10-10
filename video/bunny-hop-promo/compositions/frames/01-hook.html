@@ -1,0 +1,78 @@
+<template>
+<style>@font-face{font-family:"Barlow";src:url(assets/fonts/barlow-latin-400-normal.woff2) format("woff2");font-weight:400}@font-face{font-family:"Barlow";src:url(assets/fonts/barlow-latin-600-normal.woff2) format("woff2");font-weight:600}@font-face{font-family:"Barlow";src:url(assets/fonts/barlow-latin-700-normal.woff2) format("woff2");font-weight:700}@font-face{font-family:"Barlow";src:url(assets/fonts/barlow-latin-800-normal.woff2) format("woff2");font-weight:800}@font-face{font-family:"Barlow";src:url(assets/fonts/barlow-latin-900-normal.woff2) format("woff2");font-weight:900}@font-face{font-family:"IBM Plex Mono";src:url(assets/fonts/ibm-plex-mono-latin-500-normal.woff2) format("woff2");font-weight:500}
+#root{position:absolute;inset:0;overflow:hidden;font-family:Barlow,sans-serif;color:#FFF6EA}
+.f01.clip{position:absolute;inset:0}
+.f01.bg{background:radial-gradient(1150px 760px at 76% -12%,rgba(232,93,24,.30),rgba(232,93,24,0) 62%),#1B110B}
+.f01.bg.orange{background:#E85D18}
+.f01 .layer{position:absolute;inset:0}
+.f01 .kicker{position:absolute;font-family:"IBM Plex Mono",monospace;font-weight:500;font-size:20px;letter-spacing:.14em;text-transform:uppercase;color:#E85D18}
+.f01 .display{font-weight:900;font-size:176px;line-height:.88;letter-spacing:-.04em;text-transform:lowercase}
+.f01 .h1{font-weight:800;font-size:112px;line-height:.92;letter-spacing:-.03em;text-transform:lowercase}
+.f01 .h2{font-weight:700;font-size:66px;line-height:1.06;letter-spacing:-.02em;text-transform:lowercase}
+.f01 .ember{color:#E85D18}.f01 .amber{color:#FF9A3D}.f01 .muted{color:#C4AA94}.f01 .hint{color:#5c4d43}
+.f01 .stack{position:absolute;display:flex;flex-direction:column;gap:14px}
+.f01 .word{display:block}
+.f01 .phone{position:absolute;width:350px;height:740px;border-radius:58px;background:#0e0806;border:7px solid #3a2a20;box-shadow:0 40px 90px rgba(0,0,0,.6),0 0 80px rgba(232,93,24,.20);overflow:hidden}
+.f01 .scr{position:absolute;inset:10px;border-radius:48px;background:#1B110B;overflow:hidden;padding:52px 22px 20px}
+.f01 .notch{position:absolute;top:18px;left:50%;width:90px;height:22px;margin-left:-45px;border-radius:20px;background:#000;z-index:3}
+.f01 .ptitle{font-weight:700;font-size:25px;text-align:center}
+.f01 .psub{font-size:14px;color:#C4AA94;text-align:center;line-height:1.35}
+.f01 .field{background:#342216;border:1px solid #4a3223;border-radius:16px;padding:12px 16px;font-size:16px;color:#C4AA94;margin-top:12px}
+.f01 .field b{color:#FFF6EA;font-weight:600}
+.f01 .btn{background:#FF9A3D;color:#2a1105;border-radius:18px;padding:15px;font-weight:700;font-size:17px;text-align:center;margin-top:14px;position:relative}
+.f01 .card{background:rgba(52,34,22,.92);border:1px solid rgba(255,224,184,.14);border-radius:20px;padding:14px;display:flex;gap:12px;align-items:center;margin-top:12px}
+.f01 .ic{width:44px;height:44px;border-radius:14px;background:linear-gradient(135deg,#FF9A3D,#E85D18);flex:none}
+.f01 .ct{font-weight:700;font-size:18px}.f01 .cs{font-size:13px;color:#C4AA94}
+.f01 .bubble{max-width:78%;border-radius:18px;padding:10px 14px;font-size:15px;margin-top:10px;background:#342216}
+.f01 .bubble.me{margin-left:auto;background:#6a3415}
+.f01 .ptt{position:absolute;left:18px;right:18px;bottom:26px;height:66px;border-radius:40px;background:#342216;border:1.5px solid #4a3223;display:flex;align-items:center;gap:12px;padding:0 9px;font-weight:800;font-size:16px}
+.f01 .orb{width:50px;height:50px;border-radius:50%;background:rgba(255,154,61,.16);flex:none}
+.f01 .tap{position:absolute;width:64px;height:64px;border-radius:50%;border:5px solid rgba(255,246,234,.95);box-shadow:0 0 0 18px rgba(255,246,234,.16)}
+.f01 .redbar{background:rgba(255,93,79,.18);color:#FF5D4F;font-weight:700;font-size:13px;padding:8px 10px;border-radius:10px}
+.f01 .wave{display:flex;gap:5px;align-items:center;justify-content:center}
+.f01 .wave i{display:block;width:8px;border-radius:5px;background:#FF9A3D}
+.f01 .dash{position:absolute;border-radius:24px;background:#1f140d;border:1px solid rgba(255,224,184,.14);box-shadow:0 40px 90px rgba(0,0,0,.55);overflow:hidden}
+.f01 .dbar{display:flex;align-items:center;gap:22px;padding:22px 30px;border-bottom:1px solid rgba(255,224,184,.12);font-size:28px}
+.f01 .dbar b{font-weight:700}
+.f01 .pill{font-size:19px;padding:6px 16px;border-radius:40px;border:1px solid rgba(255,224,184,.2);color:#C4AA94;white-space:nowrap}
+.f01 .row{display:flex;gap:18px;align-items:flex-start;padding:16px 0;border-top:1px solid rgba(255,224,184,.1);font-size:23px;line-height:1.35}
+.f01 .av{width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,#6a3415,#a24a1c);flex:none}
+.f01 .badge{display:inline-block;font-size:17px;padding:2px 12px;border-radius:40px;border:1px solid rgba(255,154,61,.5);color:#FF9A3D;vertical-align:middle}
+.f01 .node{border-radius:12px;background:rgba(255,154,61,.55)}
+.f01 .mono{font-family:"IBM Plex Mono",monospace;font-weight:500}
+.f01 .glowdot{position:absolute;border-radius:50%;background:radial-gradient(circle,rgba(232,93,24,.55),rgba(232,93,24,0) 70%)}
+</style>
+<div data-hf-id="hf-480j" id="root" data-composition-id="01-hook" data-start="0" data-width="1920" data-height="1080" data-duration="6.58">
+  <div data-hf-id="hf-br10" id="f01-bg" class="clip bg f01" data-start="0" data-duration="6.58" data-track-index="0"></div>
+  <div data-hf-id="hf-5zg6" id="f01-content" class="clip f01" data-start="0" data-duration="6.58" data-track-index="1">
+    <div data-hf-id="hf-bpxi" class="layer" id="f01-cam">
+      <div data-hf-id="hf-ef20" class="stack" style="left:110px;top:150px;width:1300px">
+        <div data-hf-id="hf-otkx" class="h2 word" id="f01-a">big event.</div>
+        <div data-hf-id="hf-j65w" class="h2 word" id="f01-b">hundreds of staff.</div>
+        <div data-hf-id="hf-orgx" class="h2 word" id="f01-c">the wi-fi drops, and the team goes <span data-hf-id="hf-laae" id="f01-silent">silent.</span></div>
+      </div>
+      <div data-hf-id="hf-ikfa" class="glowdot" id="f01-glow" style="left:1080px;top:420px;width:900px;height:520px"></div>
+      <div data-hf-id="hf-cnjk" class="display ember" id="f01-not" style="position:absolute;right:110px;top:600px">not yours.</div>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  const tl = gsap.timeline({ paused: true });
+  const q = (s) => document.querySelectorAll('[data-composition-id="01-hook"] ' + s);
+  const D = 6.58;
+  tl.fromTo('#f01-a', {y:40, opacity:0}, {y:0, opacity:1, duration:0.5, ease:'power3.out'}, 0.1);
+  tl.fromTo('#f01-b', {y:40, opacity:0}, {y:0, opacity:1, duration:0.5, ease:'power3.out'}, 1.2);
+  tl.to('#f01-a', {color:'#9a8c82', duration:0.5}, 1.2);
+  tl.fromTo('#f01-c', {y:40, opacity:0}, {y:0, opacity:1, duration:0.55, ease:'power3.out'}, 2.3);
+  tl.to('#f01-b', {color:'#9a8c82', duration:0.5}, 2.4);
+  tl.to('#f01-silent', {color:'#9a8c82', duration:0.9, ease:'power2.inOut'}, 3.6);
+  tl.to(['#f01-a','#f01-b','#f01-c'], {opacity:0.85, duration:0.6}, 4.3);
+  tl.fromTo('#f01-glow', {opacity:0, scale:0.6}, {opacity:1, scale:1, duration:0.9, ease:'power3.out'}, 4.4);
+  tl.fromTo('#f01-not', {opacity:0, scale:1.35, y:-20}, {opacity:1, scale:1, y:0, duration:0.45, ease:'power4.out'}, 4.45);
+  tl.fromTo('#f01-cam', {scale:1}, {scale:1.04, duration:D, ease:'none', transformOrigin:'50% 50%'}, 0);
+
+  window.__timelines["01-hook"] = tl;
+})();
+</script>
+</template>

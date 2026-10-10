@@ -1,0 +1,78 @@
+<template>
+<style>@font-face{font-family:"Barlow";src:url(assets/fonts/barlow-latin-400-normal.woff2) format("woff2");font-weight:400}@font-face{font-family:"Barlow";src:url(assets/fonts/barlow-latin-600-normal.woff2) format("woff2");font-weight:600}@font-face{font-family:"Barlow";src:url(assets/fonts/barlow-latin-700-normal.woff2) format("woff2");font-weight:700}@font-face{font-family:"Barlow";src:url(assets/fonts/barlow-latin-800-normal.woff2) format("woff2");font-weight:800}@font-face{font-family:"Barlow";src:url(assets/fonts/barlow-latin-900-normal.woff2) format("woff2");font-weight:900}@font-face{font-family:"IBM Plex Mono";src:url(assets/fonts/ibm-plex-mono-latin-500-normal.woff2) format("woff2");font-weight:500}
+#root{position:absolute;inset:0;overflow:hidden;font-family:Barlow,sans-serif;color:#FFF6EA}
+.f13.clip{position:absolute;inset:0}
+.f13.bg{background:radial-gradient(1150px 760px at 76% -12%,rgba(232,93,24,.30),rgba(232,93,24,0) 62%),#1B110B}
+.f13.bg.orange{background:#E85D18}
+.f13 .layer{position:absolute;inset:0}
+.f13 .kicker{position:absolute;font-family:"IBM Plex Mono",monospace;font-weight:500;font-size:20px;letter-spacing:.14em;text-transform:uppercase;color:#E85D18}
+.f13 .display{font-weight:900;font-size:176px;line-height:.88;letter-spacing:-.04em;text-transform:lowercase}
+.f13 .h1{font-weight:800;font-size:112px;line-height:.92;letter-spacing:-.03em;text-transform:lowercase}
+.f13 .h2{font-weight:700;font-size:66px;line-height:1.06;letter-spacing:-.02em;text-transform:lowercase}
+.f13 .ember{color:#E85D18}.f13 .amber{color:#FF9A3D}.f13 .muted{color:#C4AA94}.f13 .hint{color:#5c4d43}
+.f13 .stack{position:absolute;display:flex;flex-direction:column;gap:14px}
+.f13 .word{display:block}
+.f13 .phone{position:absolute;width:350px;height:740px;border-radius:58px;background:#0e0806;border:7px solid #3a2a20;box-shadow:0 40px 90px rgba(0,0,0,.6),0 0 80px rgba(232,93,24,.20);overflow:hidden}
+.f13 .scr{position:absolute;inset:10px;border-radius:48px;background:#1B110B;overflow:hidden;padding:52px 22px 20px}
+.f13 .notch{position:absolute;top:18px;left:50%;width:90px;height:22px;margin-left:-45px;border-radius:20px;background:#000;z-index:3}
+.f13 .ptitle{font-weight:700;font-size:25px;text-align:center}
+.f13 .psub{font-size:14px;color:#C4AA94;text-align:center;line-height:1.35}
+.f13 .field{background:#342216;border:1px solid #4a3223;border-radius:16px;padding:12px 16px;font-size:16px;color:#C4AA94;margin-top:12px}
+.f13 .field b{color:#FFF6EA;font-weight:600}
+.f13 .btn{background:#FF9A3D;color:#2a1105;border-radius:18px;padding:15px;font-weight:700;font-size:17px;text-align:center;margin-top:14px;position:relative}
+.f13 .card{background:rgba(52,34,22,.92);border:1px solid rgba(255,224,184,.14);border-radius:20px;padding:14px;display:flex;gap:12px;align-items:center;margin-top:12px}
+.f13 .ic{width:44px;height:44px;border-radius:14px;background:linear-gradient(135deg,#FF9A3D,#E85D18);flex:none}
+.f13 .ct{font-weight:700;font-size:18px}.f13 .cs{font-size:13px;color:#C4AA94}
+.f13 .bubble{max-width:78%;border-radius:18px;padding:10px 14px;font-size:15px;margin-top:10px;background:#342216}
+.f13 .bubble.me{margin-left:auto;background:#6a3415}
+.f13 .ptt{position:absolute;left:18px;right:18px;bottom:26px;height:66px;border-radius:40px;background:#342216;border:1.5px solid #4a3223;display:flex;align-items:center;gap:12px;padding:0 9px;font-weight:800;font-size:16px}
+.f13 .orb{width:50px;height:50px;border-radius:50%;background:rgba(255,154,61,.16);flex:none}
+.f13 .tap{position:absolute;width:64px;height:64px;border-radius:50%;border:5px solid rgba(255,246,234,.95);box-shadow:0 0 0 18px rgba(255,246,234,.16)}
+.f13 .redbar{background:rgba(255,93,79,.18);color:#FF5D4F;font-weight:700;font-size:13px;padding:8px 10px;border-radius:10px}
+.f13 .wave{display:flex;gap:5px;align-items:center;justify-content:center}
+.f13 .wave i{display:block;width:8px;border-radius:5px;background:#FF9A3D}
+.f13 .dash{position:absolute;border-radius:24px;background:#1f140d;border:1px solid rgba(255,224,184,.14);box-shadow:0 40px 90px rgba(0,0,0,.55);overflow:hidden}
+.f13 .dbar{display:flex;align-items:center;gap:22px;padding:22px 30px;border-bottom:1px solid rgba(255,224,184,.12);font-size:28px}
+.f13 .dbar b{font-weight:700}
+.f13 .pill{font-size:19px;padding:6px 16px;border-radius:40px;border:1px solid rgba(255,224,184,.2);color:#C4AA94;white-space:nowrap}
+.f13 .row{display:flex;gap:18px;align-items:flex-start;padding:16px 0;border-top:1px solid rgba(255,224,184,.1);font-size:23px;line-height:1.35}
+.f13 .av{width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,#6a3415,#a24a1c);flex:none}
+.f13 .badge{display:inline-block;font-size:17px;padding:2px 12px;border-radius:40px;border:1px solid rgba(255,154,61,.5);color:#FF9A3D;vertical-align:middle}
+.f13 .node{border-radius:12px;background:rgba(255,154,61,.55)}
+.f13 .mono{font-family:"IBM Plex Mono",monospace;font-weight:500}
+.f13 .glowdot{position:absolute;border-radius:50%;background:radial-gradient(circle,rgba(232,93,24,.55),rgba(232,93,24,0) 70%)}
+</style>
+<div data-hf-id="hf-cf7z" id="root" data-composition-id="13-audit" data-start="0" data-width="1920" data-height="1080" data-duration="6.86">
+  <div data-hf-id="hf-67pt" id="f13-bg" class="clip bg f13" data-start="0" data-duration="6.86" data-track-index="0"></div>
+  <div data-hf-id="hf-akhx" id="f13-content" class="clip f13" data-start="0" data-duration="6.86" data-track-index="1">
+    <div data-hf-id="hf-8h77" class="layer" id="f13-cam">
+      <div data-hf-id="hf-v3oi" style="position:absolute;left:110px;top:200px;display:flex;align-items:flex-end;gap:14px;height:360px"><div data-hf-id="hf-74pt" class="f13-bar" style="width:46px;height:30%;background:#d9701f;border-radius:8px 8px 0 0;transform-origin:50% 100%"></div><div data-hf-id="hf-48t6" class="f13-bar" style="width:46px;height:55%;background:#d9701f;border-radius:8px 8px 0 0;transform-origin:50% 100%"></div><div data-hf-id="hf-nidd" class="f13-bar" style="width:46px;height:100%;background:#d9701f;border-radius:8px 8px 0 0;transform-origin:50% 100%"></div><div data-hf-id="hf-ow39" class="f13-bar" style="width:46px;height:70%;background:#d9701f;border-radius:8px 8px 0 0;transform-origin:50% 100%"></div><div data-hf-id="hf-3y10" class="f13-bar" style="width:46px;height:40%;background:#d9701f;border-radius:8px 8px 0 0;transform-origin:50% 100%"></div><div data-hf-id="hf-di6o" class="f13-bar" style="width:46px;height:62%;background:#d9701f;border-radius:8px 8px 0 0;transform-origin:50% 100%"></div></div>
+      <div data-hf-id="hf-51tb" class="kicker" style="left:110px;top:590px">messages by hour</div>
+      <div data-hf-id="hf-l7r4" class="dash" id="f13-dash" style="left:620px;right:110px;top:110px;height:740px">
+        <div data-hf-id="hf-v3rn" class="dbar"><b data-hf-id="hf-d3j0">Gate B</b><span data-hf-id="hf-721d" class="pill" style="color:#FFF6EA;border-color:#FF9A3D">History</span><span data-hf-id="hf-idvw" class="pill">Summary</span><span data-hf-id="hf-djoo" class="pill">Media</span></div>
+        <div data-hf-id="hf-13uo" style="padding:16px 34px">
+          <div data-hf-id="hf-o2e7" class="row f13-r"><span data-hf-id="hf-23os" class="av"></span><span data-hf-id="hf-uckh"><b data-hf-id="hf-2fmd">Ravi</b> <span data-hf-id="hf-j5m5" class="muted">10:42</span><br data-hf-id="hf-x5px"><span data-hf-id="hf-xm4n" class="f13-t1"><span data-hf-id="hf-tvc0" class="f13-t1-ch">q</span><span data-hf-id="hf-sa3w" class="f13-t1-ch">u</span><span data-hf-id="hf-lx7g" class="f13-t1-ch">e</span><span data-hf-id="hf-3iys" class="f13-t1-ch">u</span><span data-hf-id="hf-ky8k" class="f13-t1-ch">e</span><span data-hf-id="hf-7ro1" class="f13-t1-ch">&#160;</span><span data-hf-id="hf-kbzc" class="f13-t1-ch">i</span><span data-hf-id="hf-t2py" class="f13-t1-ch">s</span><span data-hf-id="hf-lr9h" class="f13-t1-ch">&#160;</span><span data-hf-id="hf-iqr8" class="f13-t1-ch">m</span><span data-hf-id="hf-hy56" class="f13-t1-ch">o</span><span data-hf-id="hf-r36t" class="f13-t1-ch">v</span><span data-hf-id="hf-kwbk" class="f13-t1-ch">i</span><span data-hf-id="hf-hju5" class="f13-t1-ch">n</span><span data-hf-id="hf-l4le" class="f13-t1-ch">g</span><span data-hf-id="hf-swuf" class="f13-t1-ch">,</span><span data-hf-id="hf-my6k" class="f13-t1-ch">&#160;</span><span data-hf-id="hf-v84m" class="f13-t1-ch">g</span><span data-hf-id="hf-nifk" class="f13-t1-ch">a</span><span data-hf-id="hf-rvsv" class="f13-t1-ch">t</span><span data-hf-id="hf-jrbh" class="f13-t1-ch">e</span><span data-hf-id="hf-mjvj" class="f13-t1-ch">&#160;</span><span data-hf-id="hf-mbih" class="f13-t1-ch">b</span><span data-hf-id="hf-nqsm" class="f13-t1-ch">&#160;</span><span data-hf-id="hf-mpti" class="f13-t1-ch">c</span><span data-hf-id="hf-icg7" class="f13-t1-ch">l</span><span data-hf-id="hf-k5mi" class="f13-t1-ch">e</span><span data-hf-id="hf-nzl4" class="f13-t1-ch">a</span><span data-hf-id="hf-soex" class="f13-t1-ch">r</span></span></span></div>
+          <div data-hf-id="hf-n7of" class="row f13-r"><span data-hf-id="hf-lupw" class="av"></span><span data-hf-id="hf-l73p"><b data-hf-id="hf-bgdj">Meera</b> <span data-hf-id="hf-qsaq" class="badge">Relayed via Meera</span><br data-hf-id="hf-rsrt"><span data-hf-id="hf-mqn0" class="f13-t2"><span data-hf-id="hf-muqm" class="f13-t2-ch">r</span><span data-hf-id="hf-cu63" class="f13-t2-ch">a</span><span data-hf-id="hf-bn90" class="f13-t2-ch">d</span><span data-hf-id="hf-k2lf" class="f13-t2-ch">i</span><span data-hf-id="hf-dms5" class="f13-t2-ch">o</span><span data-hf-id="hf-hpw8" class="f13-t2-ch">&#160;</span><span data-hf-id="hf-t5sc" class="f13-t2-ch">d</span><span data-hf-id="hf-b8xz" class="f13-t2-ch">e</span><span data-hf-id="hf-xbaz" class="f13-t2-ch">a</span><span data-hf-id="hf-ryv9" class="f13-t2-ch">d</span><span data-hf-id="hf-z0z4" class="f13-t2-ch">&#160;</span><span data-hf-id="hf-wwzy" class="f13-t2-ch">a</span><span data-hf-id="hf-m24k" class="f13-t2-ch">t</span><span data-hf-id="hf-xu21" class="f13-t2-ch">&#160;</span><span data-hf-id="hf-e136" class="f13-t2-ch">n</span><span data-hf-id="hf-mifd" class="f13-t2-ch">o</span><span data-hf-id="hf-tybm" class="f13-t2-ch">r</span><span data-hf-id="hf-paws" class="f13-t2-ch">t</span><span data-hf-id="hf-kgwg" class="f13-t2-ch">h</span><span data-hf-id="hf-y8d2" class="f13-t2-ch">&#160;</span><span data-hf-id="hf-sd6a" class="f13-t2-ch">d</span><span data-hf-id="hf-npcg" class="f13-t2-ch">o</span><span data-hf-id="hf-nb1f" class="f13-t2-ch">o</span><span data-hf-id="hf-ucmn" class="f13-t2-ch">r</span><span data-hf-id="hf-pe3g" class="f13-t2-ch">,</span><span data-hf-id="hf-x1fz" class="f13-t2-ch">&#160;</span><span data-hf-id="hf-lntj" class="f13-t2-ch">u</span><span data-hf-id="hf-mgfl" class="f13-t2-ch">s</span><span data-hf-id="hf-qd5v" class="f13-t2-ch">i</span><span data-hf-id="hf-6ixy" class="f13-t2-ch">n</span><span data-hf-id="hf-agbx" class="f13-t2-ch">g</span><span data-hf-id="hf-xfr0" class="f13-t2-ch">&#160;</span><span data-hf-id="hf-efe7" class="f13-t2-ch">m</span><span data-hf-id="hf-h15z" class="f13-t2-ch">e</span><span data-hf-id="hf-21t1" class="f13-t2-ch">s</span><span data-hf-id="hf-3cdk" class="f13-t2-ch">h</span></span></span></div>
+          <div data-hf-id="hf-mtde" class="row f13-r"><span data-hf-id="hf-knst" class="av"></span><span data-hf-id="hf-me0s"><b data-hf-id="hf-8cvu">Asha</b> <span data-hf-id="hf-l55a" class="muted">10:47</span><br data-hf-id="hf-szow"><span data-hf-id="hf-gm6m" style="display:inline-block;width:220px;height:120px;border-radius:12px;background:linear-gradient(135deg,#8a5a34,#3a2418);filter:blur(10px);vertical-align:middle"></span> <span data-hf-id="hf-ooa0" class="badge" id="f13-flag" style="color:#FF5D4F;border-color:#FF5D4F;opacity:0">Sensitive content</span></span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  const tl = gsap.timeline({ paused: true });
+  const q = (s) => document.querySelectorAll('[data-composition-id="13-audit"] ' + s);
+  const D = 6.86;
+  tl.fromTo('#f13-dash', {x:420, opacity:0}, {x:0, opacity:1, duration:0.8, ease:'power2.inOut'}, 0);
+  const bars = q('.f13-bar');
+  tl.fromTo(bars, {scaleY:0}, {scaleY:1, duration:0.6, stagger:0.55, ease:'power3.out'}, 0.4);
+  tl.fromTo(q('.f13-r'), {opacity:0, y:20}, {opacity:1, y:0, duration:0.35, stagger:1.1}, 1.2);
+  tl.fromTo(q('.f13-t1 .f13-t1-ch'), {opacity:0}, {opacity:1, duration:0.01, stagger:0.025, ease:'none'}, 1.4);
+  tl.fromTo(q('.f13-t2 .f13-t2-ch'), {opacity:0}, {opacity:1, duration:0.01, stagger:0.025, ease:'none'}, 2.5);
+  tl.fromTo('#f13-flag', {scale:0.6, opacity:0}, {scale:1, opacity:1, duration:0.4, ease:'back.out(1.8)'}, 4.0);
+
+  window.__timelines["13-audit"] = tl;
+})();
+</script>
+</template>

@@ -1,0 +1,87 @@
+<template>
+<style>@font-face{font-family:"Barlow";src:url(assets/fonts/barlow-latin-400-normal.woff2) format("woff2");font-weight:400}@font-face{font-family:"Barlow";src:url(assets/fonts/barlow-latin-600-normal.woff2) format("woff2");font-weight:600}@font-face{font-family:"Barlow";src:url(assets/fonts/barlow-latin-700-normal.woff2) format("woff2");font-weight:700}@font-face{font-family:"Barlow";src:url(assets/fonts/barlow-latin-800-normal.woff2) format("woff2");font-weight:800}@font-face{font-family:"Barlow";src:url(assets/fonts/barlow-latin-900-normal.woff2) format("woff2");font-weight:900}@font-face{font-family:"IBM Plex Mono";src:url(assets/fonts/ibm-plex-mono-latin-500-normal.woff2) format("woff2");font-weight:500}
+#root{position:absolute;inset:0;overflow:hidden;font-family:Barlow,sans-serif;color:#FFF6EA}
+.f05.clip{position:absolute;inset:0}
+.f05.bg{background:radial-gradient(1150px 760px at 76% -12%,rgba(232,93,24,.30),rgba(232,93,24,0) 62%),#1B110B}
+.f05.bg.orange{background:#E85D18}
+.f05 .layer{position:absolute;inset:0}
+.f05 .kicker{position:absolute;font-family:"IBM Plex Mono",monospace;font-weight:500;font-size:20px;letter-spacing:.14em;text-transform:uppercase;color:#E85D18}
+.f05 .display{font-weight:900;font-size:176px;line-height:.88;letter-spacing:-.04em;text-transform:lowercase}
+.f05 .h1{font-weight:800;font-size:112px;line-height:.92;letter-spacing:-.03em;text-transform:lowercase}
+.f05 .h2{font-weight:700;font-size:66px;line-height:1.06;letter-spacing:-.02em;text-transform:lowercase}
+.f05 .ember{color:#E85D18}.f05 .amber{color:#FF9A3D}.f05 .muted{color:#C4AA94}.f05 .hint{color:#5c4d43}
+.f05 .stack{position:absolute;display:flex;flex-direction:column;gap:14px}
+.f05 .word{display:block}
+.f05 .phone{position:absolute;width:350px;height:740px;border-radius:58px;background:#0e0806;border:7px solid #3a2a20;box-shadow:0 40px 90px rgba(0,0,0,.6),0 0 80px rgba(232,93,24,.20);overflow:hidden}
+.f05 .scr{position:absolute;inset:10px;border-radius:48px;background:#1B110B;overflow:hidden;padding:52px 22px 20px}
+.f05 .notch{position:absolute;top:18px;left:50%;width:90px;height:22px;margin-left:-45px;border-radius:20px;background:#000;z-index:3}
+.f05 .ptitle{font-weight:700;font-size:25px;text-align:center}
+.f05 .psub{font-size:14px;color:#C4AA94;text-align:center;line-height:1.35}
+.f05 .field{background:#342216;border:1px solid #4a3223;border-radius:16px;padding:12px 16px;font-size:16px;color:#C4AA94;margin-top:12px}
+.f05 .field b{color:#FFF6EA;font-weight:600}
+.f05 .btn{background:#FF9A3D;color:#2a1105;border-radius:18px;padding:15px;font-weight:700;font-size:17px;text-align:center;margin-top:14px;position:relative}
+.f05 .card{background:rgba(52,34,22,.92);border:1px solid rgba(255,224,184,.14);border-radius:20px;padding:14px;display:flex;gap:12px;align-items:center;margin-top:12px}
+.f05 .ic{width:44px;height:44px;border-radius:14px;background:linear-gradient(135deg,#FF9A3D,#E85D18);flex:none}
+.f05 .ct{font-weight:700;font-size:18px}.f05 .cs{font-size:13px;color:#C4AA94}
+.f05 .bubble{max-width:78%;border-radius:18px;padding:10px 14px;font-size:15px;margin-top:10px;background:#342216}
+.f05 .bubble.me{margin-left:auto;background:#6a3415}
+.f05 .ptt{position:absolute;left:18px;right:18px;bottom:26px;height:66px;border-radius:40px;background:#342216;border:1.5px solid #4a3223;display:flex;align-items:center;gap:12px;padding:0 9px;font-weight:800;font-size:16px}
+.f05 .orb{width:50px;height:50px;border-radius:50%;background:rgba(255,154,61,.16);flex:none}
+.f05 .tap{position:absolute;width:64px;height:64px;border-radius:50%;border:5px solid rgba(255,246,234,.95);box-shadow:0 0 0 18px rgba(255,246,234,.16)}
+.f05 .redbar{background:rgba(255,93,79,.18);color:#FF5D4F;font-weight:700;font-size:13px;padding:8px 10px;border-radius:10px}
+.f05 .wave{display:flex;gap:5px;align-items:center;justify-content:center}
+.f05 .wave i{display:block;width:8px;border-radius:5px;background:#FF9A3D}
+.f05 .dash{position:absolute;border-radius:24px;background:#1f140d;border:1px solid rgba(255,224,184,.14);box-shadow:0 40px 90px rgba(0,0,0,.55);overflow:hidden}
+.f05 .dbar{display:flex;align-items:center;gap:22px;padding:22px 30px;border-bottom:1px solid rgba(255,224,184,.12);font-size:28px}
+.f05 .dbar b{font-weight:700}
+.f05 .pill{font-size:19px;padding:6px 16px;border-radius:40px;border:1px solid rgba(255,224,184,.2);color:#C4AA94;white-space:nowrap}
+.f05 .row{display:flex;gap:18px;align-items:flex-start;padding:16px 0;border-top:1px solid rgba(255,224,184,.1);font-size:23px;line-height:1.35}
+.f05 .av{width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,#6a3415,#a24a1c);flex:none}
+.f05 .badge{display:inline-block;font-size:17px;padding:2px 12px;border-radius:40px;border:1px solid rgba(255,154,61,.5);color:#FF9A3D;vertical-align:middle}
+.f05 .node{border-radius:12px;background:rgba(255,154,61,.55)}
+.f05 .mono{font-family:"IBM Plex Mono",monospace;font-weight:500}
+.f05 .glowdot{position:absolute;border-radius:50%;background:radial-gradient(circle,rgba(232,93,24,.55),rgba(232,93,24,0) 70%)}
+</style>
+<div data-hf-id="hf-cvfv" id="root" data-composition-id="05-ptt" data-start="0" data-width="1920" data-height="1080" data-duration="7.56">
+  <div data-hf-id="hf-92x1" id="f05-bg" class="clip bg f05" data-start="0" data-duration="7.56" data-track-index="0"></div>
+  <div data-hf-id="hf-kup1" id="f05-content" class="clip f05" data-start="0" data-duration="7.56" data-track-index="1">
+    <div data-hf-id="hf-yski" class="layer" id="f05-cam">
+      <div data-hf-id="hf-2lev" class="kicker" style="left:110px;top:150px">03 · push to talk</div>
+      <div data-hf-id="hf-bjd3" class="stack" style="left:110px;top:200px"><div data-hf-id="hf-ht7r" class="h1 word" id="f05-h">hold<br data-hf-id="hf-x5px">to <span data-hf-id="hf-yctu" class="ember">talk.</span></div></div>
+      <div data-hf-id="hf-qc4i" class="phone" id="f05-p1" style="left:820px;top:110px"><div data-hf-id="hf-8kjy" class="notch"></div><div data-hf-id="hf-zn7g" class="scr">
+        <div data-hf-id="hf-0os7" class="ptitle">Gate B</div><div data-hf-id="hf-zznt" class="psub amber">Encrypted</div>
+        <div data-hf-id="hf-d0gi" id="f05-wv" style="margin-top:150px;opacity:0"><div data-hf-id="hf-cfyz" class="wave"><i data-hf-id="hf-nc1t" style="height:18px"></i><i data-hf-id="hf-s2bb" style="height:81px"></i><i data-hf-id="hf-whic" style="height:37px"></i><i data-hf-id="hf-xs9f" style="height:100px"></i><i data-hf-id="hf-he1v" style="height:56px"></i><i data-hf-id="hf-vg97" style="height:12px"></i><i data-hf-id="hf-wkpu" style="height:75px"></i><i data-hf-id="hf-nyru" style="height:31px"></i><i data-hf-id="hf-p7w5" style="height:94px"></i><i data-hf-id="hf-cbth" style="height:50px"></i><i data-hf-id="hf-xd5w" style="height:114px"></i><i data-hf-id="hf-i9b9" style="height:69px"></i><i data-hf-id="hf-uq91" style="height:25px"></i><i data-hf-id="hf-ka46" style="height:88px"></i><i data-hf-id="hf-5tg6" style="height:44px"></i><i data-hf-id="hf-et63" style="height:108px"></i><i data-hf-id="hf-z8q7" style="height:63px"></i><i data-hf-id="hf-8j8w" style="height:19px"></i></div></div>
+        <div data-hf-id="hf-8z2a" class="ptt" id="f05-ptt"><span data-hf-id="hf-ydt5" class="orb" id="f05-orb"></span><span data-hf-id="hf-eyw3" id="f05-l1">Hold to talk</span><span data-hf-id="hf-kz0b" id="f05-l2" style="position:absolute;left:80px;opacity:0;color:#2a1105">Talking… release to stop</span></div>
+        <span data-hf-id="hf-xdfu" class="tap" id="f05-tap" style="left:30px;bottom:27px;opacity:0"></span>
+      </div></div>
+      <div data-hf-id="hf-2bav" class="phone" id="f05-p2" style="left:1300px;top:200px;transform-origin:50% 50%"><div data-hf-id="hf-zwuq" class="notch"></div><div data-hf-id="hf-fvlg" class="scr">
+        <div data-hf-id="hf-tn5j" class="ptitle">Gate B</div><div data-hf-id="hf-7j7e" class="psub">3 online</div>
+        <div data-hf-id="hf-tu05" class="card" style="border-color:rgba(255,154,61,.75);margin-top:40px"><span data-hf-id="hf-8dw9" class="ic"></span><span data-hf-id="hf-uckh"><div data-hf-id="hf-oi07" class="ct amber">Asha is talking</div><div data-hf-id="hf-f11t" style="margin-top:6px"><div data-hf-id="hf-wrob" class="wave"><i data-hf-id="hf-zshf" style="height:23px"></i><i data-hf-id="hf-dh02" style="height:13px"></i><i data-hf-id="hf-1rvt" style="height:3px"></i><i data-hf-id="hf-irsm" style="height:17px"></i><i data-hf-id="hf-jylm" style="height:8px"></i><i data-hf-id="hf-ztz5" style="height:21px"></i><i data-hf-id="hf-n5uz" style="height:12px"></i><i data-hf-id="hf-mz2w" style="height:2px"></i><i data-hf-id="hf-0r1r" style="height:16px"></i><i data-hf-id="hf-sg4c" style="height:6px"></i></div></div></span></div>
+      </div></div>
+      <div data-hf-id="hf-5zcs" id="f05-lock" style="position:absolute;left:1300px;top:120px;padding:12px 22px;border-radius:40px;background:#342216;border:1px solid rgba(255,154,61,.6);font-size:22px;font-weight:700;color:#FF9A3D">🔒 volume key = talk</div>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  const tl = gsap.timeline({ paused: true });
+  const q = (s) => document.querySelectorAll('[data-composition-id="05-ptt"] ' + s);
+  const D = 7.56;
+  tl.fromTo('#f05-h', {y:40, opacity:0}, {y:0, opacity:1, duration:0.5, ease:'power3.out'}, 0.1);
+  tl.fromTo('#f05-p1', {y:50, opacity:0}, {y:0, opacity:1, duration:0.7, ease:'power3.out'}, 0);
+  tl.fromTo('#f05-tap', {scale:0.3, opacity:0}, {scale:1.1, opacity:1, duration:0.25}, 1.4);
+  tl.to('#f05-tap', {scale:1.7, opacity:0, duration:0.4}, 1.65);
+  tl.to('#f05-ptt', {background:'linear-gradient(90deg,#FF9A3D,#E85D18)', borderColor:'#FF9A3D', boxShadow:'0 0 44px rgba(232,93,24,.6)', duration:0.35}, 1.5);
+  tl.to('#f05-l1', {opacity:0, duration:0.2}, 1.5);
+  tl.to('#f05-l2', {opacity:1, duration:0.25}, 1.6);
+  tl.to('#f05-orb', {background:'rgba(255,255,255,.35)', duration:0.3}, 1.5);
+  tl.fromTo('#f05-orb', {scale:1}, {scale:1.15, duration:0.45, ease:'sine.inOut', yoyo:true, repeat:9}, 1.8);
+  tl.to('#f05-wv', {opacity:1, duration:0.4}, 1.7);
+  tl.fromTo(q('#f05-wv i'), {scaleY:0.3}, {scaleY:1, duration:0.3, stagger:{each:0.05, from:'center'}, ease:'sine.inOut', yoyo:true, repeat:11}, 1.8);
+  tl.fromTo('#f05-p2', {x:260, opacity:0}, {x:0, opacity:1, duration:0.7, ease:'power2.out'}, 3.0);
+  tl.fromTo('#f05-lock', {scale:0.6, opacity:0}, {scale:1, opacity:1, duration:0.45, ease:'back.out(1.7)'}, 4.8);
+
+  window.__timelines["05-ptt"] = tl;
+})();
+</script>
+</template>

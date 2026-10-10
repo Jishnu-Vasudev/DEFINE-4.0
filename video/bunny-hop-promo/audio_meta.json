@@ -1,0 +1,1047 @@
+{
+  "bgm": null,
+  "bgm_pending": false,
+  "voices": [
+    {
+      "frame": 1,
+      "path": "assets/voice/01.wav",
+      "duration_s": 6.58,
+      "words": [
+        {
+          "text": "Big",
+          "start": 0.0,
+          "end": 0.197
+        },
+        {
+          "text": "event.",
+          "start": 0.197,
+          "end": 0.59
+        },
+        {
+          "text": "Hundreds",
+          "start": 0.73,
+          "end": 1.233
+        },
+        {
+          "text": "of",
+          "start": 1.233,
+          "end": 1.359
+        },
+        {
+          "text": "staff.",
+          "start": 1.359,
+          "end": 1.737
+        },
+        {
+          "text": "The",
+          "start": 2.162,
+          "end": 2.66
+        },
+        {
+          "text": "Wi-Fi",
+          "start": 2.66,
+          "end": 3.492
+        },
+        {
+          "text": "drops,",
+          "start": 3.492,
+          "end": 4.489
+        },
+        {
+          "text": "and",
+          "start": 4.828,
+          "end": 4.919
+        },
+        {
+          "text": "the",
+          "start": 4.919,
+          "end": 5.009
+        },
+        {
+          "text": "team",
+          "start": 5.009,
+          "end": 5.129
+        },
+        {
+          "text": "goes",
+          "start": 5.129,
+          "end": 5.25
+        },
+        {
+          "text": "silent.",
+          "start": 5.25,
+          "end": 5.46
+        },
+        {
+          "text": "Not",
+          "start": 5.591,
+          "end": 5.624
+        },
+        {
+          "text": "yours.",
+          "start": 5.624,
+          "end": 5.689
+        }
+      ]
+    },
+    {
+      "frame": 2,
+      "path": "assets/voice/02.wav",
+      "duration_s": 5.18,
+      "words": [
+        {
+          "text": "Meet",
+          "start": 0.0,
+          "end": 0.304
+        },
+        {
+          "text": "Bunny",
+          "start": 0.304,
+          "end": 0.683
+        },
+        {
+          "text": "Hop.",
+          "start": 0.683,
+          "end": 0.987
+        },
+        {
+          "text": "Your",
+          "start": 0.987,
+          "end": 1.291
+        },
+        {
+          "text": "whole",
+          "start": 1.291,
+          "end": 1.671
+        },
+        {
+          "text": "team,",
+          "start": 1.671,
+          "end": 2.05
+        },
+        {
+          "text": "one",
+          "start": 2.05,
+          "end": 2.278
+        },
+        {
+          "text": "press",
+          "start": 2.278,
+          "end": 2.658
+        },
+        {
+          "text": "away.",
+          "start": 2.658,
+          "end": 3.038
+        }
+      ]
+    },
+    {
+      "frame": 3,
+      "path": "assets/voice/03.wav",
+      "duration_s": 5.43,
+      "words": [
+        {
+          "text": "Scan",
+          "start": 0.0,
+          "end": 0.296
+        },
+        {
+          "text": "the",
+          "start": 0.296,
+          "end": 0.518
+        },
+        {
+          "text": "channel",
+          "start": 0.518,
+          "end": 1.036
+        },
+        {
+          "text": "code",
+          "start": 1.036,
+          "end": 1.332
+        },
+        {
+          "text": "your",
+          "start": 1.332,
+          "end": 1.628
+        },
+        {
+          "text": "admin",
+          "start": 1.628,
+          "end": 1.998
+        },
+        {
+          "text": "shows.",
+          "start": 1.998,
+          "end": 2.442
+        },
+        {
+          "text": "Type",
+          "start": 2.442,
+          "end": 2.738
+        },
+        {
+          "text": "your",
+          "start": 2.738,
+          "end": 3.034
+        },
+        {
+          "text": "name.",
+          "start": 3.034,
+          "end": 3.404
+        },
+        {
+          "text": "Tap.",
+          "start": 3.404,
+          "end": 3.7
+        },
+        {
+          "text": "You're",
+          "start": 3.7,
+          "end": 4.144
+        },
+        {
+          "text": "in.",
+          "start": 4.144,
+          "end": 4.366
+        }
+      ]
+    },
+    {
+      "frame": 4,
+      "path": "assets/voice/04.wav",
+      "duration_s": 3.98,
+      "words": [
+        {
+          "text": "Every",
+          "start": 0.136,
+          "end": 0.501
+        },
+        {
+          "text": "crew,",
+          "start": 0.501,
+          "end": 0.865
+        },
+        {
+          "text": "every",
+          "start": 1.031,
+          "end": 1.392
+        },
+        {
+          "text": "zone,",
+          "start": 1.392,
+          "end": 1.752
+        },
+        {
+          "text": "gets",
+          "start": 1.894,
+          "end": 2.117
+        },
+        {
+          "text": "its",
+          "start": 2.117,
+          "end": 2.285
+        },
+        {
+          "text": "own",
+          "start": 2.285,
+          "end": 2.452
+        },
+        {
+          "text": "channel.",
+          "start": 2.452,
+          "end": 2.898
+        }
+      ]
+    },
+    {
+      "frame": 5,
+      "path": "assets/voice/05.wav",
+      "duration_s": 7.56,
+      "words": [
+        {
+          "text": "Hold",
+          "start": 0.0,
+          "end": 0.336
+        },
+        {
+          "text": "to",
+          "start": 0.336,
+          "end": 0.503
+        },
+        {
+          "text": "talk.",
+          "start": 0.503,
+          "end": 0.923
+        },
+        {
+          "text": "One",
+          "start": 0.923,
+          "end": 1.175
+        },
+        {
+          "text": "voice",
+          "start": 1.175,
+          "end": 1.594
+        },
+        {
+          "text": "at",
+          "start": 1.594,
+          "end": 1.762
+        },
+        {
+          "text": "a",
+          "start": 1.762,
+          "end": 1.846
+        },
+        {
+          "text": "time,",
+          "start": 1.846,
+          "end": 2.266
+        },
+        {
+          "text": "crystal",
+          "start": 2.266,
+          "end": 2.853
+        },
+        {
+          "text": "clear.",
+          "start": 2.853,
+          "end": 3.357
+        },
+        {
+          "text": "Even",
+          "start": 3.357,
+          "end": 3.692
+        },
+        {
+          "text": "from",
+          "start": 3.692,
+          "end": 4.028
+        },
+        {
+          "text": "the",
+          "start": 4.028,
+          "end": 4.28
+        },
+        {
+          "text": "lock",
+          "start": 4.28,
+          "end": 4.615
+        },
+        {
+          "text": "screen,",
+          "start": 4.615,
+          "end": 5.203
+        },
+        {
+          "text": "with",
+          "start": 5.203,
+          "end": 5.538
+        },
+        {
+          "text": "the",
+          "start": 5.538,
+          "end": 5.79
+        },
+        {
+          "text": "volume",
+          "start": 5.79,
+          "end": 6.294
+        },
+        {
+          "text": "key.",
+          "start": 6.294,
+          "end": 6.629
+        }
+      ]
+    },
+    {
+      "frame": 6,
+      "path": "assets/voice/06.wav",
+      "duration_s": 5.13,
+      "words": [
+        {
+          "text": "Messages,",
+          "start": 0.0,
+          "end": 0.689
+        },
+        {
+          "text": "photos,",
+          "start": 0.689,
+          "end": 1.225
+        },
+        {
+          "text": "voice",
+          "start": 1.225,
+          "end": 1.608
+        },
+        {
+          "text": "notes",
+          "start": 1.608,
+          "end": 1.991
+        },
+        {
+          "text": "and",
+          "start": 1.991,
+          "end": 2.22
+        },
+        {
+          "text": "files,",
+          "start": 2.22,
+          "end": 2.68
+        },
+        {
+          "text": "all",
+          "start": 2.68,
+          "end": 2.91
+        },
+        {
+          "text": "in",
+          "start": 2.91,
+          "end": 3.063
+        },
+        {
+          "text": "the",
+          "start": 3.063,
+          "end": 3.292
+        },
+        {
+          "text": "same",
+          "start": 3.292,
+          "end": 3.599
+        },
+        {
+          "text": "thread.",
+          "start": 3.599,
+          "end": 4.135
+        }
+      ]
+    },
+    {
+      "frame": 7,
+      "path": "assets/voice/07.wav",
+      "duration_s": 5.02,
+      "words": [
+        {
+          "text": "And",
+          "start": 0.0,
+          "end": 0.214
+        },
+        {
+          "text": "it's",
+          "start": 0.214,
+          "end": 0.5
+        },
+        {
+          "text": "all",
+          "start": 0.5,
+          "end": 0.715
+        },
+        {
+          "text": "end-to-end",
+          "start": 0.715,
+          "end": 1.429
+        },
+        {
+          "text": "encrypted.",
+          "start": 1.429,
+          "end": 2.144
+        },
+        {
+          "text": "Not",
+          "start": 2.598,
+          "end": 2.769
+        },
+        {
+          "text": "even",
+          "start": 2.769,
+          "end": 2.997
+        },
+        {
+          "text": "the",
+          "start": 2.997,
+          "end": 3.168
+        },
+        {
+          "text": "server",
+          "start": 3.168,
+          "end": 3.509
+        },
+        {
+          "text": "can",
+          "start": 3.509,
+          "end": 3.68
+        },
+        {
+          "text": "read",
+          "start": 3.68,
+          "end": 3.908
+        },
+        {
+          "text": "it.",
+          "start": 3.908,
+          "end": 4.079
+        }
+      ]
+    },
+    {
+      "frame": 8,
+      "path": "assets/voice/08.wav",
+      "duration_s": 7.75,
+      "words": [
+        {
+          "text": "Then",
+          "start": 0.0,
+          "end": 0.322
+        },
+        {
+          "text": "the",
+          "start": 0.322,
+          "end": 0.564
+        },
+        {
+          "text": "Wi-Fi",
+          "start": 0.564,
+          "end": 0.967
+        },
+        {
+          "text": "dies.",
+          "start": 0.967,
+          "end": 1.37
+        },
+        {
+          "text": "Bunny",
+          "start": 1.37,
+          "end": 1.773
+        },
+        {
+          "text": "Hop",
+          "start": 1.773,
+          "end": 2.015
+        },
+        {
+          "text": "doesn't.",
+          "start": 2.015,
+          "end": 2.66
+        },
+        {
+          "text": "Phones",
+          "start": 2.66,
+          "end": 3.143
+        },
+        {
+          "text": "find",
+          "start": 3.143,
+          "end": 3.466
+        },
+        {
+          "text": "each",
+          "start": 3.466,
+          "end": 3.788
+        },
+        {
+          "text": "other,",
+          "start": 3.788,
+          "end": 4.272
+        },
+        {
+          "text": "and",
+          "start": 4.272,
+          "end": 4.513
+        },
+        {
+          "text": "messages",
+          "start": 4.513,
+          "end": 5.158
+        },
+        {
+          "text": "hop",
+          "start": 5.158,
+          "end": 5.4
+        },
+        {
+          "text": "from",
+          "start": 5.4,
+          "end": 5.722
+        },
+        {
+          "text": "phone",
+          "start": 5.722,
+          "end": 6.125
+        },
+        {
+          "text": "to",
+          "start": 6.125,
+          "end": 6.287
+        },
+        {
+          "text": "phone.",
+          "start": 6.287,
+          "end": 6.77
+        }
+      ]
+    },
+    {
+      "frame": 9,
+      "path": "assets/voice/09.wav",
+      "duration_s": 5.17,
+      "words": [
+        {
+          "text": "And",
+          "start": 0.0,
+          "end": 0.22
+        },
+        {
+          "text": "the",
+          "start": 0.22,
+          "end": 0.44
+        },
+        {
+          "text": "first",
+          "start": 0.44,
+          "end": 0.806
+        },
+        {
+          "text": "phone",
+          "start": 0.806,
+          "end": 1.173
+        },
+        {
+          "text": "back",
+          "start": 1.173,
+          "end": 1.466
+        },
+        {
+          "text": "in",
+          "start": 1.466,
+          "end": 1.612
+        },
+        {
+          "text": "range",
+          "start": 1.612,
+          "end": 1.979
+        },
+        {
+          "text": "carries",
+          "start": 1.979,
+          "end": 2.492
+        },
+        {
+          "text": "everyone's",
+          "start": 2.492,
+          "end": 3.225
+        },
+        {
+          "text": "messages",
+          "start": 3.225,
+          "end": 3.811
+        },
+        {
+          "text": "home.",
+          "start": 3.811,
+          "end": 4.178
+        }
+      ]
+    },
+    {
+      "frame": 10,
+      "path": "assets/voice/10.wav",
+      "duration_s": 5.26,
+      "words": [
+        {
+          "text": "In",
+          "start": 0.0,
+          "end": 0.137
+        },
+        {
+          "text": "an",
+          "start": 0.137,
+          "end": 0.274
+        },
+        {
+          "text": "emergency,",
+          "start": 0.274,
+          "end": 0.959
+        },
+        {
+          "text": "one",
+          "start": 1.346,
+          "end": 1.562
+        },
+        {
+          "text": "tap",
+          "start": 1.562,
+          "end": 1.777
+        },
+        {
+          "text": "alerts",
+          "start": 1.777,
+          "end": 2.208
+        },
+        {
+          "text": "everyone",
+          "start": 2.208,
+          "end": 2.783
+        },
+        {
+          "text": "nearby.",
+          "start": 2.783,
+          "end": 3.286
+        }
+      ]
+    },
+    {
+      "frame": 11,
+      "path": "assets/voice/11.wav",
+      "duration_s": 5.22,
+      "words": [
+        {
+          "text": "Behind",
+          "start": 0.0,
+          "end": 0.452
+        },
+        {
+          "text": "it",
+          "start": 0.452,
+          "end": 0.602
+        },
+        {
+          "text": "all,",
+          "start": 0.602,
+          "end": 0.904
+        },
+        {
+          "text": "Bunny",
+          "start": 0.904,
+          "end": 1.28
+        },
+        {
+          "text": "Hop",
+          "start": 1.28,
+          "end": 1.506
+        },
+        {
+          "text": "Control.",
+          "start": 1.506,
+          "end": 2.109
+        },
+        {
+          "text": "Your",
+          "start": 2.109,
+          "end": 2.41
+        },
+        {
+          "text": "control",
+          "start": 2.41,
+          "end": 2.937
+        },
+        {
+          "text": "room,",
+          "start": 2.937,
+          "end": 3.314
+        },
+        {
+          "text": "on",
+          "start": 3.314,
+          "end": 3.464
+        },
+        {
+          "text": "one",
+          "start": 3.464,
+          "end": 3.69
+        },
+        {
+          "text": "screen.",
+          "start": 3.69,
+          "end": 4.217
+        }
+      ]
+    },
+    {
+      "frame": 12,
+      "path": "assets/voice/12.wav",
+      "duration_s": 5.45,
+      "words": [
+        {
+          "text": "See",
+          "start": 0.0,
+          "end": 0.225
+        },
+        {
+          "text": "every",
+          "start": 0.225,
+          "end": 0.601
+        },
+        {
+          "text": "device,",
+          "start": 0.601,
+          "end": 1.127
+        },
+        {
+          "text": "live.",
+          "start": 1.127,
+          "end": 1.503
+        },
+        {
+          "text": "Who's",
+          "start": 1.503,
+          "end": 1.879
+        },
+        {
+          "text": "online,",
+          "start": 1.879,
+          "end": 2.405
+        },
+        {
+          "text": "who's",
+          "start": 2.405,
+          "end": 2.781
+        },
+        {
+          "text": "talking,",
+          "start": 2.781,
+          "end": 3.382
+        },
+        {
+          "text": "who's",
+          "start": 3.382,
+          "end": 3.758
+        },
+        {
+          "text": "out",
+          "start": 3.758,
+          "end": 3.983
+        },
+        {
+          "text": "of",
+          "start": 3.983,
+          "end": 4.134
+        },
+        {
+          "text": "range.",
+          "start": 4.134,
+          "end": 4.585
+        }
+      ]
+    },
+    {
+      "frame": 13,
+      "path": "assets/voice/13.wav",
+      "duration_s": 6.86,
+      "words": [
+        {
+          "text": "Open",
+          "start": 0.126,
+          "end": 0.416
+        },
+        {
+          "text": "any",
+          "start": 0.416,
+          "end": 0.633
+        },
+        {
+          "text": "channel",
+          "start": 0.633,
+          "end": 1.14
+        },
+        {
+          "text": "for",
+          "start": 1.14,
+          "end": 1.358
+        },
+        {
+          "text": "its",
+          "start": 1.358,
+          "end": 1.575
+        },
+        {
+          "text": "history,",
+          "start": 1.575,
+          "end": 2.155
+        },
+        {
+          "text": "activity,",
+          "start": 2.155,
+          "end": 2.807
+        },
+        {
+          "text": "and",
+          "start": 2.807,
+          "end": 3.024
+        },
+        {
+          "text": "shared",
+          "start": 3.024,
+          "end": 3.459
+        },
+        {
+          "text": "media,",
+          "start": 3.459,
+          "end": 3.894
+        },
+        {
+          "text": "safety-checked",
+          "start": 3.894,
+          "end": 4.908
+        },
+        {
+          "text": "automatically.",
+          "start": 4.908,
+          "end": 5.922
+        }
+      ]
+    },
+    {
+      "frame": 14,
+      "path": "assets/voice/14.wav",
+      "duration_s": 6.24,
+      "words": [
+        {
+          "text": "Need",
+          "start": 0.0,
+          "end": 0.283
+        },
+        {
+          "text": "everyone,",
+          "start": 0.283,
+          "end": 0.919
+        },
+        {
+          "text": "right",
+          "start": 0.919,
+          "end": 1.273
+        },
+        {
+          "text": "now?",
+          "start": 1.273,
+          "end": 1.556
+        },
+        {
+          "text": "Send",
+          "start": 1.556,
+          "end": 1.839
+        },
+        {
+          "text": "one",
+          "start": 1.839,
+          "end": 2.051
+        },
+        {
+          "text": "broadcast,",
+          "start": 2.051,
+          "end": 2.758
+        },
+        {
+          "text": "and",
+          "start": 2.758,
+          "end": 2.97
+        },
+        {
+          "text": "watch",
+          "start": 2.97,
+          "end": 3.324
+        },
+        {
+          "text": "every",
+          "start": 3.324,
+          "end": 3.677
+        },
+        {
+          "text": "acknowledgement",
+          "start": 3.677,
+          "end": 4.738
+        },
+        {
+          "text": "come",
+          "start": 4.738,
+          "end": 5.021
+        },
+        {
+          "text": "in.",
+          "start": 5.021,
+          "end": 5.233
+        }
+      ]
+    },
+    {
+      "frame": 15,
+      "path": "assets/voice/15.wav",
+      "duration_s": 7.55,
+      "words": [
+        {
+          "text": "Bunny",
+          "start": 0.0,
+          "end": 0.404
+        },
+        {
+          "text": "Hop.",
+          "start": 0.404,
+          "end": 0.728
+        },
+        {
+          "text": "Your",
+          "start": 0.728,
+          "end": 1.051
+        },
+        {
+          "text": "team,",
+          "start": 1.051,
+          "end": 1.455
+        },
+        {
+          "text": "one",
+          "start": 1.455,
+          "end": 1.698
+        },
+        {
+          "text": "press",
+          "start": 1.698,
+          "end": 2.102
+        },
+        {
+          "text": "away.",
+          "start": 2.102,
+          "end": 2.507
+        },
+        {
+          "text": "On",
+          "start": 2.507,
+          "end": 2.668
+        },
+        {
+          "text": "your",
+          "start": 2.668,
+          "end": 2.992
+        },
+        {
+          "text": "own",
+          "start": 2.992,
+          "end": 3.234
+        },
+        {
+          "text": "network,",
+          "start": 3.234,
+          "end": 3.881
+        },
+        {
+          "text": "no",
+          "start": 3.881,
+          "end": 4.043
+        },
+        {
+          "text": "internet",
+          "start": 4.043,
+          "end": 4.69
+        },
+        {
+          "text": "needed.",
+          "start": 4.69,
+          "end": 5.256
+        }
+      ]
+    }
+  ],
+  "sfx": []
+}

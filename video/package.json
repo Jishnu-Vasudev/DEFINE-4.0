@@ -1,0 +1,23 @@
+{
+  "name": "bunny-hop-video",
+  "private": true,
+  "description": "Bunny Hop promo / demo videos (Remotion + HyperFrames)",
+  "scripts": {
+    "studio": "remotion studio",
+    "render": "remotion render BunnyHopIntro out/bunny-hop-intro.mp4"
+  },
+  "dependencies": {
+    "@remotion/cli": "4.0.534",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "remotion": "4.0.534"
+  },
+  "devDependencies": {
+    "@fontsource/barlow": "^5.3.0",
+    "@fontsource/ibm-plex-mono": "^5.3.0",
+    "@types/react": "^19.3.0",
+    "gsap": "3.14.2",
+    "hyperframes": "0.8.144",
+    "typescript": "5.8.3"
+  }
+}

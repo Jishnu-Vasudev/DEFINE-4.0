@@ -1,0 +1,48 @@
+Bunny Hop: product facts for the promo (no-capture path; source of truth is the repo).
+
+PRODUCT
+- Bunny Hop is a push-to-talk communicator for closed teams (conferences, hackathons, malls, hospitals)
+  that replaces walkie-talkies with the phones staff already carry.
+- Runs entirely on the organisation's own local network: a Go server on a laptop, LiveKit for voice,
+  an Android (Flutter) app on every phone. Nothing goes to the internet.
+
+THE PHONE APP (Flutter, ember dark theme, also a light theme)
+- Splash: logo blooms in with an ember glow, "Bunny Hop", tagline "Your team, one press away".
+- Join screen: logo inside pulsing radar rings, "Join a channel", "Private network. Scan the channel QR
+  from your admin, or type its code." Fields: Your name; primary button "Scan channel QR"; "or enter
+  the code"; Channel code; Server (e.g. 10.80.0.64:3000); button "Join with code".
+- Channels screen: menu button, title "Channels" with "3 channels", greeting "Hi, Asha", glass channel
+  cards (e.g. "Gate B", "Medical", "Stage Crew") showing last message or "Ravi is talking" with a
+  waveform; "Join a channel" button at the bottom. Side menu: Dark mode toggle, Tap to talk,
+  Volume-key talk, Bridge mode ("Mesh: 2 phones connected"), Help, Leave network.
+- Chat: header with channel name and "Encrypted" lock badge; messages, photos, video, audio and files;
+  a big pill "Hold to talk" button whose mic orb breathes while live ("Talking... release to stop");
+  when someone else holds the floor: "Ravi is talking". Emergency override shows "EMERGENCY: Control".
+- Push-to-talk: one talker at a time per channel (server floor control); admins can take over with
+  emergency priority; voice over LiveKit with noise suppression and auto gain.
+- End-to-end encryption: Signal protocol (X3DH + Double Ratchet; sender keys for channels); files
+  encrypted on the phone with AES-256-GCM; the server only relays ciphertext.
+- Direct messages and 1:1 voice calls from the People list.
+- Offline: if the server stops answering for ~3 seconds, a red bar "Server lost: nearby mode" appears
+  and phones talk to each other over Bluetooth/Wi-Fi (Nearby P2P_CLUSTER), hopping up to 6 phones.
+  Bridge mode: a nearby phone that still has Wi-Fi carries messages to the server instantly and the
+  sender sees "sent". Messages are signed so carriers cannot forge them.
+- SOS button in nearby mode: full-screen alert on every nearby phone.
+- Volume-key push-to-talk, even on the lock screen.
+
+BUNNY HOP CONTROL (admin dashboard, served by the Go server at /admin)
+- Sign-in hero "Bunny Hop Control" over a glowing ember portal ring.
+- Header: logo, Live dot, "No emergency" / red "Emergency: ..." status, "12 of 14 online · 1 talking ·
+  0 nearby mode", channel picker, light/dark toggle, "+ New".
+- Channels board: cards per channel, live ones glow with a waveform "Ravi is talking".
+- Nodes matrix: one tile per device; talking (glowing), online, nearby mode (yellow), offline (grey).
+- Channel audit panel: Overview (permanent QR + code, members), History (searchable typed timeline),
+  Summary (messages by hour chart, participants), Media gallery with safety badges.
+- Broadcast: message box, "Emergency alert" switch, "Send emergency alert", acknowledgement bar
+  "9 of 12" filling as phones tap Acknowledge.
+- Activity feed tags: "nearby", "Relayed via Meera", "SOS".
+- Moderation (audit key on the control laptop): toxic text, nudity, harmful files flagged.
+
+TAGLINE / MESSAGE
+- "Your team, one press away."
+- "Push-to-talk that keeps working when the network doesn't."
