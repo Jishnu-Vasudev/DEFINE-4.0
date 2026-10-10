@@ -88,7 +88,7 @@ header .sp{flex:1}
 .status b{color:var(--text);font-variant-numeric:tabular-nums;font-weight:700}
 .status span{display:inline-flex;align-items:center;gap:7px}
 main{display:grid;grid-template-columns:minmax(0,1fr) 380px;gap:22px;padding:22px clamp(16px,3vw,32px) 40px;max-width:1440px;margin:0 auto}
-section.panel{border-radius:22px;padding:20px;margin-bottom:22px}
+.panel{border-radius:22px;padding:20px;margin-bottom:22px;box-sizing:border-box}
 .panel h2{font-size:16px;font-weight:700;margin-bottom:14px;display:flex;align-items:center;gap:10px}
 .panel h2 .sp{flex:1}
 .panel h2 small{font-size:12.5px;font-weight:500;color:var(--muted)}
@@ -137,7 +137,8 @@ section.panel{border-radius:22px;padding:20px;margin-bottom:22px}
 .meta{display:flex;gap:6px;align-items:center;flex-wrap:wrap;font-size:12px;color:var(--muted)}
 
 /* broadcast */
-.bc textarea{min-height:96px;resize:vertical}
+.bc{transition:border-color .3s,background .3s;display:block;box-sizing:border-box}
+.bc textarea{min-height:96px;resize:vertical;width:100%;box-sizing:border-box}
 .row{display:flex;gap:10px;align-items:center}
 .switch{display:flex;align-items:center;gap:11px;margin:14px 0;cursor:pointer;user-select:none}
 .switch input{position:absolute;opacity:0;width:0}
@@ -146,11 +147,11 @@ section.panel{border-radius:22px;padding:20px;margin-bottom:22px}
 .switch input:checked+.track{background:var(--danger)}
 .switch input:checked+.track::after{left:21px}
 .switch input:focus-visible+.track{outline:2px solid var(--accent);outline-offset:2px}
-.bc{transition:border-color .3s,background .3s}
-.bc.emg{border-color:var(--danger);background:linear-gradient(180deg,var(--danger-bg),rgba(var(--glass-rgb),.72) 65%)}
+.switch span{min-width:0;line-height:1.35}
+.bc.emg,.bc.is-emg{border-color:var(--danger);background:linear-gradient(180deg,var(--danger-bg),rgba(var(--glass-rgb),.72) 65%)}
 .bar{height:8px;border-radius:999px;background:rgba(var(--surf-rgb),.9);overflow:hidden;margin:10px 0}
 .bar i{display:block;height:100%;background:linear-gradient(90deg,var(--ember),var(--accent));transition:width .6s var(--ease)}
-.acklist{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.acklist{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;max-height:180px;overflow-y:auto}
 .acklist span{font-size:12px;padding:3px 9px;border-radius:999px;border:1px solid var(--line)}
 .acklist span.ok{color:var(--accent);border-color:rgba(255,154,61,.45)}
 
@@ -184,8 +185,8 @@ img.qr{width:100%;max-width:200px;aspect-ratio:1;object-fit:contain;border-radiu
 .icon-btn{width:34px;height:34px;padding:0;display:inline-grid;place-items:center}
 .icon-btn svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 .chan-sel{width:auto;max-width:190px;padding:6px 10px;font-size:13px;border-radius:10px}
-.emg{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;color:var(--muted);padding:5px 10px;border-radius:999px;border:1px solid var(--line-soft)}
-.emg.on{color:#fff;background:var(--danger);border-color:var(--danger);animation:glowRed 1.6s ease-in-out infinite}
+span.emg{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;color:var(--muted);padding:5px 10px;border-radius:999px;border:1px solid var(--line-soft)}
+span.emg.on{color:#fff;background:var(--danger);border-color:var(--danger);animation:glowRed 1.6s ease-in-out infinite}
 /* channel audit panel */
 #audit{position:fixed;top:0;right:0;bottom:0;width:min(1000px,100%);z-index:16;border-radius:24px 0 0 24px;padding:20px 22px;overflow:auto;
   transform:translateX(105%);transition:transform .45s var(--ease);background:linear-gradient(145deg,rgba(255,255,255,.04),transparent),var(--panel)}
@@ -606,9 +607,11 @@ $('people').onclick = async e => {
 };
 
 $('bcEmg').onchange = () => {
-  $('bcForm').classList.toggle('emg', $('bcEmg').checked);
-  $('bcBtn').className = 'btn ' + ($('bcEmg').checked ? 'danger' : 'primary');
-  $('bcBtn').textContent = $('bcEmg').checked ? 'Send emergency alert' : 'Send broadcast';
+  const isEmg = $('bcEmg').checked;
+  $('bcForm').classList.toggle('emg', isEmg);
+  $('bcForm').classList.toggle('is-emg', isEmg);
+  $('bcBtn').className = 'btn ' + (isEmg ? 'danger' : 'primary');
+  $('bcBtn').textContent = isEmg ? 'Send emergency alert' : 'Send broadcast';
 };
 $('bcForm').onsubmit = async e => {
   e.preventDefault();

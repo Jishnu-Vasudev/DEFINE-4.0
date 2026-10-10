@@ -23,29 +23,38 @@ class AlertOverlay extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Spacer(),
-                Container(
-                  padding: const EdgeInsets.all(18),
-                  decoration: BoxDecoration(color: emg ? C.danger : C.accent, shape: BoxShape.circle),
-                  child: Icon(
-                    emg ? Icons.warning_amber_rounded : Icons.campaign_rounded,
-                    size: 44,
-                    color: emg ? Colors.white : C.accentInk,
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SizedBox(height: 24),
+                        Container(
+                          padding: const EdgeInsets.all(18),
+                          decoration: BoxDecoration(color: emg ? C.danger : C.accent, shape: BoxShape.circle),
+                          child: Icon(
+                            emg ? Icons.warning_amber_rounded : Icons.campaign_rounded,
+                            size: 44,
+                            color: emg ? Colors.white : C.accentInk,
+                          ),
+                        ),
+                        const SizedBox(height: 28),
+                        Text(
+                          a['type'] == 'sos' ? 'SOS' : (emg ? 'EMERGENCY' : 'Broadcast'),
+                          style: TextStyle(fontSize: 15, letterSpacing: 3, fontWeight: FontWeight.w800, color: emg ? Colors.white70 : C.accent),
+                        ),
+                        const SizedBox(height: 10),
+                        Text(
+                          a['body'] ?? '',
+                          style: const TextStyle(fontSize: 32, fontWeight: FontWeight.w800, height: 1.2, color: Colors.white),
+                        ),
+                        const SizedBox(height: 14),
+                        Text('From ${a['sender_name'] ?? 'Control'}', style: const TextStyle(color: Colors.white70, fontSize: 15)),
+                        const SizedBox(height: 24),
+                      ],
+                    ),
                   ),
                 ),
-                const SizedBox(height: 28),
-                Text(
-                  a['type'] == 'sos' ? 'SOS' : (emg ? 'EMERGENCY' : 'Broadcast'),
-                  style: TextStyle(fontSize: 15, letterSpacing: 3, fontWeight: FontWeight.w800, color: emg ? Colors.white70 : C.accent),
-                ),
-                const SizedBox(height: 10),
-                Text(
-                  a['body'] ?? '',
-                  style: const TextStyle(fontSize: 32, fontWeight: FontWeight.w800, height: 1.2, color: Colors.white),
-                ),
-                const SizedBox(height: 14),
-                Text('From ${a['sender_name'] ?? 'Control'}', style: const TextStyle(color: Colors.white70, fontSize: 15)),
-                const Spacer(flex: 2),
                 SizedBox(
                   width: double.infinity,
                   child: FilledButton.icon(
